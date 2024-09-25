@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1c1j2anncmf7"]
+
+[ext_resource type="Texture2D" uid="uid://b758a75eirjcq" path="res://assets/tile1.bmp" id="1_1r8cw"]
+[ext_resource type="Script" path="res://scripts/tile.gd" id="1_3kasr"]
+[ext_resource type="Texture2D" uid="uid://cep6m3fi5gi5m" path="res://assets/tile_ighlight.png" id="2_6wr7g"]
+
+[node name="Tile" type="Node2D"]
+script = ExtResource("1_3kasr")
+
+[node name="bg" type="Sprite2D" parent="."]
+texture = ExtResource("1_1r8cw")
+offset = Vector2(0, 64)
+
+[node name="highlight" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_6wr7g")
+offset = Vector2(0, 64)
+flip_h = true
