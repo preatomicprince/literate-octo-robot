@@ -42,7 +42,6 @@ func set_selected() -> void:
 	
 func set_unselected() -> void:
 	selected = false
-	move_target_tile_index = -1
 	self.highlight.visible = false
 
 func _ready() -> void:
@@ -69,26 +68,34 @@ func _set_direction(target_position) -> void:
 		velocity = Vector2(-_speed_x, -_speed_y)
 		
 func _set_animation() -> void:
-	if is_moving:
-		match direction:
-			0:
-				sprite.play("run_ur")
-			1:
-				sprite.play("run_dr")
-			2:
-				sprite.play("run_dl")
-			3:
-				sprite.play("run_ul")
+	if direction == 2 or direction == 3:
+		sprite.flip_h = true
 	else:
-		sprite.play("idle")
+		sprite.flip_h = false
+		
+	if is_moving:
+		if direction == 0 or direction == 3:
+			sprite.play("run_u")
+		else:
+			sprite.play("run_d")
+		
+	else:
+		if direction == 0 or direction == 3:
+			sprite.play("idle_u")
+		else:
+			sprite.play("idle_d")
 		
 func check_reached_target():
 	if distance.x >= map.HALF_TILE_W or distance.y >= map.HALF_TILE_H:
+		map.get_child(tile_index).has_units = false
 		map.get_child(tile_index).remove_child(self)
 		map.get_child(move_target_tile_index).add_child(self)
+		map.get_child(move_target_tile_index).has_units = true
 		self.position.x = 0
 		self.position.y = map.HALF_TILE_H
+		self.distance = Vector2(0, 0)
 		is_moving = false
+		self.tile_index = move_target_tile_index
 		move_target_tile_index = -1
 		_set_animation()
 
@@ -109,7 +116,9 @@ func _handle_movement(delta) -> void:
 		_set_direction(target_tile_position)
 		_set_animation()
 	else:
+		# TODO:- Find why this stops the input making any more selections, but left clicking doesn't 
 		input.handle_deselection()
+		return
 		
 	if is_moving:
 		position += velocity*delta
