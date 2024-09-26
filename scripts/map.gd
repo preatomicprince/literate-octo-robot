@@ -1,8 +1,8 @@
 extends Node2D
 
-###############################################
-## Declarations, constants and node variables #
-###############################################
+################################################
+## Declarations, constants and node variables ##
+################################################
 
 var tiles : Array
 @export var map_size_x : int = 8
@@ -10,11 +10,12 @@ var tiles : Array
 const TILE_W = 222.0
 const TILE_H = 128.0
 const HALF_TILE_W = TILE_W/2
-const  HALF_TILE_H = TILE_H/2
+const HALF_TILE_H = TILE_H/2
 
-######################################
-## Map and screen position functions #
-######################################
+
+#######################################
+## Map and screen position functions ##
+#######################################
 
 # Returns index for self.tiles[] from a given map position
 func tile_pos_to_index(pos_x, pos_y) -> int:
@@ -47,16 +48,21 @@ func screen_to_map_pos(pos_x, pos_y) -> Vector2:
 func point_on_map(pos) -> bool:
 	return (0 <= pos.x and pos.x < self.map_size_x) and (0 <= pos.y and pos.y < self.map_size_y)
 
-#####################
-## _Ready functions #
-#####################
+
+######################
+## _Ready functions ##
+######################
 
 # Inits number of tiles based upon map size
 func load_all_tile_instances() -> void:
+	var index = 0
 	for y in range(map_size_y):
 		for x in range(map_size_x):
 			var new_tile = load("res://scenes/tile.tscn")
 			var tile_instance = new_tile.instantiate()
+			tile_instance.index = index
+			index += 1
+			tile_instance.input = get_node("%input")
 			tile_instance.position = map_to_screen_pos(x, y)
 			self.add_child(tile_instance)
 			
@@ -64,20 +70,25 @@ func load_all_tile_instances() -> void:
 func _ready() -> void:
 	load_all_tile_instances()
 
-#######################
-## _process functions #
-#######################
+
+########################
+## _process functions ##
+########################
 
 # Sets tile with mouse over to be highlighted
 func update_highlighted_tile() -> void:
-	get_child(%Input.highlighted_tile_index).highlight.visible = false
+	get_child(%input.highlighted_tile_index).highlight.visible = false
+	if %input.mouse_tile_index >= 0:
+		%input.highlighted_tile_index = %input.mouse_tile_index
+		get_child(%input.mouse_tile_index).highlight.visible = true
 	
-	var mouse_map_pos = screen_to_map_pos(%Input.mouse_pos.x, %Input.mouse_pos.y)	
-	if point_on_map(mouse_map_pos):
-		var index = tile_pos_to_index(mouse_map_pos.x, mouse_map_pos.y)
-		get_child(index, true).highlight.visible = true
-		%Input.highlighted_tile_index = index
+	##
+	## Temp function to spawn units on command
+	##
+	if %input.key_s:
+		get_child(%input.highlighted_tile_index).spawn_unit()
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	update_highlighted_tile()
