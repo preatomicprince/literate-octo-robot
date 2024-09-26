@@ -12,7 +12,11 @@ script = ExtResource("1_uv04y")
 unique_name_in_owner = true
 
 [node name="camera" parent="." instance=ExtResource("3_fjmog")]
+unique_name_in_owner = true
+anchor_mode = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
 [node name="Map" parent="." instance=ExtResource("2_i8s3e")]
-map_size_x = 4
-map_size_y = 4
+map_size_x = 128
+map_size_y = 128

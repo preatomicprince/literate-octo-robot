@@ -8,11 +8,11 @@
 script = ExtResource("1_3kasr")
 
 [node name="bg" type="Sprite2D" parent="."]
+position = Vector2(0, 64)
 texture = ExtResource("1_1r8cw")
-offset = Vector2(0, 64)
 
 [node name="highlight" type="Sprite2D" parent="."]
 visible = false
+position = Vector2(0, 64)
 texture = ExtResource("2_6wr7g")
-offset = Vector2(0, 64)
 flip_h = true
