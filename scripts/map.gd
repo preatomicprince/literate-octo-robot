@@ -32,15 +32,15 @@ func index_to_tile_pos(index) -> Vector2:
 # Returns screen position for given map pos
 func map_to_screen_pos(pos_x, pos_y) -> Vector2:
 	var screen_pos = Vector2(0, 0)
-	screen_pos.x = ((pos_x - pos_y)*HALF_TILE_W + %camera.position.x)
-	screen_pos.y = ((pos_x + pos_y)*HALF_TILE_H + %camera.position.y)
+	screen_pos.x = ((pos_x - pos_y)*HALF_TILE_W + %camera.offset.x)
+	screen_pos.y = ((pos_x + pos_y)*HALF_TILE_H + %camera.offset.y)
 	return screen_pos
 
 # Returns map pos from a given position on screen
 func screen_to_map_pos(pos_x, pos_y) -> Vector2:
 	var map_pos = Vector2(0, 0)
-	map_pos.x = ((pos_x + %camera.position.x) / TILE_W + (pos_y + %camera.position.y) / TILE_H)
-	map_pos.y = ((pos_y + %camera.position.y)/TILE_H - (pos_x + %camera.position.x)/TILE_W)
+	map_pos.x = ((pos_x + %camera.offset.x * %camera.zoom.x) / (TILE_W * %camera.zoom.x) + (pos_y + %camera.offset.y * %camera.zoom.x) / (TILE_H * %camera.zoom.x) )
+	map_pos.y = ((pos_y + %camera.offset.y * %camera.zoom.x)/(TILE_H * %camera.zoom.x)  - (pos_x + %camera.offset.x * %camera.zoom.x)/(TILE_W * %camera.zoom.x) )
 	return map_pos
 
 # Returns true if map position is within the map's bounds
