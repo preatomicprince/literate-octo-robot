@@ -5,8 +5,8 @@ extends Node2D
 ################################################
 
 var tiles : Array
-@export var map_size_x : int = 8
-@export var map_size_y : int = 8
+@export var map_size_x : int = 100
+@export var map_size_y : int = 100
 const TILE_W = 222.0
 const TILE_H = 128.0
 const HALF_TILE_W = TILE_W/2
