@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://cn7hy2nvj6n8u"]
 
 [ext_resource type="Texture2D" uid="uid://caqrueqtx2ean" path="res://assets/tile1.png" id="1_1dt2w"]
-[ext_resource type="Script" path="res://scenes/ground_map.gd" id="2_c162f"]
+[ext_resource type="Script" path="res://scripts/ground_map.gd" id="2_c162f"]
 [ext_resource type="Texture2D" uid="uid://cep6m3fi5gi5m" path="res://assets/tile_ighlight.png" id="3_u0qol"]
 [ext_resource type="Texture2D" uid="uid://ddnyg5rrvo0j6" path="res://assets/tile_obj.png" id="4_ga3l0"]
-[ext_resource type="Script" path="res://scenes/map_objects.gd" id="5_myhgn"]
+[ext_resource type="Script" path="res://scripts/map_objects.gd" id="5_myhgn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gwttr"]
 texture = ExtResource("1_1dt2w")
