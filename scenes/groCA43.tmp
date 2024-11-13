@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cn7hy2nvj6n8u"]
+[gd_scene load_steps=10 format=3 uid="uid://cn7hy2nvj6n8u"]
 
 [ext_resource type="Texture2D" uid="uid://caqrueqtx2ean" path="res://assets/tile1.png" id="1_1dt2w"]
 [ext_resource type="Script" path="res://scripts/ground_map.gd" id="2_c162f"]
@@ -6,30 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://ddnyg5rrvo0j6" path="res://assets/tile_obj.png" id="4_ga3l0"]
 [ext_resource type="Script" path="res://scripts/map_objects.gd" id="5_myhgn"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_w5kyl"]
-vertices = PackedVector2Array(111, 0, 0, 64, -111, 0, 0, -64)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-111, 0, 0, 64, 111, 0, 0, -64)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_0dcs3"]
-vertices = PackedVector2Array(111, 0, 0, 64, -111, 0, 0, -64)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-111, 0, 0, -64, 111, 0, 0, 64)])
-agent_radius = 0.0
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gwttr"]
 texture = ExtResource("1_1dt2w")
 texture_region_size = Vector2i(222, 128)
 0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_w5kyl")
 1:0/0 = 0
-1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0dcs3")
 
 [sub_resource type="TileSet" id="TileSet_enwwl"]
 tile_shape = 1
 tile_size = Vector2i(222, 128)
-navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_gwttr")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lb243"]

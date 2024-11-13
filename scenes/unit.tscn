@@ -856,7 +856,7 @@ animations = [{
 "speed": 20.0
 }]
 
-[node name="unit" type="Node2D"]
+[node name="unit" type="CharacterBody2D"]
 position = Vector2(0, 64)
 script = ExtResource("1_be3gd")
 
@@ -874,3 +874,5 @@ modulate = Color(1, 0, 0, 1)
 z_index = 2
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("6_g50hj")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

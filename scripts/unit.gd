@@ -1,8 +1,9 @@
-extends Node2D
+extends CharacterBody2D
 
 ################################################
 ## Declarations, constants and node variables ##
 ################################################
+@onready var level_info = get_node("/root/GameVars")
 
 # Enum to store current direction
 enum Direction {
@@ -14,27 +15,30 @@ enum Direction {
 
 @onready var sprite = get_node("sprite")
 
-var highlight
-@export var speed = 50
+@onready var nav = $NavigationAgent2D
+var accel = 7
+@onready var highlight = $highlight
+
+@export var speed = 100
 var _speed_y :float = speed
 var _speed_x :float = _speed_y*(sqrt(3))
 
-var velocity = Vector2(0, 0)
+var velo = Vector2(0, 0)
 
 var direction : Direction = 0
 
 # Index in map tile list for current location (parent)
-var tile_index : int
-
+var tile_index : Vector2
+var target_tile : Vector2
 # Unique names dont work moving up the tree here, so these variables point to key nodes
 var map
 var input
 
 # 1 if currently selected
-var selected : int = 0
+var selected : bool = false
 var is_moving : bool = false
 var distance : Vector2 = Vector2(0, 0)
-var move_target_tile_index : int = -1
+var move_target_tile_index : Vector2 
 
 func set_selected() -> void:
 	selected = true
@@ -45,7 +49,8 @@ func set_unselected() -> void:
 	self.highlight.visible = false
 
 func _ready() -> void:
-	highlight = get_node("highlight")
+	$".".position = get_parent().get_parent().map_to_local(tile_index)
+	tile_index = target_tile
 	
 ########################
 ## _process functions ##
@@ -87,20 +92,17 @@ func _set_animation() -> void:
 		
 func check_reached_target():
 	if distance.x >= map.HALF_TILE_W or distance.y >= map.HALF_TILE_H:
-		map.get_child(tile_index).has_units = false
-		map.get_child(tile_index).remove_child(self)
-		map.get_child(move_target_tile_index).add_child(self)
-		map.get_child(move_target_tile_index).has_units = true
+		
 		self.position.x = 0
 		self.position.y = map.HALF_TILE_H
 		self.distance = Vector2(0, 0)
 		is_moving = false
-		self.tile_index = move_target_tile_index
-		move_target_tile_index = -1
+		#self.tile_index = move_target_tile_index
+		move_target_tile_index = Vector2(1, 1)
 		_set_animation()
 
 func _handle_movement(delta) -> void:
-	if move_target_tile_index < 0:
+	if move_target_tile_index != Vector2(0, 0):
 		return
 		
 	var unit_tile_position = map.index_to_tile_pos(tile_index)
@@ -128,5 +130,20 @@ func _handle_movement(delta) -> void:
 			
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-		_handle_movement(delta)
+	var direction = Vector3()
 	
+	if tile_index != target_tile:
+		nav.target_position = get_parent().get_parent().map_to_local(target_tile) #get_global_mouse_position()
+		direction = nav.get_next_path_position() - global_position
+		direction = direction.normalized()
+	
+		velocity = velocity.lerp(direction * speed, accel * delta)
+		
+		move_and_slide()
+		#_handle_movement(delta)
+		
+	if get_parent().get_parent().map_to_local(target_tile) == round($".".position):
+		tile_index = target_tile
+		
+		###gonna need to set both tiles to no unit, has unit respectfully
+
