@@ -12,7 +12,7 @@ const TILE_H = 128.0
 const HALF_TILE_W = TILE_W/2
 const HALF_TILE_H = TILE_H/2
 
-
+spawn_unit
 #######################################
 ## Map and screen position functions ##
 #######################################

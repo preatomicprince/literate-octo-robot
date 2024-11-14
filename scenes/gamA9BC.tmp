@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://dikwq6wq18gkp"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_uv04y"]
+[ext_resource type="PackedScene" uid="uid://bev2ex4cainmf" path="res://scenes/map.tscn" id="2_i8s3e"]
 [ext_resource type="PackedScene" uid="uid://b48dutyv3l17c" path="res://scenes/camera.tscn" id="3_fjmog"]
 [ext_resource type="PackedScene" uid="uid://bb4u0rsomdkr" path="res://scenes/input.tscn" id="4_ovknf"]
 [ext_resource type="PackedScene" uid="uid://cn7hy2nvj6n8u" path="res://scenes/ground_map.tscn" id="5_m3b0u"]
-[ext_resource type="PackedScene" uid="uid://cefff1il4giw1" path="res://user interface/game_ui.tscn" id="5_s24rm"]
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_uv04y")
@@ -12,15 +12,13 @@ script = ExtResource("1_uv04y")
 [node name="input" parent="." instance=ExtResource("4_ovknf")]
 unique_name_in_owner = true
 
-[node name="ground map" parent="." instance=ExtResource("5_m3b0u")]
-
 [node name="camera" parent="." instance=ExtResource("3_fjmog")]
+unique_name_in_owner = true
 zoom = Vector2(0.5, 0.5)
-limit_left = 0
-limit_top = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
-[node name="game ui" parent="camera" instance=ExtResource("5_s24rm")]
-offset_right = 100.0
-offset_bottom = 100.0
+[node name="map" parent="." instance=ExtResource("2_i8s3e")]
+unique_name_in_owner = true
+
+[node name="ground map" parent="." instance=ExtResource("5_m3b0u")]

@@ -4,3 +4,5 @@
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_hcma3")
+map_size_x = null
+map_size_y = null
