@@ -7,7 +7,7 @@ extends Camera2D
 @export var speed : float = 500.0
 @export var zoom_speed : float = 0.5
 
-@onready var _speed_y :float = speed*(1/%camera.zoom.x)
+@onready var _speed_y :float = speed*(1/$".".zoom.x)
 @onready var _speed_x :float = _speed_y*(sqrt(3))
 
 const MAX_ZOOM = 1.0
@@ -27,7 +27,7 @@ func update_zoom(delta: float) -> void:
 		
 	self.zoom.x  += (%input.key_zoom_out - %input.key_zoom_in)*zoom_speed*delta
 	self.zoom.y = zoom.x
-	_speed_y = speed*(1/%camera.zoom.x)
+	_speed_y = speed*(1/$".".zoom.x)
 	_speed_x = _speed_y*(sqrt(3))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,6 +36,9 @@ func _process(delta: float) -> void:
 	velocity.x += (%input.key_right - %input.key_left)*_speed_x*delta
 	velocity.y += (%input.key_down - %input.key_up)*_speed_y*delta
 	
+	###this allows the ui to move with the camera
+	$".".position.x += (%input.key_right - %input.key_left)*_speed_x*delta
+	$".".position.y += (%input.key_down - %input.key_up)*_speed_y*delta
 	update_zoom(delta)
 	
 	

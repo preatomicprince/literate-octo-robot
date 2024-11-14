@@ -1,5 +1,11 @@
 extends Node
 
+###vars for the entire game
+var turn : int = 1
+
+###a dictionary containing each players stats, right now itll just include food gained
+var player_stats : Dictionary = {"player one" : [10]}
+
 
 ###a data structure that can record each tile and if that tile is passable, has a unit ect
 ###that can be preloaded and referenced in relevant scenes.

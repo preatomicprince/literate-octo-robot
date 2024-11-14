@@ -40,6 +40,8 @@ var is_moving : bool = false
 var distance : Vector2 = Vector2(0, 0)
 var move_target_tile_index : Vector2 
 
+var point_list = []
+
 func set_selected() -> void:
 	selected = true
 	self.highlight.visible = true
@@ -56,21 +58,17 @@ func _ready() -> void:
 ## _process functions ##
 ########################
 
-func _set_direction(target_position) -> void:
-	var unit_tile_position = map.index_to_tile_pos(tile_index)
+func _set_direction() -> void:
+	#var unit_tile_position = map.index_to_tile_pos(tile_index)
 
-	if unit_tile_position.y > target_position.y:
+	if $".".velocity[0] > 0:
 		direction = 0
-		velocity = Vector2(_speed_x, -_speed_y)
-	if unit_tile_position.x < target_position.x:
+	if $".".velocity[0] < 0:
 		direction = 1
-		velocity = Vector2(_speed_x, _speed_y)
-	if unit_tile_position.y < target_position.y:
+	if $".".velocity[1] > 0:
 		direction = 2
-		velocity = Vector2(-_speed_x, _speed_y)
-	if unit_tile_position.x > target_position.x:
+	if $".".velocity[0] < 0:
 		direction = 3
-		velocity = Vector2(-_speed_x, -_speed_y)
 		
 func _set_animation() -> void:
 	if direction == 2 or direction == 3:
@@ -115,7 +113,7 @@ func _handle_movement(delta) -> void:
 	# If can move to tile
 	if  next_on_x != next_on_y: # != functions as XOR here
 		is_moving = true
-		_set_direction(target_tile_position)
+
 		_set_animation()
 	else:
 		# TODO:- Find why this stops the input making any more selections, but left clicking doesn't 
@@ -131,8 +129,14 @@ func _handle_movement(delta) -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var direction = Vector3()
+	###this bit works out whats being explored
+	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][6] = true
+	
+	###this deletes the current saved unit, used to remove tiles its no longer on before it moves tile
+	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = 0
 	
 	if tile_index != target_tile:
+		point_list
 		nav.target_position = get_parent().get_parent().map_to_local(target_tile) #get_global_mouse_position()
 		direction = nav.get_next_path_position() - global_position
 		direction = direction.normalized()
@@ -140,8 +144,15 @@ func _process(delta: float) -> void:
 		velocity = velocity.lerp(direction * speed, accel * delta)
 		
 		move_and_slide()
-		#_handle_movement(delta)
+		_set_direction()
+		_set_animation()
 		
+		print($".".velocity)
+		#_handle_movement(delta)
+	
+	###this sets the current position of the unit to have a unit
+	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = $"."
+	
 	if get_parent().get_parent().map_to_local(target_tile) == round($".".position):
 		tile_index = target_tile
 		

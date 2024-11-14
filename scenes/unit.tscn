@@ -863,9 +863,8 @@ script = ExtResource("1_be3gd")
 [node name="sprite" type="AnimatedSprite2D" parent="."]
 z_index = 5
 sprite_frames = SubResource("SpriteFrames_khgq2")
-animation = &"idle_d"
+animation = &"run_u"
 autoplay = "idle_d"
-frame_progress = 0.644488
 offset = Vector2(0, -28)
 
 [node name="highlight" type="Sprite2D" parent="."]
@@ -876,3 +875,9 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("6_g50hj")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+neighbor_distance = 1000.0
+max_neighbors = 1
+time_horizon_obstacles = 1.0
+debug_enabled = true
+debug_path_custom_color = Color(0.497078, 0.0685216, 0.195546, 1)

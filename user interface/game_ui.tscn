@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://cefff1il4giw1"]
+
+[ext_resource type="Script" path="res://game_ui.gd" id="1_4kxhr"]
+
+[node name="game ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4kxhr")
+
+[node name="tempbar" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1400.0
+offset_bottom = 139.0
+color = Color(0.669713, 0.504486, 0.336772, 1)
+
+[node name="res counter" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 242.0
+offset_bottom = 135.0
+
+[node name="food" type="RichTextLabel" parent="res counter"]
+layout_mode = 0
+offset_right = 669.0
+offset_bottom = 147.0
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+text = "food"
+
+[node name="turn" type="RichTextLabel" parent="res counter"]
+layout_mode = 0
+offset_right = 707.0
+offset_bottom = 146.0
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+text = "Turn "
+
+[node name="bottom bar" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
