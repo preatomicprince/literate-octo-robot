@@ -37,14 +37,17 @@ var distance : Vector2 = Vector2(0, 0)
 var move_target_tile_index : int = -1
 
 func set_selected() -> void:
+	print("yabadaba")
 	selected = true
 	self.highlight.visible = true
+	print(self.highlight.visible)
 	
 func set_unselected() -> void:
 	selected = false
-	self.highlight.visible = false
+	#self.highlight.visible = false
 
 func _ready() -> void:
+	position = Vector2(0, map.HALF_TILE_H)
 	highlight = get_node("highlight")
 	
 ########################

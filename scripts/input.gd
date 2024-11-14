@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 func _handle_selection() -> void:
 	var over_tile = %map.get_child(mouse_tile_index)
 	if over_tile.has_units:
-		# TODO:- Actually pick out a unit, not just child. Occasionally can break
+		# TODO:- Actually pick out a unit, not just last child. Occasionally can break
 		selected_unit = over_tile.get_child(-1)
 		selected_unit.set_selected()
 		
@@ -58,6 +58,7 @@ func _input(event: InputEvent) -> void:
 			_set_unit_movement()
 		else:
 			_handle_selection()
+			print(selected_unit)
 		
 	if event.is_action_pressed("mouse_left"):
 		handle_deselection()
