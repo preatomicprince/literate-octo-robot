@@ -23,10 +23,8 @@ var selected_ground_tile
 
 func _ready() -> void:
 	generate_map()
-	if is_multiplayer_authority():
-		$Map_Objects.generate_points_of_interest()
-	else:
-		$Fog_Of_War.generate_fog()
+	$Map_Objects.generate_points_of_interest()
+	$Fog_Of_War.generate_fog()
 
 func _process(delta: float) -> void:
 	
@@ -56,7 +54,7 @@ func generate_map():
 			
 			var tile_pos_str = str(Vector2i(tile_pos.x + x, tile_pos.y + y))
 
-			tiles.append(tile_pos_str)
+			tiles.append(Vector2i(tile_pos.x + x, tile_pos.y + y))
 			# If server, automatically discover all tiles and store data in dictionaries
 			# A list of visible tiles is availiable in the player node
 			if is_multiplayer_authority():
@@ -67,7 +65,7 @@ func generate_map():
 			
 func set_all_tiles_invisible(peer_id):
 	for tile in tiles:
-		$"..".player[peer_id].tile_is_visible[tile] = false
+		$"..".player[peer_id].tile_is_visible[str(tile)] = false
 
 
 # Used to tile_map_data in a packedByteArray
@@ -88,6 +86,8 @@ func generate_unit(map_pos: Vector2i):
 	var unit_instance = unit.instantiate()
 	unit_instance.tile_index = map_pos
 	unit_instance.position = map_to_local(map_pos)
+	#unit_instance.player_id = peer_id
+	$Fog_Of_War.map_reveal(map_pos)
 	$Unit_Layer.add_child(unit_instance)
 	
 func spawn_unit(peer_id: int, map_pos: Vector2i):

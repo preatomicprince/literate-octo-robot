@@ -5,6 +5,9 @@ extends CharacterBody2D
 ################################################
 @onready var level_info = get_node("/root/GameVars")
 
+# peer_id of owner
+var player_id: int
+
 # Enum to store current direction
 enum Direction {
 	ur = 0,

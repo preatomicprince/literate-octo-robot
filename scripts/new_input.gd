@@ -38,7 +38,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("key_e"):
 		print(mouse_pos)
 		new_events.append(EVENT_TYPE.key_e)
-		
+		 
 	if not new_events.is_empty():
 		rpc_id(1, "push_event_to_server", new_events)
 		
