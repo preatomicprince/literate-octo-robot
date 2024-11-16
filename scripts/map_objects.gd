@@ -1,6 +1,6 @@
 extends TileMapLayer
 
-@onready var level_info = get_node("/root/GameVars")
+@onready var level_info = $".."/".."/Game_State
 
 var rand_i = RandomNumberGenerator.new()
 
@@ -22,6 +22,14 @@ func generate_points_of_interest():
 				set_cell(Vector2i(level_info.map_info[key][0], level_info.map_info[key][1]), 0, Vector2i(0, 0))
 			else:
 				set_cell(Vector2i(level_info.map_info[key][0], level_info.map_info[key][1]), 0, Vector2i(1, 0))
+				
+@rpc("reliable")
+func sync_tile_data(auth_packed_array):
+	print("Data synced")
+	set_tile_map_data_from_array(auth_packed_array)
+
+func call_tile_data_sync(peer_id):
+	rpc_id(peer_id, "sync_tile_data", get_tile_map_data_as_array())
 
 func resource_collection(key):
 	print("You find some scraps of food")

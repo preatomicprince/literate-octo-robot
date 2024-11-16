@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsq8g0jcsiub3"]
+
+[ext_resource type="PackedScene" uid="uid://bb4u0rsomdkr" path="res://scenes/input.tscn" id="1_dfj4e"]
+[ext_resource type="PackedScene" uid="uid://cp13swhqso38i" path="res://scenes/player.tscn" id="2_74hmk"]
+[ext_resource type="PackedScene" uid="uid://b48dutyv3l17c" path="res://scenes/camera.tscn" id="3_bi0up"]
+[ext_resource type="PackedScene" uid="uid://cefff1il4giw1" path="res://user interface/game_ui.tscn" id="5_hejbv"]
+
+[node name="local" type="Node2D"]
+
+[node name="Input" parent="." instance=ExtResource("1_dfj4e")]
+
+[node name="player" parent="." instance=ExtResource("2_74hmk")]
+
+[node name="camera" parent="." instance=ExtResource("3_bi0up")]
+
+[node name="game ui2" parent="camera" instance=ExtResource("5_hejbv")]

@@ -1,6 +1,6 @@
 extends TileMapLayer
 
-@onready var level_info = get_node("/root/GameVars")
+@onready var level_info = $".."/".."/Game_State
 
 func _process(delta: float) -> void:
 	for key in level_info.map_info.keys():

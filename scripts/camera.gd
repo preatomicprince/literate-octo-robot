@@ -14,11 +14,14 @@ const MAX_ZOOM = 1.0
 const MIN_ZOOM = 0.1
 var velocity = Vector2(0,0)
 
-
+var peer_id: int
 #########################
 ## _proccess functions ##
 #########################
-
+@rpc
+func sync(auth_offset):
+	offset = auth_offset
+	
 func update_zoom(delta: float) -> void:
 	if self.zoom.x < MIN_ZOOM:
 		%input.key_zoom_in = 0 
@@ -27,19 +30,21 @@ func update_zoom(delta: float) -> void:
 		
 	self.zoom.x  += (%input.key_zoom_out - %input.key_zoom_in)*zoom_speed*delta
 	self.zoom.y = zoom.x
-	_speed_y = speed*(1/$".".zoom.x)
+	_speed_y = speed*(1/zoom.x)
 	_speed_x = _speed_y*(sqrt(3))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
+	var prev_offset = offset
+	
+	velocity.x += velocity.x*_speed_x*delta
+	velocity.y += velocity.y*_speed_y*delta
+	
+	offset += velocity
+	
+	# Sync only when change occurs
+	if offset != prev_offset:
+		rpc_id(peer_id, "sync", offset)
 	velocity = Vector2(0, 0)
-	velocity.x += (%input.key_right - %input.key_left)*_speed_x*delta
-	velocity.y += (%input.key_down - %input.key_up)*_speed_y*delta
-	
-	###this allows the ui to move with the camera
-	$".".position.x += (%input.key_right - %input.key_left)*_speed_x*delta
-	$".".position.y += (%input.key_down - %input.key_up)*_speed_y*delta
-	update_zoom(delta)
-	
-	
-	self.offset += velocity

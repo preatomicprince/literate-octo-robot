@@ -5,7 +5,6 @@ extends Control
 @onready var info_list = [$"res counter/food", $"res counter/turn"]
 
 func _ready() -> void:
-	print($".".get_global_position())
 	$"res counter".size.x = get_viewport_rect().size[0]
 	$"tempbar".size.x = get_viewport_rect().size[0]*2
 	for i in range(len(info_list)):

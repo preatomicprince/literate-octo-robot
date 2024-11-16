@@ -129,7 +129,7 @@ func _handle_movement(delta) -> void:
 		check_reached_target()
 			
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _prcess(delta: float) -> void:
 	var direction = Vector3()
 	###this bit works out whats being explored
 	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][6] = true
@@ -159,4 +159,3 @@ func _process(delta: float) -> void:
 		tile_index = target_tile
 		
 		###gonna need to set both tiles to no unit, has unit respectfully
-

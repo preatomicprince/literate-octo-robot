@@ -39,7 +39,6 @@ func _input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("key_s"):
 		key_s = 1
-		print($"../ground map".local_to_map($"../ground map".get_local_mouse_position()))
 		
 	if event.is_action_pressed("key_zoom_in"):
 		key_zoom_in = 1
