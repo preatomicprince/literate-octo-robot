@@ -86,7 +86,7 @@ func _handle_input(peer_id: int):
 	var input = input[peer_id]
 	
 	while not input.event_queue.is_empty():
-		var event = input.event_queue.pop_back()
+		var event = input.event_queue.pop_front()
 		
 		match event:
 			EVENT_TYPE.key_left:
@@ -99,7 +99,7 @@ func _handle_input(peer_id: int):
 				camera[peer_id].velocity.y += 1
 				
 			EVENT_TYPE.key_e:
-				$Map.spawn_unit(peer_id, input.mouse_pos)
+				$Map.spawn_new_unit(peer_id, input.mouse_pos)
 	
 	###this allows the ui to move with the camera
 	#camera[peer_id].position.x += (input[peer_id].key_right - input[peer_id].key_left)*_speed_x*delta

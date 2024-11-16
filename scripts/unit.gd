@@ -46,10 +46,8 @@ var move_target_tile_index : Vector2
 var point_list = []
 
 func set_selected() -> void:
-	print("yabadaba")
 	selected = true
 	self.highlight.visible = true
-	print(self.highlight.visible)
 	
 func set_unselected() -> void:
 	selected = false

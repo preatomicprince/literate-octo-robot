@@ -82,28 +82,57 @@ func call_tile_data_sync(peer_id):
 	rpc_id(peer_id, "sync_initial_tile_data", peer_id, get_tile_map_data_as_array())
 	
 @rpc("reliable")
-func generate_unit(map_pos: Vector2i):
+func generate_unit(peer_id: int, map_pos: Vector2i):
+	# Don't spawn if tile already has unit
+	if units[str(map_pos)] != null:
+		return
 	var unit_instance = unit.instantiate()
 	unit_instance.tile_index = map_pos
 	unit_instance.position = map_to_local(map_pos)
-	#unit_instance.player_id = peer_id
-	$Fog_Of_War.map_reveal(map_pos)
+	unit_instance.player_id = peer_id
+	units[str(map_pos)] = unit_instance
 	$Unit_Layer.add_child(unit_instance)
-	
-func spawn_unit(peer_id: int, map_pos: Vector2i):
+	# Set true until FOW bug found
+	if true:#peer_id == $"..".peer_id:
+		$Fog_Of_War.map_reveal(peer_id, map_pos)
+
+
+# Adds new unit to game
+func spawn_new_unit(peer_id: int, map_pos: Vector2i):
 	var map_pos_str = str(map_pos)
 	
+	# Check if tile exists
+	if not units.has(map_pos_str):
+		return
 	# Check tile has no unit
-	if units[map_pos_str] != null:
+	if units[(map_pos_str)] != null:
 		return
 		
-	generate_unit(map_pos)
+	generate_unit(peer_id, map_pos)
+	rpc_id(peer_id, "generate_unit", peer_id, map_pos)
+	
+	# Only appears to others if player has discovered tile
 	for peer in $"..".connected_peers:
-		# Only spawn if player has discovered tile
-		#if $"..".player[peer].tile_is_visible[map_pos_str]:
-		rpc_id(peer, "generate_unit", map_pos)
+		if peer == peer_id:
+			continue
+		print($"..".player[peer].tile_is_visible[map_pos_str])
+		if $"..".player[peer].tile_is_visible[map_pos_str]:
+			rpc_id(peer, "generate_unit", peer_id, map_pos)
 
-
+# Adds an existing unit to a peer's game when it comes out the fog of war
+func spawn_existing_unit(peer_id: int, map_pos: Vector2i):
+	# Can't spawn existing unit on non-existing tile
+	if not units.has(str(map_pos)):
+		return
+	# Can't spawn existing unit if none on tile
+	if units[str(map_pos)] == null:
+		return
+		
+	var unit_owner_id = units[str(map_pos)].player_id
+	
+	rpc_id(peer_id, "generate_unit", unit_owner_id, map_pos)
+	
+	
 ###not to stay just to test
 func _inut(event: InputEvent) -> void:
 	###this is for selecting a unit

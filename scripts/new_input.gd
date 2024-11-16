@@ -36,7 +36,6 @@ func _process(delta: float) -> void:
 		new_events.append(EVENT_TYPE.key_down)
 	
 	if Input.is_action_just_pressed("key_e"):
-		print(mouse_pos)
 		new_events.append(EVENT_TYPE.key_e)
 		 
 	if not new_events.is_empty():
