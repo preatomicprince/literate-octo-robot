@@ -4,8 +4,8 @@ extends TileMapLayer
 @onready var level_info = get_node("/root/GameVars")
 @onready var unit = preload("res://scenes/unit.tscn")
 
-var width : int = 10
-var height : int = 10
+var width : int = 20
+var height : int = 50
 
 var rand_i = RandomNumberGenerator.new()
 
@@ -80,9 +80,14 @@ func _input(event: InputEvent) -> void:
 		for key in level_info.map_info.keys():
 			if level_info.map_info[key][3] is Object:
 				level_info.map_info[key][3].set_unselected()
+				###this is for the ui to know whats happening with the unit selection, so it can show what the unit has
+				level_info.unit_selected = null
 		
 		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is Object:
 			level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3].set_selected()
+			
+			###same with this
+			level_info.unit_selected = level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3]
 		
 	if event.is_action_pressed("mouse_right"):
 		for key in level_info.map_info.keys():
@@ -91,3 +96,10 @@ func _input(event: InputEvent) -> void:
 					if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
 						level_info.map_info[key][3].target_tile = Vector2(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][0], level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][1])
 						level_info.map_info[key][3].set_unselected()
+						
+						#### and this
+						level_info.unit_selected = null
+					
+					###to work out the combat
+					if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is Object:
+						level_info.map_info[key][3].conflict(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3])

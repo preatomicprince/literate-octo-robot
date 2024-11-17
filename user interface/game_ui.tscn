@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cefff1il4giw1"]
+[gd_scene load_steps=6 format=3 uid="uid://cefff1il4giw1"]
 
 [ext_resource type="Script" path="res://game_ui.gd" id="1_4kxhr"]
+[ext_resource type="Texture2D" uid="uid://cksaxctsbf1am" path="res://assets/Item_Holder_hud.png" id="2_flmde"]
+[ext_resource type="Texture2D" uid="uid://b76jdbvgmtci7" path="res://assets/weapon icons.png" id="3_fx1wc"]
+[ext_resource type="Texture2D" uid="uid://cte5qnvtmujd8" path="res://assets/clothing.png" id="4_sc0ai"]
+[ext_resource type="Texture2D" uid="uid://cqyfhflu4b2ra" path="res://assets/vehicle icons.png" id="5_p2nko"]
 
 [node name="game ui" type="Control"]
 layout_mode = 3
@@ -40,5 +44,57 @@ text = "Turn "
 
 [node name="bottom bar" type="Control" parent="."]
 anchors_preset = 0
-offset_right = 40.0
+offset_right = 1155.0
 offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="bottom bar"]
+layout_mode = 0
+offset_left = 1113.0
+offset_top = 521.0
+offset_right = 1383.0
+offset_bottom = 641.0
+text = "next turn"
+
+[node name="tool tip" type="RichTextLabel" parent="bottom bar"]
+layout_mode = 0
+offset_left = 537.0
+offset_top = 566.0
+offset_right = 932.0
+offset_bottom = 631.0
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]tool tip[center]"
+
+[node name="item holder" type="Control" parent="bottom bar"]
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 503.0
+offset_right = 640.0
+offset_bottom = 543.0
+
+[node name="weapon holder" type="Sprite2D" parent="bottom bar/item holder"]
+position = Vector2(153, 66)
+texture = ExtResource("2_flmde")
+
+[node name="WeaponIcons" type="Sprite2D" parent="bottom bar/item holder/weapon holder"]
+position = Vector2(-2, 5)
+texture = ExtResource("3_fx1wc")
+hframes = 7
+
+[node name="armour holder" type="Sprite2D" parent="bottom bar/item holder"]
+position = Vector2(332, 68)
+texture = ExtResource("2_flmde")
+
+[node name="Clothing" type="Sprite2D" parent="bottom bar/item holder/armour holder"]
+position = Vector2(-6, 1)
+texture = ExtResource("4_sc0ai")
+hframes = 7
+
+[node name="transport holder" type="Sprite2D" parent="bottom bar/item holder"]
+position = Vector2(516, 66)
+texture = ExtResource("2_flmde")
+
+[node name="VehicleIcons" type="Sprite2D" parent="bottom bar/item holder/transport holder"]
+position = Vector2(-1, -3)
+texture = ExtResource("5_p2nko")
+hframes = 7

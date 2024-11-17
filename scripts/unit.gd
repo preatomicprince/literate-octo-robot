@@ -5,6 +5,21 @@ extends CharacterBody2D
 ################################################
 @onready var level_info = get_node("/root/GameVars")
 
+###stats for the unit in combat.
+var attack : int = 100
+var range : int = 1
+var percent_ready : int = 100
+var percent_injured : int = 0
+var max_health : int = 0
+
+###an inventory with enum for the weapons and such, i've written a dict in the game var for the
+###relevant dict numbers
+var inventory : Dictionary = {
+	"weapon" : 105,
+	"clothing" : 202,
+	"transport" : 305
+}
+
 # Enum to store current direction
 enum Direction {
 	ur = 0,
@@ -54,6 +69,11 @@ func _ready() -> void:
 	$".".position = get_parent().get_parent().map_to_local(tile_index)
 	tile_index = target_tile
 	
+	###to set the health bar
+	###not doing it just yet
+
+
+
 ########################
 ## _process functions ##
 ########################
@@ -126,8 +146,33 @@ func _handle_movement(delta) -> void:
 		distance.y += abs(velocity.y)*delta
 		check_reached_target()
 			
+			
+###for the combat
+func conflict(target):
+	pass
+
+###what is everything we need to take into account during an attack
+###how much attack each side has, how much health each side has
+func odds_combat(target):
+	return "{t} vs {p}".format({"t" : target.attack, "p" : attack})
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	###for showing combat odds
+	if selected == true:
+		###first it works out if your hovering over the unit you have selected
+		if level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))] != level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))]:
+			###if not, it works out if the theres unit on the hovered over tile
+			if level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))][3] is Object:
+				###if so, it sets the level info fight to true, triggering the ui overlay in the game_ui node
+				level_info.odds = odds_combat(level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))][3])
+				level_info.fight = true
+			else:
+				level_info.fight = false
+		else:
+			level_info.fight = false
+	
+	
 	var direction = Vector3()
 	###this bit works out whats being explored
 	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][6] = true
@@ -158,3 +203,55 @@ func _process(delta: float) -> void:
 		
 		###gonna need to set both tiles to no unit, has unit respectfully
 
+func weapon_affects(weapon):
+	###this function takes what is in the dictionary of the unit and returns an appropriate
+	###attack and range for the until. it returns it as a list to be fit into the relevant areas
+	match weapon:
+		100:
+			pass
+		102:
+			pass
+		103:
+			pass
+		104:
+			pass
+		105:
+			pass
+		106:
+			pass
+	
+	#return [att, ran]
+	
+func clothing_affects(clothing):
+	###this returns the armour rating of clothing, but also later, if we have enviromental damage to units
+	###like cold. we could also return that. or maybe  certain types of clothing slows you down or speeds you up
+	###like maybe the shell suit can add one speed, cause you look fly af.
+	match clothing:
+		200:
+			pass
+		202:
+			pass
+		203:
+			pass
+		204:
+			pass
+		205:
+			pass
+		206:
+			pass
+
+func transport_affects(transport):
+	###transport retruns the speed, but also the armour rating
+	match transport:
+		300:
+			pass
+		302:
+			pass
+		303:
+			pass
+		304:
+			pass
+		305:
+			pass
+		306:
+			pass
