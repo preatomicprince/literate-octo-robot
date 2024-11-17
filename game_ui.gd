@@ -4,6 +4,8 @@ extends Control
 
 @onready var info_list = [$"res counter/food", $"res counter/turn"]
 
+var combat_stat_barks = ["big defeat", "defeat", "draw", "small victory", "great success"]
+
 func _ready() -> void:
 	#print($".".get_global_position())
 	$".".size = get_viewport_rect().size
@@ -39,7 +41,8 @@ func change_stats():
 	
 	if level_info.fight == true:
 		$"bottom bar/tool tip".visible = true
-		$"bottom bar/tool tip".text = "[center] {oddsfight} [center]".format({"oddsfight":level_info.odds})
+		$"bottom bar/tool tip".text = "[center]{bark} {p} vs {t}[center]".format({"bark": combat_stat_barks[0], "t" : level_info.odds[0], "p" : level_info.odds[1]})
+		
 	else:
 		$"bottom bar/tool tip".visible = false
 

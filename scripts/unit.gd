@@ -6,11 +6,26 @@ extends CharacterBody2D
 @onready var level_info = get_node("/root/GameVars")
 
 ###stats for the unit in combat.
+###these numbers will need tweeking, especially the defence
 var attack : int = 100
-var range : int = 1
+var defence : int = 100
+var rang : int = 1
 var percent_ready : int = 100
 var percent_injured : int = 0
-var max_health : int = 0
+
+###could remove one move when entering a new tile, when its entered a new tile, but then has no moves
+###make the curent_target its current tile, and make the end point the saved_tile. at the begining of the 
+###new round. the saved tile becomes the target again
+var moves = 2
+var saved_tile 
+var saved_target
+var saved_turn
+
+###this is for the health bar, to allow it to shrink relative to the amount of damage taken
+var one_percent_of_bar : float
+
+###random to test out the equipment stuff
+var rand_i = RandomNumberGenerator.new()
 
 ###an inventory with enum for the weapons and such, i've written a dict in the game var for the
 ###relevant dict numbers
@@ -69,8 +84,24 @@ func _ready() -> void:
 	$".".position = get_parent().get_parent().map_to_local(tile_index)
 	tile_index = target_tile
 	
+	###this will give units random equitpent when they spawn
+	###this is just a proof of concept
+	inventory["weapon"] = rand_i.randi_range(100, 106)
+	inventory["clothing"] = rand_i.randi_range(200, 206)
+	inventory["transport"] = rand_i.randi_range(300, 305)
+	
+	
 	###to set the health bar
 	###not doing it just yet
+	
+	one_percent_of_bar = $"health bar".get_node("healthy").size.x /100
+	change_health()
+	
+	###to set the attack, range values of the unit,
+	###based on what weapon the units have
+	attack = 100 + weapon_affects(inventory["weapon"])[0]
+	rang = weapon_affects(inventory["weapon"])[1]
+	defence = 100 + clothing_affects(inventory["clothing"])
 
 
 
@@ -146,15 +177,68 @@ func _handle_movement(delta) -> void:
 		distance.y += abs(velocity.y)*delta
 		check_reached_target()
 			
-			
-###for the combat
+
+
+###these three functions relate to combat and changing the health of units, working out the odds of
+### an encounter
 func conflict(target):
-	pass
+	var damage_value = odds_combat(target)[1]
+	var selected_val = odds_combat(target)[0]
+	
+	###works out if the unit has the numbers to attack
+	if percent_ready > 0:
+		###this works out if the target has more than 0 healthy people in a unit
+		if target.percent_ready > 0:
+			###first i work out the damage to the enemy then the unit selected
+			###this is probably a bad system for many reasons, but ill do it like this for 
+			###now, for the sake of speed
+			target.percent_ready -= damage_value
+			target.percent_injured += rand_i.randi_range(0, damage_value/1.5)
+			target.change_health()
+			
+			percent_ready -= selected_val
+			percent_injured += rand_i.randi_range(0, selected_val/1.5)
+			change_health()
+			
+		else:
+			print("you capture the remains")
+
 
 ###what is everything we need to take into account during an attack
 ###how much attack each side has, how much health each side has
+###whether theyre surrounded on multiple sides. these can all work as attack multipliers
 func odds_combat(target):
-	return "{t} vs {p}".format({"t" : target.attack, "p" : attack})
+	###this returns a list of damage_value, which is the attacking units damage to the opposing units health
+	###and vice versa for the selected val. this list is then used in the game_ui for the pop up
+	var damage_value
+	
+	###this is for working out what damage the player will do to its target
+	if attack - target.defence > 1:
+		###i want this to also take into account how badly the units been damaged overall as well
+		###it doesnt do that just yet
+		damage_value = attack - target.defence
+	else:
+		damage_value = 1
+		
+	var selected_val
+	
+	###this is for working out what damage the player will do to its target
+	if target.attack - defence > 1:
+		selected_val = target.attack - defence
+	else:
+		selected_val = 1
+		
+	return [selected_val, damage_value]
+
+func change_health():
+	###this function changes the size for the health bars depending on the result of combat
+	$"health bar".get_node("healthy").size.x = one_percent_of_bar * percent_ready
+	
+	###the percent injured follows on from your healthy bar
+	$"health bar".get_node("injured").size.x = one_percent_of_bar * percent_injured
+	$"health bar".get_node("injured").position.x = $"health bar".get_node("healthy").position.x + $"health bar".get_node("healthy").size.x
+
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -192,7 +276,7 @@ func _process(delta: float) -> void:
 		_set_direction()
 		_set_animation()
 		
-		print($".".velocity)
+		#print($".".velocity)
 		#_handle_movement(delta)
 	
 	###this sets the current position of the unit to have a unit
@@ -203,24 +287,37 @@ func _process(delta: float) -> void:
 		
 		###gonna need to set both tiles to no unit, has unit respectfully
 
+
+
+###these functions change the attributes of the unit, and could be called when switching
+###out inventory items
+
 func weapon_affects(weapon):
 	###this function takes what is in the dictionary of the unit and returns an appropriate
 	###attack and range for the until. it returns it as a list to be fit into the relevant areas
 	match weapon:
 		100:
-			pass
+			#hand
+			return [0, 0]
+		101:
+			#cricket bat
+			return [10, 0]
 		102:
-			pass
+			#shotgun
+			return [40, 1] 
 		103:
-			pass
+			#sword
+			return [30, 0]
 		104:
-			pass
+			#bow
+			return [20, 2]
 		105:
-			pass
+			#artillery
+			return [100, 3]
 		106:
-			pass
+			#sniper
+			return [50, 2]
 	
-	#return [att, ran]
 	
 func clothing_affects(clothing):
 	###this returns the armour rating of clothing, but also later, if we have enviromental damage to units
@@ -228,22 +325,33 @@ func clothing_affects(clothing):
 	###like maybe the shell suit can add one speed, cause you look fly af.
 	match clothing:
 		200:
-			pass
+			#rags
+			return 0
+		201:
+			#plaid
+			return 20
 		202:
-			pass
+			#police
+			return 30
 		203:
-			pass
+			#winter coat
+			return 20
 		204:
-			pass
+			#soilder outfit
+			return 40
 		205:
-			pass
+			#leather jacket
+			return 35
 		206:
-			pass
+			#shell suit
+			return 10
 
 func transport_affects(transport):
 	###transport retruns the speed, but also the armour rating
 	match transport:
 		300:
+			pass
+		301:
 			pass
 		302:
 			pass
@@ -253,5 +361,4 @@ func transport_affects(transport):
 			pass
 		305:
 			pass
-		306:
-			pass
+

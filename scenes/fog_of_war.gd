@@ -29,7 +29,7 @@ func map_reveal(key):
 		level_info.map_info[key][6] = true
 		
 	else:
-		print(Vector2(level_info.map_info[key][0], level_info.map_info[key][1]))
+		#print(Vector2(level_info.map_info[key][0], level_info.map_info[key][1]))
 		set_cell(Vector2(level_info.map_info[key][0]+1, level_info.map_info[key][1]+1), 0, Vector2i(-1, -1))
 		set_cell(Vector2(level_info.map_info[key][0]+1, level_info.map_info[key][1]-1), 0, Vector2i(-1, -1))
 		level_info.map_info[key][6] = true

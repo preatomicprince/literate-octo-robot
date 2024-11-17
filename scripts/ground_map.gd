@@ -76,7 +76,7 @@ func _input(event: InputEvent) -> void:
 
 	###this is for selecting a unit
 	if event.is_action_pressed("mouse_left"):
-		print(str($".".local_to_map($".".get_local_mouse_position())))
+		#print(str($".".local_to_map($".".get_local_mouse_position())))
 		for key in level_info.map_info.keys():
 			if level_info.map_info[key][3] is Object:
 				level_info.map_info[key][3].set_unselected()
