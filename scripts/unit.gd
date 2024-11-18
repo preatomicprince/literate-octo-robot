@@ -319,6 +319,10 @@ func weapon_affects(weapon):
 		level_info.Weapons.ARTILLERY:
 			#artillery
 			return [100, 3]
+			
+		level_info.Weapons.MACHINE_GUN:
+			return [60, 1]
+		
 		level_info.Weapons.SNIPER:
 			#sniper
 			return [50, 2]

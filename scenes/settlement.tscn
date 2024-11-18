@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://bas7bfbh73ulp"]
+
+[ext_resource type="Script" path="res://settlement.gd" id="1_1eosb"]
+[ext_resource type="Texture2D" uid="uid://c54r8vchnryhy" path="res://assets/settlement.png" id="2_10k6r"]
+
+[node name="settlement" type="Node2D"]
+script = ExtResource("1_1eosb")
+
+[node name="Settlement image" type="Sprite2D" parent="."]
+position = Vector2(-1, 0)
+texture = ExtResource("2_10k6r")
+hframes = 2
+
+[node name="name tag" type="RichTextLabel" parent="."]
+offset_left = -63.0
+offset_top = 32.0
+offset_right = 60.0
+offset_bottom = 65.0
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[center]New Hull[center]"
+
+[node name="spawn units button" type="Button" parent="."]
+offset_left = 54.0
+offset_top = 20.0
+offset_right = 113.0
+offset_bottom = 74.0
+text = "spawn
+units"
+
+[node name="abandon settlement button" type="Button" parent="."]
+offset_left = -46.0
+offset_top = 77.0
+offset_right = 47.0
+offset_bottom = 131.0
+text = "abandon
+settlement"
+
+[node name="Button" type="Button" parent="."]
+offset_left = -110.0
+offset_top = 23.0
+offset_right = -62.0
+offset_bottom = 77.0
+text = "build
+stuff"

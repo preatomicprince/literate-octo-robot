@@ -74,6 +74,10 @@ func return_icon(item):
 		level_info.Weapons.ARTILLERY:
 			#artillery
 			return 5
+		level_info.Weapons.MACHINE_GUN:
+			
+			return 6
+		###add the sniper later
 		level_info.Weapons.SNIPER:
 			#sniper
 			return 6
