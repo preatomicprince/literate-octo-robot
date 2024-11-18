@@ -29,10 +29,10 @@ var rand_i = RandomNumberGenerator.new()
 
 ###an inventory with enum for the weapons and such, i've written a dict in the game var for the
 ###relevant dict numbers
-var inventory : Dictionary = {
-	"weapon" : 105,
-	"clothing" : 202,
-	"transport" : 305
+@onready var inventory : Dictionary = {
+	"weapon" : level_info.Weapons.HAND,
+	"clothing" : level_info.Clothes.RAGS,
+	"transport" : level_info.Vehicles.FOOT
 }
 
 # Enum to store current direction
@@ -86,9 +86,14 @@ func _ready() -> void:
 	
 	###this will give units random equitpent when they spawn
 	###this is just a proof of concept
-	inventory["weapon"] = rand_i.randi_range(100, 106)
-	inventory["clothing"] = rand_i.randi_range(200, 206)
-	inventory["transport"] = rand_i.randi_range(300, 305)
+	var rand_ind = rand_i.randi_range(0, len(level_info.Weapons)-1)
+	inventory["weapon"] = level_info.Weapons.values()[rand_ind]
+	
+	rand_ind = rand_i.randi_range(0, len(level_info.Clothes)-1)
+	inventory["clothing"] = level_info.Clothes.values()[rand_ind]
+	
+	rand_ind = rand_i.randi_range(0, len(level_info.Vehicles)-1)
+	inventory["transport"] = level_info.Vehicles.values()[rand_ind]
 	
 	
 	###to set the health bar
@@ -296,25 +301,25 @@ func weapon_affects(weapon):
 	###this function takes what is in the dictionary of the unit and returns an appropriate
 	###attack and range for the until. it returns it as a list to be fit into the relevant areas
 	match weapon:
-		100:
+		level_info.Weapons.HAND:
 			#hand
 			return [0, 0]
-		101:
+		level_info.Weapons.CRICKET_BAT:
 			#cricket bat
 			return [10, 0]
-		102:
+		level_info.Weapons.SHOTGUN:
 			#shotgun
 			return [40, 1] 
-		103:
+		level_info.Weapons.SWORD:
 			#sword
 			return [30, 0]
-		104:
+		level_info.Weapons.BOW:
 			#bow
 			return [20, 2]
-		105:
+		level_info.Weapons.ARTILLERY:
 			#artillery
 			return [100, 3]
-		106:
+		level_info.Weapons.SNIPER:
 			#sniper
 			return [50, 2]
 	
@@ -324,41 +329,41 @@ func clothing_affects(clothing):
 	###like cold. we could also return that. or maybe  certain types of clothing slows you down or speeds you up
 	###like maybe the shell suit can add one speed, cause you look fly af.
 	match clothing:
-		200:
+		level_info.Clothes.RAGS:
 			#rags
 			return 0
-		201:
+		level_info.Clothes.PLAID:
 			#plaid
 			return 20
-		202:
+		level_info.Clothes.POLICE:
 			#police
 			return 30
-		203:
+		level_info.Clothes.WINTER:
 			#winter coat
 			return 20
-		204:
+		level_info.Clothes.SOILDER:
 			#soilder outfit
 			return 40
-		205:
+		level_info.Clothes.LEATHER:
 			#leather jacket
 			return 35
-		206:
+		level_info.Clothes.SHELL:
 			#shell suit
 			return 10
 
 func transport_affects(transport):
 	###transport retruns the speed, but also the armour rating
 	match transport:
-		300:
+		level_info.Vehicles.FOOT:
 			pass
-		301:
+		level_info.Vehicles.HORSE:
 			pass
-		302:
+		level_info.Vehicles.DONKEY:
 			pass
-		303:
+		level_info.Vehicles.BIKE:
 			pass
-		304:
+		level_info.Vehicles.BUS:
 			pass
-		305:
+		level_info.Vehicles.JEAP:
 			pass
 

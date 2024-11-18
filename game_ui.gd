@@ -51,8 +51,66 @@ func _on_button_button_up() -> void:
 	level_info.turn += 1
 	print("new turn")
 
-func return_icon(num):
-	###this function will take the enum fed to it and return the correct frame for the weapon,
-	###by getting the last number of the enum. This was quicker to write than a big old switch case
-	return int(str(num)[-1])
-		
+func return_icon(item):
+	###this function takes what is in the dictionary of the unit and returns an appropriate
+	###icon for the ui
+	match item:
+		###for the weapons
+		level_info.Weapons.HAND:
+			#hand
+			return 0
+		level_info.Weapons.CRICKET_BAT:
+			#cricket bat
+			return 1
+		level_info.Weapons.SHOTGUN:
+			#shotgun
+			return 2
+		level_info.Weapons.SWORD:
+			#sword
+			return 3
+		level_info.Weapons.BOW:
+			#bow
+			return 4
+		level_info.Weapons.ARTILLERY:
+			#artillery
+			return 5
+		level_info.Weapons.SNIPER:
+			#sniper
+			return 6
+			
+		###for the clothes
+		level_info.Clothes.RAGS:
+			#rags
+			return 0
+		level_info.Clothes.PLAID:
+			#plaid
+			return 1
+		level_info.Clothes.POLICE:
+			#police
+			return 2
+		level_info.Clothes.WINTER_COAT:
+			#winter coat
+			return 3
+		level_info.Clothes.SOILDER:
+			#soilder outfit
+			return 4
+		level_info.Clothes.LEATHER:
+			#leather jacket
+			return 5
+		level_info.Clothes.SHELL:
+			#shell suit
+			return 6
+			
+		##for the vehicles
+		level_info.Vehicles.FOOT:
+			return 0
+		level_info.Vehicles.HORSE:
+			return 1
+		level_info.Vehicles.DONKEY:
+			return 2
+		level_info.Vehicles.BIKE:
+			return 3
+		level_info.Vehicles.BUS:
+			return 4
+		level_info.Vehicles.JEAP:
+			return 5
