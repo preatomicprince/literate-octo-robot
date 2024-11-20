@@ -151,6 +151,7 @@ func _process(delta: float) -> void:
 	rpc("sync_pos", position)
 	if position == target_pos:
 		tile_index = nav_path.pop_front()
+		$".."/".."/Fog_Of_War.map_reveal(player_id, tile_index)
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _prcess(delta: float) -> void:
