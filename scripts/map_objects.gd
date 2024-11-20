@@ -33,18 +33,18 @@ func resource_collection(key):
 
 func find_item():
 	###this returns an item that gets added to the players inventory
-	rand_i.randi_range(0, 3)
-	if rand_i == 0:
+	var rand_res = rand_i.randi_range(0, 3)
+	if rand_res == 0:
 		###weapons
-		rand_i.randi_range(0, len(level_info.Weapons)-1)
+		rand_res =rand_i.randi_range(0, len(level_info.Weapons)-1)
 		return level_info.Weapons[rand_i]
 		
-	if rand_i == 1:
+	if rand_res == 1:
 		###clothing
-		rand_i.randi_range(0, len(level_info.Clothes)-1)
+		rand_res =rand_i.randi_range(0, len(level_info.Clothes)-1)
 		return level_info.Clothes[rand_i]
 		
-	if rand_i == 2:
+	if rand_res == 2:
 		###vehicles
-		rand_i.randi_range(0, len(level_info.Vehicles)-1)
+		rand_res = rand_i.randi_range(0, len(level_info.Vehicles)-1)
 		return level_info.Vehicles[rand_i]
