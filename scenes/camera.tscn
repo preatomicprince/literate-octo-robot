@@ -7,3 +7,4 @@
 script = ExtResource("1_kvwma")
 
 [node name="game ui" parent="." instance=ExtResource("2_p0cew")]
+visible = false

@@ -3,14 +3,15 @@ extends Node2D
 var peer = ENetMultiplayerPeer.new()
 var peer_id: int = 1
 
-const PORT = 7777
-const IP_ADRESS = "192.168.1.196"
+const PORT: int = 7777
+const IP_ADRESS: String = "192.168.1.196"
 
-var connected_peers = []
+var connected_peers: Array = []
+var unit_count: int = 0
 
-var input = {}
-var camera = {}
-var player = {}
+var input: Dictionary = {}
+var camera: Dictionary = {}
+var player: Dictionary = {}
 
 enum MONTH {
 	January,
@@ -33,8 +34,8 @@ var year: int = 1983
 
 # Returns a vec2 in the format (month, year)
 func calculate_date() -> Vector2:
-	var current_month = current_turn%12
-	var current_year = year + round(current_turn/12)
+	var current_month: int = current_turn%12
+	var current_year: int = year + round(current_turn/12)
 	return Vector2(current_month, current_year)
 
 func _on_host_pressed() -> void:
@@ -74,20 +75,20 @@ func _on_join_pressed() -> void:
 # Only need instance on each specific player and one for each player on server
 @rpc("reliable")
 func load_local(peer_id):
-	var new_camera = preload("res://scenes/camera.tscn").instantiate()
+	var new_camera: Camera2D = preload("res://scenes/camera.tscn").instantiate()
 	camera[peer_id] = new_camera
 	new_camera.peer_id = peer_id
 	new_camera.name = "Camera" + str(peer_id)
 	add_child(new_camera)
 	
-	var new_input = preload("res://scenes/input.tscn").instantiate()
+	var new_input: Node = preload("res://scenes/input.tscn").instantiate()
 	new_input.set_multiplayer_authority(peer_id)
 	input[peer_id] = new_input
 	new_input.name = "Input" + str(peer_id)
 	new_input.peer_id = peer_id
 	add_child(new_input)
 	
-	var new_player = preload("res://scenes/player.tscn").instantiate()
+	var new_player: Node = preload("res://scenes/player.tscn").instantiate()
 	new_player.peer_id = peer_id
 	new_player.peer_id = peer_id
 	player[peer_id] = new_player
@@ -99,11 +100,11 @@ func load_local(peer_id):
 # One per peer
 @rpc("reliable")
 func load_gamestate(peer_id):
-	var new_gamestate = preload("res://scenes/game_state.tscn").instantiate()
+	var new_gamestate: Node = preload("res://scenes/game_state.tscn").instantiate()
 	new_gamestate.name = "Game_State"
 	add_child(new_gamestate)
 	
-	var new_map = preload("res://scenes/ground_map.tscn").instantiate()
+	var new_map: Node = preload("res://scenes/ground_map.tscn").instantiate()
 	new_map.name = "Map"
 	add_child(new_map)
 	
@@ -133,21 +134,21 @@ func _deselect_all(peer_id):
 	player[peer_id].selected_unit = null
 	
 func _set_unit_navigation(peer_id):
-	var player = player[peer_id]
-	var input = input[peer_id]
+	var player: Node = player[peer_id]
+	var input: Node = input[peer_id]
 	
 	if player.selected_unit == null:
 		return
 	if not player.selected_unit.nav_path.is_empty():
 		return
 		
-	var nav_path = $Map.nav_grid.get_id_path($Map.local_to_map(player.selected_unit.position), input.mouse_pos).slice(1)
+	var nav_path: Array = $Map.nav_grid.get_id_path($Map.local_to_map(player.selected_unit.position), input.mouse_pos).slice(1)
 	
 	player.selected_unit.nav_path = nav_path
 	
 func _handle_input(peer_id: int):
 	var EVENT_TYPE = input[peer_id].EVENT_TYPE
-	var input = input[peer_id]
+	var input: Node = input[peer_id]
 	
 	while not input.event_queue.is_empty():
 		var event = input.event_queue.pop_front()
