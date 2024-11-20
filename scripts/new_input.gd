@@ -1,8 +1,8 @@
 extends Node
 
-var event_queue = []
+var event_queue: Array = []
 var mouse_pos: Vector2 = Vector2(-1, -1)
-var peer_id
+var peer_id: int
 
 enum EVENT_TYPE {
 	key_left,
@@ -18,7 +18,7 @@ func _process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 		
-	var new_events = []
+	var new_events: Array = []
 	
 	mouse_pos = $".."/Map.local_to_map($".."/Map.get_local_mouse_position())# + $"..".camera[peer_id].offset)
 	rpc_id(1, "sync_mouse_pos", mouse_pos)
@@ -37,6 +37,12 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("key_e"):
 		new_events.append(EVENT_TYPE.key_e)
+		
+	if Input.is_action_just_pressed("mouse_left"):
+		new_events.append(EVENT_TYPE.mouse_left)
+		
+	if Input.is_action_just_pressed("mouse_right"):
+		new_events.append(EVENT_TYPE.mouse_right)
 		 
 	if not new_events.is_empty():
 		rpc_id(1, "push_event_to_server", new_events)

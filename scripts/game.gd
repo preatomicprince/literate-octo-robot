@@ -82,7 +82,26 @@ func load_gamestate(peer_id):
 	new_map.name = "Map"
 	add_child(new_map)
 	
-
+func _select_tile(peer_id):
+	player[peer_id].selected_tile = input[peer_id].mouse_pos
+	print("Tile selected: " + str(player[peer_id].selected_tile))
+	_select_unit(peer_id)
+	
+func _select_unit(peer_id):
+	var selected_tile: Vector2i = player[peer_id].selected_tile
+	if selected_tile == Vector2i(-1, -1):
+		return
+		
+	var selected_tile_str: String = str(selected_tile)
+	if not $Map.units.has(selected_tile_str):
+		return
+	if $Map.units[selected_tile_str] == null:
+		return
+	
+	player[peer_id].selected_unit = $Map.units[selected_tile_str]
+	player[peer_id].selected_unit.set_selected(true)
+	
+	
 func _handle_input(peer_id: int):
 	var EVENT_TYPE = input[peer_id].EVENT_TYPE
 	var input = input[peer_id]
@@ -99,6 +118,10 @@ func _handle_input(peer_id: int):
 				camera[peer_id].velocity.y -= 1
 			EVENT_TYPE.key_down:
 				camera[peer_id].velocity.y += 1
+			EVENT_TYPE.mouse_left:
+				_select_tile(peer_id)
+			EVENT_TYPE.mouse_right:
+				pass
 				
 			EVENT_TYPE.key_e:
 				$Map.spawn_new_unit(peer_id, input.mouse_pos)

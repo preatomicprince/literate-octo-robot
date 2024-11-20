@@ -20,7 +20,6 @@ enum Direction {
 
 @onready var nav = $NavigationAgent2D
 var accel = 7
-@onready var highlight = $highlight
 
 @export var speed = 100
 var _speed_y :float = speed
@@ -45,13 +44,21 @@ var move_target_tile_index : Vector2
 
 var point_list = []
 
-func set_selected() -> void:
-	selected = true
-	self.highlight.visible = true
+@rpc("reliable")
+func sync_select(select: bool) -> void:
+	self.selected = select
+	$Highlight.visible = select
+	
+func set_selected(select: bool) -> void:
+	self.selected = select
+	$Highlight.visible = select
+	
+	if is_multiplayer_authority():
+		rpc_id(player_id, "sync_select", select)
 	
 func set_unselected() -> void:
 	selected = false
-	#self.highlight.visible = false
+	$Highlight.visible = false
 
 func _ready() -> void:
 	$".".position = get_parent().get_parent().map_to_local(tile_index)
@@ -128,7 +135,7 @@ func _handle_movement(delta) -> void:
 		distance.x += abs(velocity.x)*delta
 		distance.y += abs(velocity.y)*delta
 		check_reached_target()
-			
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _prcess(delta: float) -> void:
 	var direction = Vector3()

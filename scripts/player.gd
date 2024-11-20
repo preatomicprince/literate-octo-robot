@@ -1,9 +1,13 @@
 extends Node2D
 
 var peer_id: int
-var units = []
+var units: Array = []
 # Dict containing all tilesw as a key. Stores true if tile has had fog of war lifted
-var tile_is_visible = {}
+var tile_is_visible: Dictionary = {}
+
+# Vector2i(-1, -1) if null
+var selected_tile: Vector2i = Vector2i(-1, -1)
+var selected_unit: Node
 
 func _ready() -> void:
 	for tile in $".."/Map.tiles:
