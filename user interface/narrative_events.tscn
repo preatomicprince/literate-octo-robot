@@ -1,0 +1,66 @@
+[gd_scene load_steps=2 format=3 uid="uid://drdui6kbbxeom"]
+
+[ext_resource type="Script" path="res://narrative_events.gd" id="1_84sk7"]
+
+[node name="Narrative events" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_84sk7")
+
+[node name="background rect" type="ColorRect" parent="."]
+modulate = Color(0.47313, 0.509844, 0.460692, 0.490196)
+layout_mode = 0
+offset_left = -287.0
+offset_top = -198.0
+offset_right = 290.0
+offset_bottom = 221.0
+color = Color(0.54099, 0.54099, 0.54099, 1)
+
+[node name="event box" type="RichTextLabel" parent="."]
+z_index = 10
+layout_mode = 0
+offset_left = -265.0
+offset_top = -173.0
+offset_right = 270.0
+offset_bottom = 23.0
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center]This is where the text for the story stuff will go[center]"
+
+[node name="unit transfers" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -282.0
+offset_top = 42.0
+offset_right = 281.0
+offset_bottom = 82.0
+
+[node name="HSlider" type="HSlider" parent="unit transfers"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 14.0
+offset_right = 556.0
+offset_bottom = 30.0
+
+[node name="accept" type="Button" parent="unit transfers"]
+layout_mode = 0
+offset_left = 79.0
+offset_top = 73.0
+offset_right = 226.0
+offset_bottom = 132.0
+text = "accept"
+
+[node name="close" type="Button" parent="unit transfers"]
+layout_mode = 0
+offset_left = 348.0
+offset_top = 72.0
+offset_right = 496.0
+offset_bottom = 131.0
+text = "close"
+
+[connection signal="button_up" from="unit transfers/accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="unit transfers/close" to="." method="_on_close_button_up"]

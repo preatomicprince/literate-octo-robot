@@ -3,6 +3,8 @@ extends TileMapLayer
 ###this refers to the data structure
 @onready var level_info = get_node("/root/GameVars")
 @onready var unit = preload("res://scenes/unit.tscn")
+@onready var settlement = preload("res://scenes/settlement.tscn")
+@onready var narrative_box = preload("res://user interface/narrative_events.tscn")
 
 var width : int = 20
 var height : int = 50
@@ -51,21 +53,44 @@ func generate_map():
 			###it turns the tile reference into a dictionary key
 			var rand_res = rand_i.randi_range(0, 4)
 			if rand_res > 3:
-				level_info.map_info[str("(", tile_pos.x + x,", ",tile_pos.y + y,")")] = [ tile_pos.x + x,tile_pos.y + y,"no unit", 0, "yes", 0, false]
+				###adding two on the end for the settlment info, i know the dictionary needs switch up, but move fast and break stuff, become ungovernable
+				level_info.map_info[str("(", tile_pos.x + x,", ",tile_pos.y + y,")")] = [ tile_pos.x + x,tile_pos.y + y,"no unit", 0, "yes", 0, false, "no settlement", null]
 			else:
-				level_info.map_info[str("(", tile_pos.x + x,", ",tile_pos.y + y,")")] = [ tile_pos.x + x,tile_pos.y + y,"no unit", 0, "no", 0, false]
+				level_info.map_info[str("(", tile_pos.x + x,", ",tile_pos.y + y,")")] = [ tile_pos.x + x,tile_pos.y + y,"no unit", 0, "no", 0, false, "no settlement", null]
 
 func generate_unit(position):
-	
 	var unit_instance = unit.instantiate()
 	unit_instance.tile_index = position
 	$"unit layer".add_child(unit_instance)
 	
+func generate_settlement(position, start_pop):
+	###this function creates a settlement the spot of the unit that spawns it
+	var new_settlement = settlement.instantiate()
+	new_settlement.position = position
+	new_settlement.population = start_pop
+	$"settlement layer".add_child(new_settlement)
+	
+	###this adds the object to the dictionary
+	level_info.map_info[str($".".local_to_map(position))][8] = new_settlement
 
 
 ###not to stay just to test
 func _input(event: InputEvent) -> void:
-	
+	###this is just to test out spawning settlements, the unit will lose some of its percent_ready
+	###which will go into the new town. or you could dismand the entire unit into the town
+	if event.is_action_pressed("key_r"):
+		if level_info.unit_selected != null:
+			
+			###so this will pop up the narrative event slider 
+			if level_info.map_info[str($".".local_to_map(level_info.unit_selected.position))][7] == "no settlement":
+				var pop_up = narrative_box.instantiate()
+				###this adds the event to the main game scene
+				pop_up.purpose = "pop transfer"
+				###it takes the unit for its location and stuff
+				pop_up.started_event = level_info.unit_selected
+				pop_up.target = level_info.map_info[str($".".local_to_map(level_info.unit_selected.position))]
+				###it adds it to the parent, the main game node
+				self.get_parent().add_child(pop_up)
 	
 	if event.is_action_pressed("key_e"):
 		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
@@ -78,11 +103,25 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("mouse_left"):
 		#print(str($".".local_to_map($".".get_local_mouse_position())))
 		for key in level_info.map_info.keys():
+			###this is to unselect all units
 			if level_info.map_info[key][3] is Object:
 				level_info.map_info[key][3].set_unselected()
 				###this is for the ui to know whats happening with the unit selection, so it can show what the unit has
-				level_info.unit_selected = null
+			###this is to unselect all towns
+			if level_info.map_info[key][8] is Object:
+				level_info.map_info[key][8].set_unselected()
+				
+			level_info.unit_selected = null
+			
+		###we then work out if theres anything else that needs to be selected 
+		###this is for the towns
+		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8] is Object:
+			level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8].set_selected()
+			
+			###same with this
+			level_info.unit_selected = level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8]
 		
+		###this is for the units. the way this is currently set up if theyre on the same tile, theyll show both at the same time
 		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is Object:
 			level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3].set_selected()
 			

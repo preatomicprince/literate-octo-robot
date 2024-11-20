@@ -8,6 +8,11 @@ enum Weapons {HAND, CRICKET_BAT, SHOTGUN, SWORD, BOW, ARTILLERY, MACHINE_GUN, SN
 enum Clothes {RAGS, PLAID, POLICE, WINTER, SOILDER, LEATHER, SHELL}
 enum Vehicles {FOOT, HORSE, DONKEY, BIKE, BUS, JEAP}
 
+###this is for the buildings
+enum Buildings {HOUSE, OUTPOST, FACTORY, HOSPITAL, FARM, SHOP, MINE, POWER_STATION, COURTHOUSE}
+
+###town name pool
+var town_names = ["scunthorpe", "new hull", "mall town"]
 
 ###vars for the ui, probably doesnt need to be a different section
 var fight : bool = false
@@ -16,6 +21,7 @@ var unit_selected = null
 
 ###vars for the entire game
 var turn : int = 1
+var overall_population : int = 100
 
 ###a dictionary containing each players stats, right now itll just include food gained
 var player_stats : Dictionary = {"player one" : [10]}

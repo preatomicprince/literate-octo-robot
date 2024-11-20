@@ -1,7 +1,9 @@
 extends Node2D
 
-var unit = preload("res://scenes/tile.tscn")
+@onready var level_info = get_node("/root/GameVars")
 
+var unit = preload("res://scenes/tile.tscn")
+var saved_turn = 1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -9,7 +11,13 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if saved_turn != level_info.turn:
+		###this makes the towns do eveything they need to do once per turn
+		for key in level_info.map_info.keys():
+			if level_info.map_info[key][8] is Object:
+				level_info.map_info[key][8].new_turn()
+				
+		saved_turn += 1
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("key_esc"):
