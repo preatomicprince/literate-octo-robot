@@ -108,6 +108,18 @@ func _deselect_all(peer_id):
 	player[peer_id].selected_unit.set_selected(false)
 	player[peer_id].selected_unit = null
 	
+func _set_unit_navigation(peer_id):
+	var player = player[peer_id]
+	var input = input[peer_id]
+	
+	if player.selected_unit == null:
+		return
+		
+	var nav_path = $Map.nav_grid.get_id_path($Map.local_to_map(player.selected_unit.position), input.mouse_pos).slice(1)
+	
+	player.selected_unit.nav_path = nav_path
+	print(player.selected_unit.nav_path)
+	
 	
 func _handle_input(peer_id: int):
 	var EVENT_TYPE = input[peer_id].EVENT_TYPE
@@ -126,7 +138,10 @@ func _handle_input(peer_id: int):
 			EVENT_TYPE.key_down:
 				camera[peer_id].velocity.y += 1
 			EVENT_TYPE.mouse_left:
-				_select_tile(peer_id)
+				if player[peer_id].selected_unit == null:
+					_select_tile(peer_id)
+				else:
+					_set_unit_navigation(peer_id)
 			EVENT_TYPE.mouse_right:
 				_deselect_all(peer_id)
 				

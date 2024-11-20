@@ -29,7 +29,7 @@ func generate_nav_grid() -> void:
 	# CellShape.CELL_SHAPE_ISOMETRIC_DOWN = 2
 	nav_grid.cell_shape = 2
 	nav_grid.cell_size = TILE_SIZE
-	nav_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	nav_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ALWAYS
 	nav_grid.update()
 	
 func _ready() -> void:

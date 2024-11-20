@@ -42,7 +42,7 @@ var is_moving : bool = false
 var distance : Vector2 = Vector2(0, 0)
 var move_target_tile_index : Vector2 
 
-var point_list = []
+var nav_path = []
 
 @rpc("reliable")
 func sync_select(select: bool) -> void:
@@ -146,7 +146,6 @@ func _prcess(delta: float) -> void:
 	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = 0
 	
 	if tile_index != target_tile:
-		point_list
 		nav.target_position = get_parent().get_parent().map_to_local(target_tile) #get_global_mouse_position()
 		direction = nav.get_next_path_position() - global_position
 		direction = direction.normalized()
