@@ -135,7 +135,22 @@ func _handle_movement(delta) -> void:
 		distance.x += abs(velocity.x)*delta
 		distance.y += abs(velocity.y)*delta
 		check_reached_target()
+
+@rpc
+func sync_pos(auth_pos):
+	position = auth_pos
+	
+func _process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
+	if nav_path.is_empty():
+		return
 		
+	var target_pos = $".."/"..".map_to_local(self.nav_path.front())
+	position = position.move_toward(target_pos, speed*delta)
+	rpc("sync_pos", position)
+	if position == target_pos:
+		nav_path.pop_front()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _prcess(delta: float) -> void:
 	var direction = Vector3()

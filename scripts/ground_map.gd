@@ -25,11 +25,11 @@ var selected_ground_tile
 
 func generate_nav_grid() -> void:
 	nav_grid = AStarGrid2D.new()
-	nav_grid.region = get_used_rect()
 	# CellShape.CELL_SHAPE_ISOMETRIC_DOWN = 2
-	nav_grid.cell_shape = 2
+	nav_grid.cell_shape = 1
 	nav_grid.cell_size = TILE_SIZE
-	nav_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ALWAYS
+	nav_grid.region = get_used_rect()
+	nav_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	nav_grid.update()
 	
 func _ready() -> void:
