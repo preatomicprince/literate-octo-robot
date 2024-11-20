@@ -23,7 +23,6 @@ var selected_ground_tile
 
 func _ready() -> void:
 	generate_map()
-	$Map_Objects.generate_points_of_interest()
 	if not is_multiplayer_authority():
 		$Fog_Of_War.generate_fog()
 
@@ -132,7 +131,20 @@ func spawn_existing_unit(peer_id: int, map_pos: Vector2i):
 	var unit_owner_id = units[str(map_pos)].player_id
 	
 	rpc_id(peer_id, "generate_unit", unit_owner_id, map_pos)
+
+@rpc("reliable")
+func spawn_object(map_pos: Vector2i, obj_ind: int):
+	$Map_Objects.set_cell(map_pos, 0, Vector2i(obj_ind, 0))
 	
+func spawn_existing_object(peer_id: int, map_pos: Vector2i):
+	if not objects.has(str(map_pos)):
+		return
+	
+	if objects[str(map_pos)] == null:
+		return
+	
+	var atlas_x_coord = $Map_Objects.get_cell_atlas_coords(map_pos).x
+	rpc_id(peer_id, "spawn_object", map_pos, atlas_x_coord)
 	
 ###not to stay just to test
 func _inut(event: InputEvent) -> void:

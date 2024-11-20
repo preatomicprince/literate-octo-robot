@@ -17,6 +17,7 @@ func _on_host_pressed() -> void:
 	peer.create_server(PORT)
 	multiplayer.multiplayer_peer = peer
 	set_multiplayer_authority(1)
+	$Map/Map_Objects.generate_points_of_interest()
 	#load_gamestate(1)
 	
 	multiplayer.peer_connected.connect(

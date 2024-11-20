@@ -14,6 +14,20 @@ func generate_points_of_interest():
 	###needs to be generated on a seperate layer
 	###i.e. towns, animals ect
 	
+	# Ensures a set number of objects on map. Can replace with a range in future
+	var num_of_objs = 10
+	var counter = 0
+	
+	while counter < num_of_objs:
+		var rand_tile_ind = rand_i.randi_range(0, len($"..".tiles) - 1)
+		var rand_obj_type = rand_i.randi_range(0, 1)
+		if $"..".objects.has($"..".tiles[rand_tile_ind]):
+			continue
+			
+		$"..".objects[str($"..".tiles[rand_tile_ind])] = true
+		set_cell($"..".tiles[rand_tile_ind], 0, Vector2i(rand_obj_type, 0))
+		counter += 1
+	
 	for key in level_info.map_info.keys():
 		if level_info.map_info[key][4] == "yes":
 			

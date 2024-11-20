@@ -37,7 +37,8 @@ func map_reveal(peer_id, tile):
 		
 	for revealed_tile in tiles_to_reveal:
 		$".."/"..".player[peer_id].tile_is_visible[str(revealed_tile)] = true
-		$"..".spawn_existing_unit(peer_id, Vector2i(revealed_tile))
+		$"..".spawn_existing_unit(peer_id, revealed_tile)
+		$"..".spawn_existing_object(peer_id, revealed_tile)
 		
 
 func set_tile_fow(tile: Vector2):
