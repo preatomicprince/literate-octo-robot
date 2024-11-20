@@ -101,6 +101,13 @@ func _select_unit(peer_id):
 	player[peer_id].selected_unit = $Map.units[selected_tile_str]
 	player[peer_id].selected_unit.set_selected(true)
 	
+func _deselect_all(peer_id):
+	player[peer_id].selected_tile = Vector2i(-1, -1)
+	if player[peer_id].selected_unit == null:
+		return
+	player[peer_id].selected_unit.set_selected(false)
+	player[peer_id].selected_unit = null
+	
 	
 func _handle_input(peer_id: int):
 	var EVENT_TYPE = input[peer_id].EVENT_TYPE
@@ -121,7 +128,7 @@ func _handle_input(peer_id: int):
 			EVENT_TYPE.mouse_left:
 				_select_tile(peer_id)
 			EVENT_TYPE.mouse_right:
-				pass
+				_deselect_all(peer_id)
 				
 			EVENT_TYPE.key_e:
 				$Map.spawn_new_unit(peer_id, input.mouse_pos)
