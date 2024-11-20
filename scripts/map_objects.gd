@@ -28,3 +28,23 @@ func resource_collection(key):
 	set_cell($".".local_to_map(Vector2(level_info.map_info[key][3].position.x, level_info.map_info[key][3].position.y)), 0, Vector2i(-1, -1))
 	level_info.map_info[key][4] = "no"
 	level_info.player_stats["player one"][0] += 10
+	###just print it to test it
+	print("you found a ", find_item())
+
+func find_item():
+	###this returns an item that gets added to the players inventory
+	rand_i.randi_range(0, 3)
+	if rand_i == 0:
+		###weapons
+		rand_i.randi_range(0, len(level_info.Weapons)-1)
+		return level_info.Weapons[rand_i]
+		
+	if rand_i == 1:
+		###clothing
+		rand_i.randi_range(0, len(level_info.Clothes)-1)
+		return level_info.Clothes[rand_i]
+		
+	if rand_i == 2:
+		###vehicles
+		rand_i.randi_range(0, len(level_info.Vehicles)-1)
+		return level_info.Vehicles[rand_i]

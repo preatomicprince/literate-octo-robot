@@ -15,12 +15,17 @@ unique_name_in_owner = true
 [node name="ground map" parent="." instance=ExtResource("5_m3b0u")]
 
 [node name="camera" parent="." instance=ExtResource("3_fjmog")]
+anchor_mode = 0
 zoom = Vector2(0.5, 0.5)
 limit_left = 0
 limit_top = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
-[node name="game ui" parent="camera" instance=ExtResource("5_s24rm")]
+[node name="CanvasLayer" type="CanvasLayer" parent="camera"]
+
+[node name="game ui" parent="camera/CanvasLayer" instance=ExtResource("5_s24rm")]
 offset_right = 100.0
 offset_bottom = 100.0
+
+[node name="narrative layer" type="CanvasLayer" parent="."]

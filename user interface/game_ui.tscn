@@ -9,11 +9,9 @@
 
 [node name="game ui" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+scale = Vector2(0.5, 0.5)
+size_flags_horizontal = 3
 script = ExtResource("1_4kxhr")
 
 [node name="tempbar" type="ColorRect" parent="."]
@@ -23,6 +21,7 @@ offset_bottom = 139.0
 color = Color(0.669713, 0.504486, 0.336772, 1)
 
 [node name="res counter" type="Control" parent="."]
+layout_mode = 1
 anchors_preset = 0
 offset_right = 242.0
 offset_bottom = 135.0
@@ -52,41 +51,51 @@ bbcode_enabled = true
 text = "[center] Population [center]"
 
 [node name="bottom bar" type="Control" parent="."]
+layout_mode = 1
 anchors_preset = 0
-offset_right = 1155.0
-offset_bottom = 40.0
+offset_left = 92.0
+offset_top = 1010.0
+offset_right = 1247.0
+offset_bottom = 1050.0
 
-[node name="Button" type="Button" parent="bottom bar"]
+[node name="end turn" type="Button" parent="bottom bar"]
 layout_mode = 0
-offset_left = 1113.0
-offset_top = 521.0
-offset_right = 1383.0
-offset_bottom = 641.0
+offset_left = 1295.0
+offset_top = -113.0
+offset_right = 1565.0
+offset_bottom = 7.0
 text = "next turn"
+
+[node name="inventory but" type="Button" parent="bottom bar"]
+offset_left = 995.0
+offset_top = -113.0
+offset_right = 1265.0
+offset_bottom = 7.0
+text = "inventory"
 
 [node name="tool tip" type="RichTextLabel" parent="bottom bar"]
 layout_mode = 0
-offset_left = 537.0
-offset_top = 566.0
-offset_right = 932.0
-offset_bottom = 631.0
+offset_left = 627.0
+offset_top = -90.0
+offset_right = 1022.0
+offset_bottom = -25.0
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "[center]tool tip[center]"
 
 [node name="item holder" type="Control" parent="bottom bar"]
 anchors_preset = 0
-offset_left = 1.0
-offset_top = 503.0
-offset_right = 640.0
-offset_bottom = 543.0
+offset_left = -89.0
+offset_top = -108.0
+offset_right = 550.0
+offset_bottom = -68.0
 
 [node name="slot 1" type="Sprite2D" parent="bottom bar/item holder"]
-position = Vector2(153, 66)
+position = Vector2(146, 66)
 texture = ExtResource("2_flmde")
 
 [node name="WeaponIcons" type="Sprite2D" parent="bottom bar/item holder/slot 1"]
-position = Vector2(-2, 5)
+position = Vector2(-1, 1)
 texture = ExtResource("3_fx1wc")
 hframes = 7
 
@@ -122,3 +131,15 @@ hframes = 7
 position = Vector2(3, 1)
 texture = ExtResource("4_lycvu")
 hframes = 9
+
+[node name="side bar" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 1100.0
+offset_top = 8.0
+offset_right = 1654.0
+offset_bottom = 1194.0
+
+[connection signal="mouse_entered" from="bottom bar/end turn" to="." method="_on_end_turn_mouse_entered"]
+[connection signal="mouse_exited" from="bottom bar/end turn" to="." method="_on_end_turn_mouse_exited"]
+[connection signal="mouse_entered" from="bottom bar/inventory but" to="." method="_on_inventory_but_mouse_entered"]
+[connection signal="mouse_exited" from="bottom bar/inventory but" to="." method="_on_inventory_but_mouse_exited"]

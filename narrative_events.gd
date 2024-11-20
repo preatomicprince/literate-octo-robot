@@ -42,7 +42,7 @@ func _on_accept_button_up() -> void:
 	if started_event.has_method("conflict"):
 		if $"unit transfers/HSlider".value >= 1:
 			target[7] = "has settlement"
-			self.get_parent().get_node("ground map").generate_settlement(started_event.position, $"unit transfers/HSlider".value)
+			self.get_parent().get_parent().get_node("ground map").generate_settlement(started_event.position, $"unit transfers/HSlider".value)
 			started_event.percent_ready -= $"unit transfers/HSlider".value
 			started_event.change_health()
 			queue_free()
@@ -51,8 +51,8 @@ func _on_accept_button_up() -> void:
 			
 	if started_event.has_method("build"):
 		if $"unit transfers/HSlider".value >= 1:
-			if level_info.map_info[str(self.get_parent().get_node("ground map").local_to_map(self.position))][3] is not Object:
-				self.get_parent().get_node("ground map").generate_unit(Vector2(level_info.map_info[str(self.get_parent().get_node("ground map").local_to_map(started_event.position))][0], level_info.map_info[str(self.get_parent().get_node("ground map").local_to_map(started_event.position))][1]), $"unit transfers/HSlider".value)
+			if level_info.map_info[str(self.get_parent().get_parent().get_node("ground map").local_to_map(self.position))][3] is not Object:
+				self.get_parent().get_parent().get_node("ground map").generate_unit(Vector2(level_info.map_info[str(self.get_parent().get_parent().get_node("ground map").local_to_map(started_event.position))][0], level_info.map_info[str(self.get_parent().get_parent().get_node("ground map").local_to_map(started_event.position))][1]), $"unit transfers/HSlider".value)
 				for key in level_info.map_info.keys():
 					if level_info.map_info[key][3] is Object:
 						level_info.map_info[key][3].set_unselected()

@@ -12,6 +12,8 @@ extends Control
 
 var combat_stat_barks = ["big defeat", "defeat", "draw", "small victory", "great success"]
 
+var hover = false
+
 func _ready() -> void:
 	#print($".".get_global_position())
 	$".".size = get_viewport_rect().size
@@ -21,13 +23,16 @@ func _ready() -> void:
 		info_list[i].position.x =  get_viewport_rect().size[0] / len(info_list)*i+1 
 	
 	###to make the bottom control node strech relative to the screen
-	$"bottom bar".size.x = get_viewport_rect().size[0]
-	print($"bottom bar".size)
+	$"bottom bar".size.x = get_viewport_rect().size[0]/get_parent().get_parent().zoom[1]
+	print($"bottom bar".position)
 	###its not doing exaclt what i want but its not the most pressing issue so ill leave it for now
-	$"bottom bar".position.y = get_viewport_rect().size[1] - $"bottom bar".size.y
-	$"bottom bar/Button".position.x = $"bottom bar".size.x# - $"bottom bar/Button".size.x
-	
+	$"bottom bar".position.y = (get_viewport_rect().size[1] / get_parent().get_parent().zoom[1]) - 100
+	print( get_viewport_rect().size[1] )#- $"bottom bar".size.y
+	print(get_viewport().get_visible_rect().size)
+	$"bottom bar/end turn".position.x = $"bottom bar".size.x - $"bottom bar/end turn".size.x -200# - $"bottom bar/Button".size.x
+	$"bottom bar/inventory but".position.x = $"bottom bar".size.x - $"bottom bar/end turn".size.x * 2 -200
 func _process(delta: float) -> void:
+	####need to make the ui change deynamically at some point
 	change_stats()
 	
 func change_stats():
@@ -156,21 +161,36 @@ func return_icon(item):
 			return 5
 			
 		###for the buildings
-		level_info.Buildings.HOUSE:
+		level_info.Buildings.EMPTY:
 			return 0
-		level_info.Buildings.OUTPOST:
+		level_info.Buildings.HOUSE:
 			return 1
-		level_info.Buildings.FACTORY:
+		level_info.Buildings.OUTPOST:
 			return 2
-		level_info.Buildings.HOSPITAL:
+		level_info.Buildings.FACTORY:
 			return 3
-		level_info.Buildings.FARM: 
+		level_info.Buildings.HOSPITAL:
 			return 4
-		level_info.Buildings.SHOP:
+		level_info.Buildings.FARM: 
 			return 5
-		level_info.Buildings.MINE: 
+		level_info.Buildings.SHOP:
 			return 6
-		level_info.Buildings.POWER_STATION: 
+		level_info.Buildings.MINE: 
 			return 7
-		level_info.Buildings.COURTHOUSE:
+		level_info.Buildings.POWER_STATION: 
 			return 8
+		level_info.Buildings.COURTHOUSE:
+			return 9
+
+###this hover is to block the left clicks fucking with the map
+func _on_end_turn_mouse_entered() -> void:
+	hover = true
+
+func _on_inventory_but_mouse_entered() -> void:
+	hover = true
+
+func _on_inventory_but_mouse_exited() -> void:
+	hover = false
+
+func _on_end_turn_mouse_exited() -> void:
+	hover = false

@@ -9,7 +9,7 @@ enum Clothes {RAGS, PLAID, POLICE, WINTER, SOILDER, LEATHER, SHELL}
 enum Vehicles {FOOT, HORSE, DONKEY, BIKE, BUS, JEAP}
 
 ###this is for the buildings
-enum Buildings {HOUSE, OUTPOST, FACTORY, HOSPITAL, FARM, SHOP, MINE, POWER_STATION, COURTHOUSE}
+enum Buildings {EMPTY, HOUSE, OUTPOST, FACTORY, HOSPITAL, FARM, SHOP, MINE, POWER_STATION, COURTHOUSE}
 
 ###town name pool
 var town_names = ["scunthorpe", "new hull", "mall town"]
@@ -25,7 +25,7 @@ var overall_population : int = 100
 
 ###a dictionary containing each players stats, right now itll just include food gained
 var player_stats : Dictionary = {"player one" : [10]}
-
+var inventory = []
 
 ###a data structure that can record each tile and if that tile is passable, has a unit ect
 ###that can be preloaded and referenced in relevant scenes.

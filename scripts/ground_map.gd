@@ -92,13 +92,13 @@ func _input(event: InputEvent) -> void:
 				pop_up.started_event = level_info.unit_selected
 				pop_up.target = level_info.map_info[str($".".local_to_map(level_info.unit_selected.position))]
 				###it adds it to the parent, the main game node
-				self.get_parent().add_child(pop_up)
+				self.get_parent().get_node("narrative layer").add_child(pop_up)
 			else:
 				var pop_up = narrative_box.instantiate()
 				pop_up.purpose = "pop transfer"
 				pop_up.started_event = level_info.unit_selected
 				pop_up.target = level_info.map_info[str($".".local_to_map(level_info.unit_selected.position))]
-				self.get_parent().add_child(pop_up)
+				self.get_parent().get_node("narrative layer").add_child(pop_up)
 	
 	if event.is_action_pressed("key_e"):
 		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
@@ -109,35 +109,38 @@ func _input(event: InputEvent) -> void:
 
 
 	###this is for selecting a unit
-	if event.is_action_pressed("mouse_left"):
-		#print(str($".".local_to_map($".".get_local_mouse_position())))
-		for key in level_info.map_info.keys():
-			###this is to unselect all units
-			if level_info.map_info[key][2] == "has unit":
+	###this checks if the ui is being hovered over
+	if get_parent().get_node("camera").get_child(0).get_child(0).hover == false:
+		print("here")
+		if event.is_action_pressed("mouse_left"):
+			#print(str($".".local_to_map($".".get_local_mouse_position())))
+			for key in level_info.map_info.keys():
+				###this is to unselect all units
+				
 				if level_info.map_info[key][3] is Object:
 					level_info.map_info[key][3].set_unselected()
-				###this is for the ui to know whats happening with the unit selection, so it can show what the unit has
-			###this is to unselect all towns
-			if level_info.map_info[key][8] is Object:
-				level_info.map_info[key][8].set_unselected()
+					###this is for the ui to know whats happening with the unit selection, so it can show what the unit has
+				###this is to unselect all towns
+				if level_info.map_info[key][8] is Object:
+					level_info.map_info[key][8].set_unselected()
+					
+				level_info.unit_selected = null
 				
-			level_info.unit_selected = null
+			###we then work out if theres anything else that needs to be selected 
+			###this is for the towns
+			if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8] is Object:
+				level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8].set_selected()
+				
+				###same with this
+				level_info.unit_selected = level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8]
 			
-		###we then work out if theres anything else that needs to be selected 
-		###this is for the towns
-		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8] is Object:
-			level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8].set_selected()
+			###this is for the units. the way this is currently set up if theyre on the same tile, theyll only the unit
+			if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is Object:
+				level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3].set_selected()
+				
+				###same with this
+				level_info.unit_selected = level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3]
 			
-			###same with this
-			level_info.unit_selected = level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][8]
-		
-		###this is for the units. the way this is currently set up if theyre on the same tile, theyll only the unit
-		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is Object:
-			level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3].set_selected()
-			
-			###same with this
-			level_info.unit_selected = level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3]
-		
 	if event.is_action_pressed("mouse_right"):
 		for key in level_info.map_info.keys():
 			if level_info.map_info[key][3] is Object:
