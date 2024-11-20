@@ -35,6 +35,8 @@ var target_tile : Vector2
 var map
 var input
 
+@export var max_moves = 5
+@onready var moves_remaining = max_moves
 # 1 if currently selected
 var selected : bool = false
 var is_moving : bool = false
@@ -155,11 +157,17 @@ func _process(delta: float) -> void:
 	_set_animation()
 	if not is_multiplayer_authority():
 		return
-	if nav_path.is_empty():
+		
+	if nav_path.is_empty() or moves_remaining <= 0:
 		is_moving = false
 		return
-		 
 	var target_pos = $".."/"..".map_to_local(self.nav_path.front())
+	
+	# Checks cost of move to next tile. Disallowed if higher than moves remaining
+	if $".."/"..".nav_grid.get_point_weight_scale(target_pos) > moves_remaining:
+		return
+		 
+	
 	
 	is_moving = true
 	prev_pos = position
@@ -167,6 +175,7 @@ func _process(delta: float) -> void:
 	velocity = position - prev_pos
 	_set_direction()
 	if position == target_pos:
+		moves_remaining -= 1;
 		tile_index = nav_path.pop_front()
 		$".."/".."/Fog_Of_War.map_reveal(player_id, tile_index)
 

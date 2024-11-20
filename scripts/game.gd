@@ -12,6 +12,31 @@ var input = {}
 var camera = {}
 var player = {}
 
+enum MONTH {
+	January,
+	February,
+	March,
+	April,
+	May, 
+	June,
+	July,
+	August,
+	September,
+	October,
+	November,
+	December
+}
+
+var current_turn: int = 0
+
+var year: int = 1983
+
+# Returns a vec2 in the format (month, year)
+func calculate_date() -> Vector2:
+	var current_month = current_turn%12
+	var current_year = year + round(current_turn/12)
+	return Vector2(current_month, current_year)
+
 func _on_host_pressed() -> void:
 	$menu.visible = false
 	peer.create_server(PORT)
