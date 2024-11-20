@@ -3,10 +3,12 @@ extends TileMapLayer
 ###this refers to the data structure
 @onready var level_info = $".."/Game_State
 @onready var unit = preload("res://scenes/unit.tscn")
-
 @export var width : int = 10
 @export var height : int = 10
 
+const TILE_SIZE = Vector2(128, 64)
+
+var nav_grid: AStarGrid2D
 ###
 ### Dictionaries to store map data
 ### Only synced with player when fog of war is lifted
@@ -21,8 +23,18 @@ var rand_i = RandomNumberGenerator.new()
 ###to save the tile between clicks
 var selected_ground_tile
 
+func generate_nav_grid() -> void:
+	nav_grid = AStarGrid2D.new()
+	nav_grid.region = get_used_rect()
+	# CellShape.CELL_SHAPE_ISOMETRIC_DOWN = 2
+	nav_grid.cell_shape = 2
+	nav_grid.cell_size = TILE_SIZE
+	nav_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	nav_grid.update()
+	
 func _ready() -> void:
 	generate_map()
+	
 	if not is_multiplayer_authority():
 		$Fog_Of_War.generate_fog()
 
