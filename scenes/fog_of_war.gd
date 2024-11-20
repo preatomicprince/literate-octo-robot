@@ -17,9 +17,9 @@ func map_reveal(peer_id, tile):
 		return
 		
 	tile = Vector2i(tile)
-	var tiles_to_reveal = [tile, tile + Vector2i(0, 1), tile + Vector2i(-1, 0), 
-	tile + Vector2i(1, 0), tile + Vector2i(0, -1), tile + Vector2i(0, -2), 
-	tile + Vector2i(0, 2)]
+	var tiles_to_reveal = [tile + Vector2i(-1, -1), tile + Vector2i(0, -1), tile + Vector2i(1, -1),
+						   tile + Vector2i(-1, 0),         tile,            tile + Vector2i(1, 0),
+						   tile + Vector2i(-1, 1),  tile + Vector2i(0, 1),  tile + Vector2i(1, 1)]
 	
 	###these take into account the fact that the numbers have different behaviour depending
 	###on whether the unit is on and even tile or odd tile
