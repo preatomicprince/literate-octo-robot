@@ -28,23 +28,34 @@ func resource_collection(key):
 	set_cell($".".local_to_map(Vector2(level_info.map_info[key][3].position.x, level_info.map_info[key][3].position.y)), 0, Vector2i(-1, -1))
 	level_info.map_info[key][4] = "no"
 	level_info.player_stats["player one"][0] += 10
-	###just print it to test it
-	print("you found a ", find_item())
+	
+	###this allows you to find an item on a square that then gets added to the inventory
+	var found_item = find_item()
+	print("you found a ", found_item)
+	level_info.inventory.append(found_item)
+	print(level_info.inventory)
 
 func find_item():
 	###this returns an item that gets added to the players inventory
-	var rand_res = rand_i.randi_range(0, 3)
+	var rand_res = rand_i.randi_range(0, 2)
 	if rand_res == 0:
 		###weapons
 		rand_res =rand_i.randi_range(0, len(level_info.Weapons)-1)
-		return level_info.Weapons[rand_i]
+		for key in level_info.Weapons.keys():
+			if level_info.Weapons[key] == rand_res:
+				return key
 		
 	if rand_res == 1:
 		###clothing
 		rand_res =rand_i.randi_range(0, len(level_info.Clothes)-1)
-		return level_info.Clothes[rand_i]
+		for key in level_info.Clothes.keys():
+			if level_info.Clothes[key] == rand_res:
+				return key
 		
 	if rand_res == 2:
 		###vehicles
 		rand_res = rand_i.randi_range(0, len(level_info.Vehicles)-1)
-		return level_info.Vehicles[rand_i]
+		for key in level_info.Vehicles.keys():
+			if level_info.Vehicles[key] == rand_res:
+				return key
+

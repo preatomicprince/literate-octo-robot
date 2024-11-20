@@ -15,6 +15,8 @@ var rand_i = RandomNumberGenerator.new()
 var selected_ground_tile
 
 func _ready() -> void:
+	for key in level_info.Weapons.keys():
+		print(level_info.Weapons[key])
 	generate_map()
 	$"map objects".generate_points_of_interest()
 	$"fog of war".generate_fog()
@@ -111,7 +113,6 @@ func _input(event: InputEvent) -> void:
 	###this is for selecting a unit
 	###this checks if the ui is being hovered over
 	if get_parent().get_node("camera").get_child(0).get_child(0).hover == false:
-		print("here")
 		if event.is_action_pressed("mouse_left"):
 			#print(str($".".local_to_map($".".get_local_mouse_position())))
 			for key in level_info.map_info.keys():
