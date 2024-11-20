@@ -6,7 +6,7 @@ var rand_i = RandomNumberGenerator.new()
 
 func _process(delta: float) -> void:
 	for key in level_info.map_info.keys():
-		if level_info.map_info[key][3] is Object and level_info.map_info[key][4] == "yes":
+		if level_info.map_info[key][4] == "yes" and level_info.map_info[key][3] is Object:
 			resource_collection(key)
 
 func generate_points_of_interest():

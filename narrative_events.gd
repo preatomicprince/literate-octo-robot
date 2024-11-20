@@ -28,19 +28,35 @@ func unit_transfer(lose_pop):
 		$"event box".text = "[center]How many will you transfer? {amount}[center]".format({"amount": $"unit transfers/HSlider".value})
 		
 	if lose_pop.has_method("build"):
-		$"unit transfers/HSlider".max_value = lose_pop.population
+		if lose_pop.population > 100:
+			$"unit transfers/HSlider".max_value = 100
+		else:
+			$"unit transfers/HSlider".max_value = lose_pop.population
 	
 func story_event():
 	pass
 
 ###these are for transfering between the population and units
 func _on_accept_button_up() -> void:
+	###works out what is giving pop, or what is losing it
 	if started_event.has_method("conflict"):
 		if $"unit transfers/HSlider".value >= 1:
 			target[7] = "has settlement"
 			self.get_parent().get_node("ground map").generate_settlement(started_event.position, $"unit transfers/HSlider".value)
 			started_event.percent_ready -= $"unit transfers/HSlider".value
 			started_event.change_health()
+			queue_free()
+		else:
+			queue_free()
+			
+	if started_event.has_method("build"):
+		if $"unit transfers/HSlider".value >= 1:
+			if level_info.map_info[str(self.get_parent().get_node("ground map").local_to_map(self.position))][3] is not Object:
+				self.get_parent().get_node("ground map").generate_unit(Vector2(level_info.map_info[str(self.get_parent().get_node("ground map").local_to_map(started_event.position))][0], level_info.map_info[str(self.get_parent().get_node("ground map").local_to_map(started_event.position))][1]), $"unit transfers/HSlider".value)
+				for key in level_info.map_info.keys():
+					if level_info.map_info[key][3] is Object:
+						level_info.map_info[key][3].set_unselected()
+				started_event.population -= $"unit transfers/HSlider".value
 			queue_free()
 		else:
 			queue_free()

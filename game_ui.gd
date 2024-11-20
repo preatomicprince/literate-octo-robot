@@ -43,6 +43,13 @@ func change_stats():
 		if level_info.map_info[key][3] is Object:
 			level_info.overall_population += (level_info.map_info[key][3].percent_ready + level_info.map_info[key][3].percent_injured)
 	
+	
+	for i in unit_slot_list:
+		i.visible = false
+	
+	for i in building_slot_list:
+		i.visible = false
+
 	###this line is just for reference in how to change text dynamically
 	#$BattleCard/slavers.text = "[center] A Confederate {action} was {result} [/center]".format({"action": event_list[save_e], "result": success_chance[save_s]})
 	$"res counter/food".text = "[center] Food: {number}        ".format({"number":level_info.player_stats["player one"][0]})
@@ -52,17 +59,17 @@ func change_stats():
 	if level_info.unit_selected != null:
 		$"bottom bar/item holder".visible = true
 		if level_info.unit_selected.has_method("conflict"):
-			for i in building_slot_list:
-				i.visible = false
+			for i in unit_slot_list:
+				i.visible = true
 			$"bottom bar/item holder/slot 1/WeaponIcons".frame = return_icon(level_info.unit_selected.inventory["weapon"])
 			$"bottom bar/item holder/slot 2/Clothing".frame = return_icon(level_info.unit_selected.inventory["clothing"])
 			$"bottom bar/item holder/slot 3/VehicleIcons".frame = return_icon(level_info.unit_selected.inventory["transport"])
 		if level_info.unit_selected.has_method("build"):
-			for i in unit_slot_list:
-				i.visible = false
+			for i in building_slot_list:
+				i.visible = true
 			$"bottom bar/item holder/slot 1/BuildingIcons".frame = return_icon(level_info.unit_selected.constructed["slot 1"])
-			$"bottom bar/item holder/slot 2/BuildingIcons2"
-			$"bottom bar/item holder/slot 3/BuildingIcons3"
+			$"bottom bar/item holder/slot 2/BuildingIcons2".frame = return_icon(level_info.unit_selected.constructed["slot 2"])
+			$"bottom bar/item holder/slot 3/BuildingIcons3".frame = return_icon(level_info.unit_selected.constructed["slot 3"])
 			
 	else:
 		$"bottom bar/item holder".visible = false

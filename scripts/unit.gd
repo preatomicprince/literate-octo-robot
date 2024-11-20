@@ -243,10 +243,21 @@ func change_health():
 	$"health bar".get_node("injured").size.x = one_percent_of_bar * percent_injured
 	$"health bar".get_node("injured").position.x = $"health bar".get_node("healthy").position.x + $"health bar".get_node("healthy").size.x
 
-
+func kill_unit():
+	###if there are no injured or active pop in the unit, right now itll just 
+	###quew free, but later well want animation
+	print("to free", level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))])
+	#level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = null
+	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = 0
+	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][2] = "no unit"
+	if level_info.unit_selected == self:
+		level_info.unit_selected = null
+	queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+		
 	###for showing combat odds
 	if selected == true:
 		###first it works out if your hovering over the unit you have selected
@@ -291,6 +302,10 @@ func _process(delta: float) -> void:
 		tile_index = target_tile
 		
 		###gonna need to set both tiles to no unit, has unit respectfully
+		
+	###this is to get rid of the unit if it doesnt have the people
+	if percent_ready <= 0 and percent_injured <= 0:
+		kill_unit()
 
 
 

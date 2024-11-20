@@ -27,6 +27,11 @@ func _ready() -> void:
 	settlement_name = level_info.town_names[rand_n.randi_range(0, len(level_info.town_names)-1)]
 	$"town name".text = "[center] {name}   :   {pop} ".format({"name": settlement_name, "pop": population})
 
+func _process(delta: float) -> void:
+	###this is to get rid of the town if it doesnt have the people
+	if population == 0:
+		disestablish()
+
 func set_selected() -> void:
 	selected = true
 	self.highlight.visible = true
@@ -45,3 +50,8 @@ func new_turn():
 	###or taken away
 	level_info.player_stats["player one"][0] += 100
 
+func disestablish():
+	###this function kills the town
+	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][7] = "no settlement"
+	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][8] = null
+	queue_free()

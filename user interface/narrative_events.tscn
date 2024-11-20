@@ -13,36 +13,35 @@ mouse_filter = 2
 script = ExtResource("1_84sk7")
 
 [node name="background rect" type="ColorRect" parent="."]
-modulate = Color(0.47313, 0.509844, 0.460692, 0.490196)
+modulate = Color(0.47451, 0.509804, 0.458824, 0.819608)
 layout_mode = 0
-offset_left = -287.0
-offset_top = -198.0
-offset_right = 290.0
-offset_bottom = 221.0
+offset_top = 3.0
+offset_right = 577.0
+offset_bottom = 422.0
 color = Color(0.54099, 0.54099, 0.54099, 1)
 
 [node name="event box" type="RichTextLabel" parent="."]
 z_index = 10
 layout_mode = 0
-offset_left = -265.0
-offset_top = -173.0
-offset_right = 270.0
-offset_bottom = 23.0
+offset_left = 34.0
+offset_top = 28.0
+offset_right = 569.0
+offset_bottom = 224.0
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
 text = "[center]This is where the text for the story stuff will go[center]"
 
 [node name="unit transfers" type="Control" parent="."]
 anchors_preset = 0
-offset_left = -282.0
-offset_top = 42.0
-offset_right = 281.0
-offset_bottom = 82.0
+offset_left = 6.0
+offset_top = 214.0
+offset_right = 569.0
+offset_bottom = 254.0
 
 [node name="HSlider" type="HSlider" parent="unit transfers"]
 layout_mode = 0
 offset_left = 9.0
-offset_top = 14.0
+offset_top = -5.0
 offset_right = 556.0
 offset_bottom = 30.0
 
