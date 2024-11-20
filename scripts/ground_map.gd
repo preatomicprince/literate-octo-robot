@@ -24,10 +24,10 @@ var selected_ground_tile
 func _ready() -> void:
 	generate_map()
 	$Map_Objects.generate_points_of_interest()
-	$Fog_Of_War.generate_fog()
+	if not is_multiplayer_authority():
+		$Fog_Of_War.generate_fog()
 
 func _process(delta: float) -> void:
-	
 	var tile_pos = $".".local_to_map($".".get_local_mouse_position())
 	###dont need this tile data function right now, but could be usful later on
 	#var tile_data = $".".get_cell_tile_data(tile_pos)
@@ -86,14 +86,15 @@ func generate_unit(peer_id: int, map_pos: Vector2i):
 	# Don't spawn if tile already has unit
 	if units[str(map_pos)] != null:
 		return
+		
 	var unit_instance = unit.instantiate()
 	unit_instance.tile_index = map_pos
 	unit_instance.position = map_to_local(map_pos)
 	unit_instance.player_id = peer_id
 	units[str(map_pos)] = unit_instance
 	$Unit_Layer.add_child(unit_instance)
-	# Set true until FOW bug found
-	if true:#peer_id == $"..".peer_id:
+	
+	if is_multiplayer_authority():
 		$Fog_Of_War.map_reveal(peer_id, map_pos)
 
 
@@ -104,6 +105,7 @@ func spawn_new_unit(peer_id: int, map_pos: Vector2i):
 	# Check if tile exists
 	if not units.has(map_pos_str):
 		return
+		
 	# Check tile has no unit
 	if units[(map_pos_str)] != null:
 		return
@@ -115,7 +117,6 @@ func spawn_new_unit(peer_id: int, map_pos: Vector2i):
 	for peer in $"..".connected_peers:
 		if peer == peer_id:
 			continue
-		print($"..".player[peer].tile_is_visible[map_pos_str])
 		if $"..".player[peer].tile_is_visible[map_pos_str]:
 			rpc_id(peer, "generate_unit", peer_id, map_pos)
 
