@@ -16,9 +16,7 @@ enum Direction {
 	ul = 3
 }
 
-@onready var sprite = get_node("sprite")
 
-@onready var nav = $NavigationAgent2D
 var accel = 7
 
 @export var speed = 100
@@ -27,6 +25,7 @@ var _speed_x :float = _speed_y*(sqrt(3))
 
 var velo = Vector2(0, 0)
 
+var prev_pos: Vector2 = Vector2(-1, -1) 
 var direction : Direction = 0
 
 # Index in map tile list for current location (parent)
@@ -68,35 +67,39 @@ func _ready() -> void:
 ## _process functions ##
 ########################
 
-func _set_direction() -> void:
-	#var unit_tile_position = map.index_to_tile_pos(tile_index)
 
-	if $".".velocity[0] > 0:
-		direction = 0
-	if $".".velocity[0] < 0:
-		direction = 1
-	if $".".velocity[1] > 0:
-		direction = 2
-	if $".".velocity[0] < 0:
-		direction = 3
+func _set_direction() -> void:
+	var target_pos = self.nav_path.front()
+	if tile_index.y > target_pos.y && tile_index.x == target_pos.x:
+		direction = Direction.ur
+	elif tile_index.x < target_pos.x && tile_index.y == target_pos.y:
+		direction = Direction.dr
+	elif tile_index.y < target_pos.y && tile_index.x == target_pos.x:
+		direction = Direction.dl
+	elif tile_index.x > target_pos.x && tile_index.y == target_pos.y:
+		direction = Direction.ul
+	print(tile_index, target_pos)
+
+	print(direction)
 		
+	
 func _set_animation() -> void:
 	if direction == 2 or direction == 3:
-		sprite.flip_h = true
+		$Sprite.flip_h = true
 	else:
-		sprite.flip_h = false
+		$Sprite.flip_h = false
 		
 	if is_moving:
 		if direction == 0 or direction == 3:
-			sprite.play("run_u")
+			$Sprite.play("run_u")
 		else:
-			sprite.play("run_d")
+			$Sprite.play("run_d")
 		
 	else:
 		if direction == 0 or direction == 3:
-			sprite.play("idle_u")
+			$Sprite.play("idle_u")
 		else:
-			sprite.play("idle_d")
+			$Sprite.play("idle_d")
 		
 func check_reached_target():
 	if distance.x >= map.HALF_TILE_W or distance.y >= map.HALF_TILE_H:
@@ -138,21 +141,41 @@ func _handle_movement(delta) -> void:
 
 @rpc
 func sync_pos(auth_pos):
+	prev_pos = position
 	position = auth_pos
+	velocity = position - prev_pos
+
+
+@rpc
+func sync_dir(auth_dir, auth_is_moving):
+	direction = auth_dir
+	is_moving = auth_is_moving
 	
 func _process(delta: float) -> void:
+	_set_animation()
 	if not is_multiplayer_authority():
 		return
 	if nav_path.is_empty():
+		is_moving = false
 		return
-		
+		 
 	var target_pos = $".."/"..".map_to_local(self.nav_path.front())
+	
+	is_moving = true
+	prev_pos = position
 	position = position.move_toward(target_pos, speed*delta)
-	rpc("sync_pos", position)
+	velocity = position - prev_pos
+	_set_direction()
 	if position == target_pos:
 		tile_index = nav_path.pop_front()
 		$".."/".."/Fog_Of_War.map_reveal(player_id, tile_index)
-		
+
+func _physics_process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
+	rpc("sync_pos", position)
+	rpc("sync_dir", direction, is_moving)
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _prcess(delta: float) -> void:
 	var direction = Vector3()
@@ -163,8 +186,6 @@ func _prcess(delta: float) -> void:
 	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = 0
 	
 	if tile_index != target_tile:
-		nav.target_position = get_parent().get_parent().map_to_local(target_tile) #get_global_mouse_position()
-		direction = nav.get_next_path_position() - global_position
 		direction = direction.normalized()
 	
 		velocity = velocity.lerp(direction * speed, accel * delta)
@@ -173,7 +194,6 @@ func _prcess(delta: float) -> void:
 		_set_direction()
 		_set_animation()
 		
-		print($".".velocity)
 		#_handle_movement(delta)
 	
 	###this sets the current position of the unit to have a unit

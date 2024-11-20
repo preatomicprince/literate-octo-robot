@@ -84,7 +84,6 @@ func load_gamestate(peer_id):
 	
 func _select_tile(peer_id):
 	player[peer_id].selected_tile = input[peer_id].mouse_pos
-	print("Tile selected: " + str(player[peer_id].selected_tile))
 	_select_unit(peer_id)
 	
 func _select_unit(peer_id):
@@ -114,12 +113,12 @@ func _set_unit_navigation(peer_id):
 	
 	if player.selected_unit == null:
 		return
+	if not player.selected_unit.nav_path.is_empty():
+		return
 		
 	var nav_path = $Map.nav_grid.get_id_path($Map.local_to_map(player.selected_unit.position), input.mouse_pos).slice(1)
 	
 	player.selected_unit.nav_path = nav_path
-	print(player.selected_unit.nav_path)
-	
 	
 func _handle_input(peer_id: int):
 	var EVENT_TYPE = input[peer_id].EVENT_TYPE
