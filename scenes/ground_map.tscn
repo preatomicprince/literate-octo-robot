@@ -30,6 +30,7 @@ texture_region_size = Vector2i(222, 128)
 
 [sub_resource type="TileSet" id="TileSet_enwwl"]
 tile_shape = 1
+tile_layout = 5
 tile_size = Vector2i(222, 128)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_gwttr")
@@ -58,6 +59,7 @@ sources/0 = SubResource("TileSetAtlasSource_cv4iq")
 
 [node name="Ground_Map" type="TileMapLayer"]
 tile_set = SubResource("TileSet_enwwl")
+navigation_enabled = false
 script = ExtResource("2_c162f")
 
 [node name="Map_Objects" type="TileMapLayer" parent="."]

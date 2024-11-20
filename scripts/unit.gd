@@ -150,7 +150,8 @@ func _process(delta: float) -> void:
 	position = position.move_toward(target_pos, speed*delta)
 	rpc("sync_pos", position)
 	if position == target_pos:
-		nav_path.pop_front()
+		tile_index = nav_path.pop_front()
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _prcess(delta: float) -> void:
 	var direction = Vector3()

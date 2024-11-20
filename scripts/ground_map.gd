@@ -6,7 +6,7 @@ extends TileMapLayer
 @export var width : int = 10
 @export var height : int = 10
 
-const TILE_SIZE = Vector2(128, 64)
+const TILE_SIZE = Vector2(222, 128)
 
 var nav_grid: AStarGrid2D
 ###
@@ -26,7 +26,7 @@ var selected_ground_tile
 func generate_nav_grid() -> void:
 	nav_grid = AStarGrid2D.new()
 	# CellShape.CELL_SHAPE_ISOMETRIC_DOWN = 2
-	nav_grid.cell_shape = 1
+	nav_grid.cell_shape = 2
 	nav_grid.cell_size = TILE_SIZE
 	nav_grid.region = get_used_rect()
 	nav_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
@@ -49,23 +49,17 @@ func _process(delta: float) -> void:
 
 func generate_map():
 	###this function generates the tile map upon load
-	var tile_pos = local_to_map(Vector2(10, 10))
+	var tile_pos = local_to_map(Vector2(width, height))
 
 	for x in range(width):
 		for y in range(height):
-			
-			###this is just a test, right now it just places one of two tiles on the tile map based on if
-			###the random number generator is one or two
-			###in future those numbers could be dictated by noise maps or whatever map script we end up
-			### generating
-			
 			# Randomly pick index for tile in tilemap
 			var tile_type = rand_i.randi_range(0, 1)
-			set_cell(Vector2i(tile_pos.x + x, tile_pos.y + y), 0, Vector2i(tile_type, 0))
+			set_cell(Vector2i(x, y), 0, Vector2i(tile_type, 0))
 			
-			var tile_pos_str = str(Vector2i(tile_pos.x + x, tile_pos.y + y))
+			var tile_pos_str = str(Vector2i(x, y))
 
-			tiles.append(Vector2i(tile_pos.x + x, tile_pos.y + y))
+			tiles.append(Vector2i(x, y))
 			# If server, automatically discover all tiles and store data in dictionaries
 			# A list of visible tiles is availiable in the player node
 			if is_multiplayer_authority():
