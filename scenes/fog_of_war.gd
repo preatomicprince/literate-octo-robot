@@ -32,7 +32,7 @@ func map_reveal(peer_id, tile):
 		if $".."/"..".player[peer_id].tile_is_visible[str(revealed_tile)] == true:
 			continue
 		$".."/"..".player[peer_id].tile_is_visible[str(revealed_tile)] = true
-		$"..".spawn_existing_unit(peer_id, revealed_tile)
+		#$"..".spawn_existing_unit(peer_id, revealed_tile)
 		$"..".spawn_existing_object(peer_id, revealed_tile)
 		
 

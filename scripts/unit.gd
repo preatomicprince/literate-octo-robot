@@ -76,11 +76,8 @@ func _set_direction() -> void:
 		direction = Direction.dl
 	elif tile_index.x > target_pos.x && tile_index.y == target_pos.y:
 		direction = Direction.ul
-	print(tile_index, target_pos)
 
-	print(direction)
-		
-	
+
 func _set_animation() -> void:
 	if direction == 2 or direction == 3:
 		$Sprite.flip_h = true
@@ -142,7 +139,10 @@ func sync_pos(auth_pos):
 	prev_pos = position
 	position = auth_pos
 	velocity = position - prev_pos
-
+	if $".."/".."/"..".player[$".."/".."/"..".peer_id].tile_is_visible[str($".."/"..".local_to_map(position))]:
+		visible = true
+	else:
+		visible =  false
 
 @rpc
 func sync_dir(auth_dir, auth_is_moving):
@@ -172,7 +172,6 @@ func _process(delta: float) -> void:
 	_set_direction()
 	if position == target_pos:
 		moves_remaining -= 1;
-		print($".."/"..".units[str(tile_index)])
 		$".."/"..".units[str(tile_index)] = null
 		tile_index = nav_path.pop_front()
 		$".."/"..".units[str(tile_index)] = self
@@ -181,6 +180,9 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
+	"""for peer_id in $".."/".."/"..".connected_peers:
+		print($".."/".."/"..".player[peer_id].tile_is_visible[str(tile_index)])
+		if $".."/".."/"..".player[peer_id].tile_is_visible[str(tile_index)]:"""
 	rpc("sync_pos", position)
 	rpc("sync_dir", direction, is_moving)
 	

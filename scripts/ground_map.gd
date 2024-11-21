@@ -16,7 +16,7 @@ var nav_grid: AStarGrid2D
 
 var tiles = []
 var units = {}
-var unit_list = []
+var unit_list = {}
 var objects = {}
 
 var unit_count = 789
@@ -103,7 +103,7 @@ func generate_unit(peer_id: int, map_pos: Vector2i, unit_count: int):
 	
 	$Unit_Layer.add_child(unit_instance)
 	units[str(map_pos)] = unit_instance
-	unit_list.append(unit_instance)
+	unit_list[unit_count] = unit_instance
 	
 	if is_multiplayer_authority():
 		$Fog_Of_War.map_reveal(peer_id, map_pos)
@@ -122,15 +122,15 @@ func spawn_new_unit(peer_id: int, map_pos: Vector2i):
 		return
 	unit_count += 1
 	generate_unit(peer_id, map_pos, unit_count)
-	rpc_id(peer_id, "generate_unit", peer_id, map_pos, unit_count)
+	rpc("generate_unit", peer_id, map_pos, unit_count)
 	
 	
-	# Only appears to others if player has discovered tile
+	"""# Only appears to others if player has discovered tile
 	for peer in $"..".connected_peers:
 		if peer == peer_id:
 			continue
 		if $"..".player[peer].tile_is_visible[map_pos_str]:
-			rpc_id(peer, "generate_unit", peer_id, map_pos, unit_count)
+			rpc_id(peer, "generate_unit", peer_id, map_pos, unit_count)"""
 			
 
 # Adds an existing unit to a peer's game when it comes out the fog of war
@@ -161,16 +161,12 @@ func spawn_existing_object(peer_id: int, map_pos: Vector2i):
 	rpc_id(peer_id, "spawn_object", map_pos, atlas_x_coord)
 
 @rpc("unreliable_ordered")
-func sync_tile(key, value):
-	units[key] = value
+func sync_units(auth_units: Dictionary):
+	units = auth_units
 	
 
 func call_sync_tiles():
-	for peer_id in $"..".connected_peers:
-		for key in $"..".player[peer_id].tile_is_visible.keys():
-			if $"..".player[peer_id].tile_is_visible[key]:
-				var value = units[key]
-				rpc_id(peer_id, "sync_tile", key, value)
+	rpc("sync_units", units)
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
