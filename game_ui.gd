@@ -10,9 +10,15 @@ extends Control
 @onready var unit_slot_list = [$"bottom bar/item holder/slot 1/WeaponIcons", $"bottom bar/item holder/slot 2/Clothing", $"bottom bar/item holder/slot 3/VehicleIcons"]
 @onready var building_slot_list = [$"bottom bar/item holder/slot 1/BuildingIcons", $"bottom bar/item holder/slot 2/BuildingIcons2", $"bottom bar/item holder/slot 3/BuildingIcons3"]
 
+###this list helps to change the inventory dynamically
+@onready var icon_list = [$"GridContainer/icon buttons", $"GridContainer/icon buttons2", $"GridContainer/icon buttons3", $"GridContainer/icon buttons4", $"GridContainer/icon buttons5",
+	$"GridContainer/icon buttons6", $"GridContainer/icon buttons7", $"GridContainer/icon buttons8", $"GridContainer/icon buttons9", $"GridContainer/icon buttons10", $"GridContainer/icon buttons11",
+	$"GridContainer/icon buttons12", $"GridContainer/icon buttons13", $"GridContainer/icon buttons14", $"GridContainer/icon buttons15", $"GridContainer/icon buttons16", $"GridContainer/icon buttons17",
+	$"GridContainer/icon buttons18", $"GridContainer/icon buttons19", $"GridContainer/icon buttons20"]
+var saved_len
+
 var combat_stat_barks = ["big defeat", "defeat", "draw", "small victory", "great success"]
 
-var hover = false
 
 func _ready() -> void:
 	#print($".".get_global_position())
@@ -24,18 +30,33 @@ func _ready() -> void:
 	
 	###to make the bottom control node strech relative to the screen
 	$"bottom bar".size.x = get_viewport_rect().size[0]/get_parent().get_parent().zoom[1]
-	print($"bottom bar".position)
+	
 	###its not doing exaclt what i want but its not the most pressing issue so ill leave it for now
 	$"bottom bar".position.y = (get_viewport_rect().size[1] / get_parent().get_parent().zoom[1]) - 100
-	print( get_viewport_rect().size[1] )#- $"bottom bar".size.y
-	print(get_viewport().get_visible_rect().size)
+	
 	$"bottom bar/end turn".position.x = $"bottom bar".size.x - $"bottom bar/end turn".size.x -200# - $"bottom bar/Button".size.x
-	$"bottom bar/inventory but".position.x = $"bottom bar".size.x - $"bottom bar/end turn".size.x * 2 -200
+	$"bottom bar/inventory but".position.x = 100
+	
+	###related to the inventory
+	saved_len = len(level_info.inventory)
+	###so that your inventory can be filled
+	level_info.inv_max = len(icon_list)
+	#print(len(level_info.inventory)-1)
+	
 func _process(delta: float) -> void:
 	####need to make the ui change deynamically at some point
 	change_stats()
 	
 func change_stats():
+	###this is to change the inventory dynamically
+	if saved_len != len(level_info.inventory):
+		for i in range(len(icon_list)-1):
+			icon_list[i].selection = null
+		for i in range(len(level_info.inventory)):
+			print(i)
+			icon_list[i].selection = level_info.inventory[i]
+		saved_len = len(level_info.inventory)
+	
 	###this will change the pop stat dynamically
 	level_info.overall_population = 0
 	###this looks through the dictary and see what towns have units and their population
@@ -97,100 +118,123 @@ func return_icon(item):
 	###the length of this is giving undertale vibes
 	match item:
 		###for the weapons
-		level_info.Weapons.HAND:
+		level_info.Placeables.HAND:
 			#hand
 			return 0
-		level_info.Weapons.CRICKET_BAT:
+		level_info.Placeables.CRICKET_BAT:
 			#cricket bat
 			return 1
-		level_info.Weapons.SHOTGUN:
+		level_info.Placeables.SHOTGUN:
 			#shotgun
 			return 2
-		level_info.Weapons.SWORD:
+		level_info.Placeables.SWORD:
 			#sword
 			return 3
-		level_info.Weapons.BOW:
+		level_info.Placeables.BOW:
 			#bow
 			return 4
-		level_info.Weapons.ARTILLERY:
+		level_info.Placeables.ARTILLERY:
 			#artillery
 			return 5
-		level_info.Weapons.MACHINE_GUN:
+		level_info.Placeables.MACHINE_GUN:
 			
 			return 6
 		###add the sniper later
-		level_info.Weapons.SNIPER:
+		level_info.Placeables.SNIPER:
 			#sniper
 			return 6
 			
 		###for the clothes
-		level_info.Clothes.RAGS:
+		level_info.Placeables.RAGS:
 			#rags
 			return 0
-		level_info.Clothes.PLAID:
+		level_info.Placeables.PLAID:
 			#plaid
 			return 1
-		level_info.Clothes.POLICE:
+		level_info.Placeables.POLICE:
 			#police
 			return 2
-		level_info.Clothes.WINTER_COAT:
+		level_info.Placeables.WINTER:
 			#winter coat
 			return 3
-		level_info.Clothes.SOILDER:
+		level_info.Placeables.SOILDER:
 			#soilder outfit
 			return 4
-		level_info.Clothes.LEATHER:
+		level_info.Placeables.LEATHER:
 			#leather jacket
 			return 5
-		level_info.Clothes.SHELL:
+		level_info.Placeables.SHELL:
 			#shell suit
 			return 6
 			
 		##for the vehicles
-		level_info.Vehicles.FOOT:
+		level_info.Placeables.FOOT:
 			return 0
-		level_info.Vehicles.HORSE:
+		level_info.Placeables.HORSE:
 			return 1
-		level_info.Vehicles.DONKEY:
+		level_info.Placeables.DONKEY:
 			return 2
-		level_info.Vehicles.BIKE:
+		level_info.Placeables.BIKE:
 			return 3
-		level_info.Vehicles.BUS:
+		level_info.Placeables.BUS:
 			return 4
-		level_info.Vehicles.JEAP:
+		level_info.Placeables.JEAP:
 			return 5
 			
 		###for the buildings
-		level_info.Buildings.EMPTY:
+		level_info.Placeables.EMPTY:
 			return 0
-		level_info.Buildings.HOUSE:
+		level_info.Placeables.HOUSE:
 			return 1
-		level_info.Buildings.OUTPOST:
+		level_info.Placeables.OUTPOST:
 			return 2
-		level_info.Buildings.FACTORY:
+		level_info.Placeables.FACTORY:
 			return 3
-		level_info.Buildings.HOSPITAL:
+		level_info.Placeables.HOSPITAL:
 			return 4
-		level_info.Buildings.FARM: 
+		level_info.Placeables.FARM: 
 			return 5
-		level_info.Buildings.SHOP:
+		level_info.Placeables.SHOP:
 			return 6
-		level_info.Buildings.MINE: 
+		level_info.Placeables.MINE: 
 			return 7
-		level_info.Buildings.POWER_STATION: 
+		level_info.Placeables.POWER_STATION: 
 			return 8
-		level_info.Buildings.COURTHOUSE:
+		level_info.Placeables.COURTHOUSE:
 			return 9
 
 ###this hover is to block the left clicks fucking with the map
 func _on_end_turn_mouse_entered() -> void:
-	hover = true
+	level_info.hover = true
 
 func _on_inventory_but_mouse_entered() -> void:
-	hover = true
+	level_info.hover = true
 
 func _on_inventory_but_mouse_exited() -> void:
-	hover = false
+	level_info.hover = false
 
 func _on_end_turn_mouse_exited() -> void:
-	hover = false
+	level_info.hover = false
+
+
+func _on_grid_container_mouse_entered() -> void:
+	level_info.hover = true
+
+
+func _on_grid_container_mouse_exited() -> void:
+	level_info.hover = false
+
+
+func _on_inventory_but_gui_input(event: InputEvent) -> void:
+	###this toggles the inventory on and off
+	if event.is_action_pressed("mouse_left"):
+		if $GridContainer.visible == false:
+			$GridContainer.visible = true
+		else:
+			$GridContainer.visible = false
+
+
+func _on_end_turn_gui_input(event: InputEvent) -> void:
+	###ends the turn
+	if event.is_action_pressed("mouse_left"):
+		level_info.turn += 1

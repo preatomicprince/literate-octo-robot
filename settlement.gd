@@ -15,9 +15,9 @@ var population : int = 100
 
 ###a dcitionary for all the buildings that have been constructed
 @onready var constructed : Dictionary = {
-	"slot 1": level_info.Buildings.HOUSE,
-	"slot 2": level_info.Buildings.HOUSE,
-	"slot 3": level_info.Buildings.HOUSE
+	"slot 1": level_info.Placeables.HOUSE,
+	"slot 2": level_info.Placeables.HOUSE,
+	"slot 3": level_info.Placeables.HOUSE
 }
 
 ###a settlement when it reaches a certain size will start to take up tiles

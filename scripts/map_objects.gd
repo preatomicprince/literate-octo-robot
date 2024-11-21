@@ -29,33 +29,19 @@ func resource_collection(key):
 	level_info.map_info[key][4] = "no"
 	level_info.player_stats["player one"][0] += 10
 	
-	###this allows you to find an item on a square that then gets added to the inventory
-	var found_item = find_item()
-	print("you found a ", found_item)
-	level_info.inventory.append(found_item)
-	print(level_info.inventory)
+	
+	if len(level_info.inventory) < level_info.inv_max:
+		###this allows you to find an item on a square that then gets added to the inventory
+		var found_item = find_item()
+		print("you found a ", found_item)
+		level_info.inventory.append(found_item)
+		print(level_info.inventory)
 
 func find_item():
 	###this returns an item that gets added to the players inventory
-	var rand_res = rand_i.randi_range(0, 2)
-	if rand_res == 0:
-		###weapons
-		rand_res =rand_i.randi_range(0, len(level_info.Weapons)-1)
-		for key in level_info.Weapons.keys():
-			if level_info.Weapons[key] == rand_res:
-				return key
-		
-	if rand_res == 1:
-		###clothing
-		rand_res =rand_i.randi_range(0, len(level_info.Clothes)-1)
-		for key in level_info.Clothes.keys():
-			if level_info.Clothes[key] == rand_res:
-				return key
-		
-	if rand_res == 2:
-		###vehicles
-		rand_res = rand_i.randi_range(0, len(level_info.Vehicles)-1)
-		for key in level_info.Vehicles.keys():
-			if level_info.Vehicles[key] == rand_res:
-				return key
+	var rand_res = rand_i.randi_range(0, len(level_info.Placeables)-1)
+	
+	for key in level_info.Placeables.keys():
+		if level_info.Placeables[key] == rand_res:
+			return level_info.Placeables[key]
 

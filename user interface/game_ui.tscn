@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cefff1il4giw1"]
+[gd_scene load_steps=8 format=3 uid="uid://cefff1il4giw1"]
 
 [ext_resource type="Script" path="res://game_ui.gd" id="1_4kxhr"]
 [ext_resource type="Texture2D" uid="uid://cksaxctsbf1am" path="res://assets/Item_Holder_hud.png" id="2_flmde"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://jltxn6lxknxy" path="res://assets/building icons.png" id="4_lycvu"]
 [ext_resource type="Texture2D" uid="uid://cte5qnvtmujd8" path="res://assets/clothing.png" id="4_sc0ai"]
 [ext_resource type="Texture2D" uid="uid://cqyfhflu4b2ra" path="res://assets/vehicle icons.png" id="5_p2nko"]
+[ext_resource type="PackedScene" uid="uid://b4anw8ita0wh2" path="res://user interface/icon_buttons.tscn" id="7_wynde"]
 
 [node name="game ui" type="Control"]
 layout_mode = 3
@@ -54,41 +55,41 @@ text = "[center] Population [center]"
 layout_mode = 1
 anchors_preset = 0
 offset_left = 92.0
-offset_top = 1010.0
+offset_top = 950.0
 offset_right = 1247.0
-offset_bottom = 1050.0
+offset_bottom = 990.0
 
 [node name="end turn" type="Button" parent="bottom bar"]
-layout_mode = 0
-offset_left = 1295.0
-offset_top = -113.0
-offset_right = 1565.0
-offset_bottom = 7.0
+layout_mode = 2
+offset_left = 1204.0
+offset_top = 24.0
+offset_right = 1402.0
+offset_bottom = 112.0
 text = "next turn"
 
 [node name="inventory but" type="Button" parent="bottom bar"]
-offset_left = 995.0
-offset_top = -113.0
-offset_right = 1265.0
-offset_bottom = 7.0
+layout_mode = 2
+offset_left = -16.0
+offset_top = 32.0
+offset_right = 166.0
+offset_bottom = 120.0
 text = "inventory"
 
 [node name="tool tip" type="RichTextLabel" parent="bottom bar"]
-layout_mode = 0
-offset_left = 627.0
-offset_top = -90.0
-offset_right = 1022.0
-offset_bottom = -25.0
+layout_mode = 2
+offset_left = 172.0
+offset_right = 173.0
+offset_bottom = 40.0
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "[center]tool tip[center]"
 
 [node name="item holder" type="Control" parent="bottom bar"]
+layout_mode = 2
 anchors_preset = 0
-offset_left = -89.0
-offset_top = -108.0
-offset_right = 550.0
-offset_bottom = -68.0
+offset_left = 177.0
+offset_right = 177.0
+offset_bottom = 40.0
 
 [node name="slot 1" type="Sprite2D" parent="bottom bar/item holder"]
 position = Vector2(146, 66)
@@ -102,7 +103,7 @@ hframes = 7
 [node name="BuildingIcons" type="Sprite2D" parent="bottom bar/item holder/slot 1"]
 position = Vector2(2, 3)
 texture = ExtResource("4_lycvu")
-hframes = 9
+hframes = 10
 
 [node name="slot 2" type="Sprite2D" parent="bottom bar/item holder"]
 position = Vector2(332, 68)
@@ -116,7 +117,7 @@ hframes = 7
 [node name="BuildingIcons2" type="Sprite2D" parent="bottom bar/item holder/slot 2"]
 position = Vector2(4, 6)
 texture = ExtResource("4_lycvu")
-hframes = 9
+hframes = 10
 
 [node name="slot 3" type="Sprite2D" parent="bottom bar/item holder"]
 position = Vector2(516, 66)
@@ -130,16 +131,82 @@ hframes = 7
 [node name="BuildingIcons3" type="Sprite2D" parent="bottom bar/item holder/slot 3"]
 position = Vector2(3, 1)
 texture = ExtResource("4_lycvu")
-hframes = 9
+hframes = 10
 
-[node name="side bar" type="Control" parent="."]
-anchors_preset = 0
-offset_left = 1100.0
-offset_top = 8.0
-offset_right = 1654.0
-offset_bottom = 1194.0
+[node name="GridContainer" type="GridContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 6.0
+offset_top = 264.0
+offset_right = 530.0
+offset_bottom = 934.0
+columns = 4
 
+[node name="icon buttons" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons2" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons3" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons4" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons5" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons6" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons7" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons8" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons9" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons10" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons11" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons12" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons13" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons14" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons15" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons16" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons17" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons18" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons19" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons20" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[connection signal="gui_input" from="bottom bar/end turn" to="." method="_on_end_turn_gui_input"]
 [connection signal="mouse_entered" from="bottom bar/end turn" to="." method="_on_end_turn_mouse_entered"]
 [connection signal="mouse_exited" from="bottom bar/end turn" to="." method="_on_end_turn_mouse_exited"]
+[connection signal="gui_input" from="bottom bar/inventory but" to="." method="_on_inventory_but_gui_input"]
 [connection signal="mouse_entered" from="bottom bar/inventory but" to="." method="_on_inventory_but_mouse_entered"]
 [connection signal="mouse_exited" from="bottom bar/inventory but" to="." method="_on_inventory_but_mouse_exited"]
+[connection signal="mouse_entered" from="GridContainer" to="." method="_on_grid_container_mouse_entered"]
+[connection signal="mouse_exited" from="GridContainer" to="." method="_on_grid_container_mouse_exited"]

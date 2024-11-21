@@ -5,7 +5,7 @@ extends TileMapLayer
 @onready var unit = preload("res://scenes/unit.tscn")
 @onready var settlement = preload("res://scenes/settlement.tscn")
 @onready var narrative_box = preload("res://user interface/narrative_events.tscn")
-
+@onready var highlight = $test_highlight
 var width : int = 20
 var height : int = 50
 
@@ -15,8 +15,7 @@ var rand_i = RandomNumberGenerator.new()
 var selected_ground_tile
 
 func _ready() -> void:
-	for key in level_info.Weapons.keys():
-		print(level_info.Weapons[key])
+	
 	generate_map()
 	$"map objects".generate_points_of_interest()
 	$"fog of war".generate_fog()
@@ -30,7 +29,11 @@ func _process(delta: float) -> void:
 	#print(tile_data)
 	var tile_world_pos = $".".map_to_local(tile_pos) 
 	#print("Tile world position: ", tile_world_pos)
-	$test_highlight.position = tile_world_pos
+	if level_info.hover == false:
+		highlight.visible = true
+		highlight.position = tile_world_pos
+	else:
+		highlight.visible = false
 
 
 
@@ -112,7 +115,7 @@ func _input(event: InputEvent) -> void:
 
 	###this is for selecting a unit
 	###this checks if the ui is being hovered over
-	if get_parent().get_node("camera").get_child(0).get_child(0).hover == false:
+	if level_info.hover == false:
 		if event.is_action_pressed("mouse_left"):
 			#print(str($".".local_to_map($".".get_local_mouse_position())))
 			for key in level_info.map_info.keys():

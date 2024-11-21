@@ -30,9 +30,9 @@ var rand_i = RandomNumberGenerator.new()
 ###an inventory with enum for the weapons and such, i've written a dict in the game var for the
 ###relevant dict numbers
 @onready var inventory : Dictionary = {
-	"weapon" : level_info.Weapons.HAND,
-	"clothing" : level_info.Clothes.RAGS,
-	"transport" : level_info.Vehicles.FOOT
+	"weapon" : level_info.Placeables.HAND,
+	"clothing" : level_info.Placeables.PLAID,
+	"transport" : level_info.Placeables.FOOT
 }
 
 # Enum to store current direction
@@ -49,7 +49,7 @@ enum Direction {
 var accel = 7
 @onready var highlight = $highlight
 
-@export var speed = 100
+@export var speed = 400
 var _speed_y :float = speed
 var _speed_x :float = _speed_y*(sqrt(3))
 
@@ -84,18 +84,6 @@ func _ready() -> void:
 	$".".position = get_parent().get_parent().map_to_local(tile_index)
 	tile_index = target_tile
 	
-	###this will give units random equitpent when they spawn
-	###this is just a proof of concept
-	var rand_ind = rand_i.randi_range(0, len(level_info.Weapons)-1)
-	inventory["weapon"] = level_info.Weapons.values()[rand_ind]
-	
-	rand_ind = rand_i.randi_range(0, len(level_info.Clothes)-1)
-	inventory["clothing"] = level_info.Clothes.values()[rand_ind]
-	
-	rand_ind = rand_i.randi_range(0, len(level_info.Vehicles)-1)
-	inventory["transport"] = level_info.Vehicles.values()[rand_ind]
-	
-	
 	###to set the health bar
 	###not doing it just yet
 	
@@ -106,6 +94,8 @@ func _ready() -> void:
 	###based on what weapon the units have
 	attack = 100 + weapon_affects(inventory["weapon"])[0]
 	rang = weapon_affects(inventory["weapon"])[1]
+	print("from weapon", weapon_affects(inventory["weapon"])[0])
+	print("from clothing ", clothing_affects(inventory["clothing"]))
 	defence = 100 + clothing_affects(inventory["clothing"])
 
 
@@ -259,18 +249,19 @@ func _process(delta: float) -> void:
 	
 		
 	###for showing combat odds
-	if selected == true:
-		###first it works out if your hovering over the unit you have selected
-		if level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))] != level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))]:
-			###if not, it works out if the theres unit on the hovered over tile
-			if level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))][3] is Object:
-				###if so, it sets the level info fight to true, triggering the ui overlay in the game_ui node
-				level_info.odds = odds_combat(level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))][3])
-				level_info.fight = true
+	if level_info.hover == false:
+		if selected == true:
+			###first it works out if your hovering over the unit you have selected
+			if level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))] != level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))]:
+				###if not, it works out if the theres unit on the hovered over tile
+				if level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))][3] is Object:
+					###if so, it sets the level info fight to true, triggering the ui overlay in the game_ui node
+					level_info.odds = odds_combat(level_info.map_info[str(get_parent().get_parent().local_to_map(get_parent().get_parent().get_local_mouse_position()))][3])
+					level_info.fight = true
+				else:
+					level_info.fight = false
 			else:
 				level_info.fight = false
-		else:
-			level_info.fight = false
 	
 	
 	var direction = Vector3()
@@ -316,29 +307,29 @@ func weapon_affects(weapon):
 	###this function takes what is in the dictionary of the unit and returns an appropriate
 	###attack and range for the until. it returns it as a list to be fit into the relevant areas
 	match weapon:
-		level_info.Weapons.HAND:
+		level_info.Placeables.HAND:
 			#hand
 			return [0, 0]
-		level_info.Weapons.CRICKET_BAT:
+		level_info.Placeables.CRICKET_BAT:
 			#cricket bat
 			return [10, 0]
-		level_info.Weapons.SHOTGUN:
+		level_info.Placeables.SHOTGUN:
 			#shotgun
 			return [40, 1] 
-		level_info.Weapons.SWORD:
+		level_info.Placeables.SWORD:
 			#sword
 			return [30, 0]
-		level_info.Weapons.BOW:
+		level_info.Placeables.BOW:
 			#bow
 			return [20, 2]
-		level_info.Weapons.ARTILLERY:
+		level_info.Placeables.ARTILLERY:
 			#artillery
 			return [100, 3]
 			
-		level_info.Weapons.MACHINE_GUN:
+		level_info.Placeables.MACHINE_GUN:
 			return [60, 1]
 		
-		level_info.Weapons.SNIPER:
+		level_info.PlaceablesPlaceables.SNIPER:
 			#sniper
 			return [50, 2]
 	
@@ -348,41 +339,41 @@ func clothing_affects(clothing):
 	###like cold. we could also return that. or maybe  certain types of clothing slows you down or speeds you up
 	###like maybe the shell suit can add one speed, cause you look fly af.
 	match clothing:
-		level_info.Clothes.RAGS:
+		level_info.Placeables.RAGS:
 			#rags
-			return 0
-		level_info.Clothes.PLAID:
+			return 10
+		level_info.Placeables.PLAID:
 			#plaid
 			return 20
-		level_info.Clothes.POLICE:
+		level_info.Placeables.POLICE:
 			#police
 			return 30
-		level_info.Clothes.WINTER:
+		level_info.Placeables.WINTER:
 			#winter coat
 			return 20
-		level_info.Clothes.SOILDER:
+		level_info.Placeables.SOILDER:
 			#soilder outfit
 			return 40
-		level_info.Clothes.LEATHER:
+		level_info.Placeables.LEATHER:
 			#leather jacket
 			return 35
-		level_info.Clothes.SHELL:
+		level_info.Placeables.SHELL:
 			#shell suit
 			return 10
 
 func transport_affects(transport):
 	###transport retruns the speed, but also the armour rating
 	match transport:
-		level_info.Vehicles.FOOT:
+		level_info.Placeables.FOOT:
 			pass
-		level_info.Vehicles.HORSE:
+		level_info.Placeables.HORSE:
 			pass
-		level_info.Vehicles.DONKEY:
+		level_info.Placeables.DONKEY:
 			pass
-		level_info.Vehicles.BIKE:
+		level_info.Placeables.BIKE:
 			pass
-		level_info.Vehicles.BUS:
+		level_info.Placeables.BUS:
 			pass
-		level_info.Vehicles.JEAP:
+		level_info.Placeables.JEAP:
 			pass
 

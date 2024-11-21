@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4anw8ita0wh2"]
+
+[ext_resource type="Texture2D" uid="uid://cksaxctsbf1am" path="res://assets/Item_Holder_hud.png" id="1_wag03"]
+[ext_resource type="Script" path="res://icon_buttons.gd" id="2_321h5"]
+
+[node name="icon buttons" type="TextureButton"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture_normal = ExtResource("1_wag03")
+script = ExtResource("2_321h5")
+
+[node name="icon im" type="Sprite2D" parent="."]
+position = Vector2(65, 65)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
