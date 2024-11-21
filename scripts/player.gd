@@ -11,7 +11,7 @@ var selected_unit: Node
 
 func _ready() -> void:
 	for tile in $".."/Map.tiles:
-		tile_is_visible[tile] = false
+		tile_is_visible[str(tile)] = false
 
 @rpc
 func sync_units(auth_units):

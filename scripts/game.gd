@@ -173,7 +173,8 @@ func _handle_input(peer_id: int):
 				_deselect_all(peer_id)
 				
 			EVENT_TYPE.key_e:
-				$Map.spawn_new_unit(peer_id, input.mouse_pos)
+				if player[peer_id].selected_unit == null:
+					$Map.spawn_new_unit(peer_id, input.mouse_pos)
 	
 	###this allows the ui to move with the camera
 	#camera[peer_id].position.x += (input[peer_id].key_right - input[peer_id].key_left)*_speed_x*delta

@@ -21,21 +21,16 @@ func map_reveal(peer_id, tile):
 						   tile + Vector2i(-1, 0),         tile,            tile + Vector2i(1, 0),
 						   tile + Vector2i(-1, 1),  tile + Vector2i(0, 1),  tile + Vector2i(1, 1)]
 	
-	###these take into account the fact that the numbers have different behaviour depending
-	###on whether the unit is on and even tile or odd tile
-	if tile.y % 2 == 0:
-		tiles_to_reveal.append(tile + Vector2i(-1, -1))
-		tiles_to_reveal.append(tile + Vector2i(-1, 1))
-	
-	else:
-		
-		tiles_to_reveal.append(tile + Vector2i(1, 1))
-		tiles_to_reveal.append(tile + Vector2i(1, -1))
+
 	
 	for revealed_tile in tiles_to_reveal:
 		set_tile_fow(revealed_tile)
 		
 	for revealed_tile in tiles_to_reveal:
+		if not $".."/"..".player[peer_id].tile_is_visible.has(str(revealed_tile)):
+			continue
+		if $".."/"..".player[peer_id].tile_is_visible[str(revealed_tile)] == true:
+			continue
 		$".."/"..".player[peer_id].tile_is_visible[str(revealed_tile)] = true
 		$"..".spawn_existing_unit(peer_id, revealed_tile)
 		$"..".spawn_existing_object(peer_id, revealed_tile)

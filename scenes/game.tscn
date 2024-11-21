@@ -14,6 +14,7 @@ script = ExtResource("1_uv04y")
 [node name="menu" type="VBoxContainer" parent="."]
 offset_right = 43.0
 offset_bottom = 66.0
+scale = Vector2(3, 3)
 
 [node name="host" type="Button" parent="menu"]
 layout_mode = 2

@@ -15,7 +15,7 @@ enum Direction {
 	dl = 2,
 	ul = 3
 }
-
+var unit_id: int
 
 var accel = 7
 
@@ -61,10 +61,6 @@ func set_unselected() -> void:
 	selected = false
 	$Highlight.visible = false
 
-func _ready() -> void:
-	$".".position = get_parent().get_parent().map_to_local(tile_index)
-	tile_index = target_tile
-	
 ########################
 ## _process functions ##
 ########################
@@ -164,7 +160,7 @@ func _process(delta: float) -> void:
 	var target_pos = $".."/"..".map_to_local(self.nav_path.front())
 	
 	# Checks cost of move to next tile. Disallowed if higher than moves remaining
-	if $".."/"..".nav_grid.get_point_weight_scale(target_pos) > moves_remaining:
+	if $".."/"..".nav_grid.get_point_weight_scale(self.nav_path.front()) > moves_remaining:
 		return
 		 
 	
@@ -176,7 +172,10 @@ func _process(delta: float) -> void:
 	_set_direction()
 	if position == target_pos:
 		moves_remaining -= 1;
+		print($".."/"..".units[str(tile_index)])
+		$".."/"..".units[str(tile_index)] = null
 		tile_index = nav_path.pop_front()
+		$".."/"..".units[str(tile_index)] = self
 		$".."/".."/Fog_Of_War.map_reveal(player_id, tile_index)
 
 func _physics_process(delta: float) -> void:
@@ -185,30 +184,3 @@ func _physics_process(delta: float) -> void:
 	rpc("sync_pos", position)
 	rpc("sync_dir", direction, is_moving)
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _prcess(delta: float) -> void:
-	var direction = Vector3()
-	###this bit works out whats being explored
-	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][6] = true
-	
-	###this deletes the current saved unit, used to remove tiles its no longer on before it moves tile
-	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = 0
-	
-	if tile_index != target_tile:
-		direction = direction.normalized()
-	
-		velocity = velocity.lerp(direction * speed, accel * delta)
-		
-		move_and_slide()
-		_set_direction()
-		_set_animation()
-		
-		#_handle_movement(delta)
-	
-	###this sets the current position of the unit to have a unit
-	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = $"."
-	
-	if get_parent().get_parent().map_to_local(target_tile) == round($".".position):
-		tile_index = target_tile
-		
-		###gonna need to set both tiles to no unit, has unit respectfully

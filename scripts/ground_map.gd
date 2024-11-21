@@ -16,8 +16,10 @@ var nav_grid: AStarGrid2D
 
 var tiles = []
 var units = {}
+var unit_list = []
 var objects = {}
 
+var unit_count = 789
 var rand_i = RandomNumberGenerator.new()
 
 ###to save the tile between clicks
@@ -87,7 +89,7 @@ func call_tile_data_sync(peer_id):
 	rpc_id(peer_id, "sync_initial_tile_data", peer_id, get_tile_map_data_as_array())
 	
 @rpc("reliable")
-func generate_unit(peer_id: int, map_pos: Vector2i):
+func generate_unit(peer_id: int, map_pos: Vector2i, unit_count: int):
 	# Don't spawn if tile already has unit
 	if units[str(map_pos)] != null:
 		return
@@ -96,8 +98,12 @@ func generate_unit(peer_id: int, map_pos: Vector2i):
 	unit_instance.tile_index = map_pos
 	unit_instance.position = map_to_local(map_pos)
 	unit_instance.player_id = peer_id
-	units[str(map_pos)] = unit_instance
+	unit_instance.unit_id = unit_count
+	unit_instance.name = "Unit" + str(unit_count)
+	
 	$Unit_Layer.add_child(unit_instance)
+	units[str(map_pos)] = unit_instance
+	unit_list.append(unit_instance)
 	
 	if is_multiplayer_authority():
 		$Fog_Of_War.map_reveal(peer_id, map_pos)
@@ -114,16 +120,18 @@ func spawn_new_unit(peer_id: int, map_pos: Vector2i):
 	# Check tile has no unit
 	if units[(map_pos_str)] != null:
 		return
-		
-	generate_unit(peer_id, map_pos)
-	rpc_id(peer_id, "generate_unit", peer_id, map_pos)
+	unit_count += 1
+	generate_unit(peer_id, map_pos, unit_count)
+	rpc_id(peer_id, "generate_unit", peer_id, map_pos, unit_count)
+	
 	
 	# Only appears to others if player has discovered tile
 	for peer in $"..".connected_peers:
 		if peer == peer_id:
 			continue
 		if $"..".player[peer].tile_is_visible[map_pos_str]:
-			rpc_id(peer, "generate_unit", peer_id, map_pos)
+			rpc_id(peer, "generate_unit", peer_id, map_pos, unit_count)
+			
 
 # Adds an existing unit to a peer's game when it comes out the fog of war
 func spawn_existing_unit(peer_id: int, map_pos: Vector2i):
@@ -133,10 +141,10 @@ func spawn_existing_unit(peer_id: int, map_pos: Vector2i):
 	# Can't spawn existing unit if none on tile
 	if units[str(map_pos)] == null:
 		return
-		
+	var unit_id = units[str(map_pos)].unit_id
 	var unit_owner_id = units[str(map_pos)].player_id
 	
-	rpc_id(peer_id, "generate_unit", unit_owner_id, map_pos)
+	rpc_id(peer_id, "generate_unit", unit_owner_id, map_pos, unit_id)
 
 @rpc("reliable")
 func spawn_object(map_pos: Vector2i, obj_ind: int):
@@ -151,22 +159,20 @@ func spawn_existing_object(peer_id: int, map_pos: Vector2i):
 	
 	var atlas_x_coord = $Map_Objects.get_cell_atlas_coords(map_pos).x
 	rpc_id(peer_id, "spawn_object", map_pos, atlas_x_coord)
+
+@rpc("unreliable_ordered")
+func sync_tile(key, value):
+	units[key] = value
 	
-###not to stay just to test
-func _inut(event: InputEvent) -> void:
-	###this is for selecting a unit
-	if event.is_action_pressed("mouse_left"):
-		for key in level_info.map_info.keys():
-			if level_info.map_info[key][3] is Object:
-				level_info.map_info[key][3].set_unselected()
-		
-		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is Object:
-			level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3].set_selected()
-		
-	if event.is_action_pressed("mouse_right"):
-		for key in level_info.map_info.keys():
-			if level_info.map_info[key][3] is Object:
-				if level_info.map_info[key][3].selected == true:
-					if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
-						level_info.map_info[key][3].target_tile = Vector2(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][0], level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][1])
-						level_info.map_info[key][3].set_unselected()
+
+func call_sync_tiles():
+	for peer_id in $"..".connected_peers:
+		for key in $"..".player[peer_id].tile_is_visible.keys():
+			if $"..".player[peer_id].tile_is_visible[key]:
+				var value = units[key]
+				rpc_id(peer_id, "sync_tile", key, value)
+
+func _physics_process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
+	call_sync_tiles()
