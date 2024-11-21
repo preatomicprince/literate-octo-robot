@@ -122,7 +122,8 @@ func _select_unit(peer_id):
 		return
 	if $Map.units[selected_tile_str] == null:
 		return
-	
+	if $Map.units[selected_tile_str].player_id != peer_id:
+		return
 	player[peer_id].selected_unit = $Map.units[selected_tile_str]
 	player[peer_id].selected_unit.set_selected(true)
 	
