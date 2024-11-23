@@ -16,8 +16,8 @@ var population : int = 100
 ###a dcitionary for all the buildings that have been constructed
 @onready var constructed : Dictionary = {
 	"slot 1": level_info.Placeables.HOUSE,
-	"slot 2": level_info.Placeables.HOUSE,
-	"slot 3": level_info.Placeables.HOUSE
+	"slot 2": level_info.Placeables.EMPTY,
+	"slot 3": level_info.Placeables.EMPTY
 }
 
 ###a settlement when it reaches a certain size will start to take up tiles
@@ -55,3 +55,25 @@ func disestablish():
 	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][7] = "no settlement"
 	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][8] = null
 	queue_free()
+
+
+func buildings_effects(buildings):
+	match buildings:
+		level_info.Placeables.HOUSE:
+			return 1
+		level_info.Placeables.OUTPOST:
+			return 1
+		level_info.Placeables.FACTORY:
+			return 1
+		level_info.Placeables.HOSPITAL:
+			return 1
+		level_info.Placeables.FARM:
+			return 1
+		level_info.Placeables.SHOP:
+			return 1
+		level_info.Placeables.MINE:
+			return 1
+		level_info.Placeables.POWER_STATION:
+			return 1
+		level_info.Placeables.COURTHOUSE:
+			return 1

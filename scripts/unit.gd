@@ -94,8 +94,6 @@ func _ready() -> void:
 	###based on what weapon the units have
 	attack = 100 + weapon_affects(inventory["weapon"])[0]
 	rang = weapon_affects(inventory["weapon"])[1]
-	print("from weapon", weapon_affects(inventory["weapon"])[0])
-	print("from clothing ", clothing_affects(inventory["clothing"]))
 	defence = 100 + clothing_affects(inventory["clothing"])
 
 
@@ -329,7 +327,7 @@ func weapon_affects(weapon):
 		level_info.Placeables.MACHINE_GUN:
 			return [60, 1]
 		
-		level_info.PlaceablesPlaceables.SNIPER:
+		level_info.Placeables.SNIPER:
 			#sniper
 			return [50, 2]
 	
@@ -365,15 +363,15 @@ func transport_affects(transport):
 	###transport retruns the speed, but also the armour rating
 	match transport:
 		level_info.Placeables.FOOT:
-			pass
+			return 1
 		level_info.Placeables.HORSE:
-			pass
+			return 1
 		level_info.Placeables.DONKEY:
-			pass
+			return 1
 		level_info.Placeables.BIKE:
-			pass
+			return 1
 		level_info.Placeables.BUS:
-			pass
+			return 1
 		level_info.Placeables.JEAP:
-			pass
+			return 1
 

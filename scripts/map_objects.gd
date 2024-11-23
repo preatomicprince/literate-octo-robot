@@ -43,5 +43,9 @@ func find_item():
 	
 	for key in level_info.Placeables.keys():
 		if level_info.Placeables[key] == rand_res:
-			return level_info.Placeables[key]
+			if level_info.Placeables.EMPTY == level_info.Placeables[key]:
+				###recursion so that we dont get empty slots
+				find_item()
+			else:
+				return level_info.Placeables[key]
 

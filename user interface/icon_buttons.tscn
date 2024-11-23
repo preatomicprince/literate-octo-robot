@@ -12,5 +12,6 @@ script = ExtResource("2_321h5")
 [node name="icon im" type="Sprite2D" parent="."]
 position = Vector2(65, 65)
 
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

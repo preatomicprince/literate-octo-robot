@@ -127,3 +127,41 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	level_info.hover = false
+
+
+func _on_gui_input(event: InputEvent) -> void:
+	###this function works out if the button is pressed, if the button is pressed and has an item
+	###assocciated with it, and you are currently selecting a unit; itll change out the item.
+	if level_info.unit_selected != null:
+		if event.is_action_pressed("mouse_left"):
+			###this is working out whether the thing selected is a unit or a town
+			if level_info.unit_selected.has_method("conflict"):
+				###this works because if the method cant find the icon within its 
+				###function it returns a null. else it replaces the inventory slot
+				if level_info.unit_selected.weapon_affects(selection) != null:
+					remove_from_inv("unit","weapon")
+					
+				if level_info.unit_selected.clothing_affects(selection) != null:
+					remove_from_inv("unit","clothing")
+					
+				if level_info.unit_selected.transport_affects(selection) != null:
+					remove_from_inv("unit","transport")
+			
+			if level_info.unit_selected.has_method("build"):
+				if level_info.unit_selected.buildings_effects(selection) != null:
+					remove_from_inv("town", "")
+			
+
+func remove_from_inv(set_or_unit, inv_type):
+	###the point of this function is to get rid of the item thats been used from the 
+	###overall inventory. and to add the appropriate stuff to the units space
+	if set_or_unit == "unit":
+		level_info.unit_selected.inventory[inv_type] = selection
+		level_info.inventory.erase(selection)
+		
+	else:
+		for key in level_info.unit_selected.constructed.keys():
+			if level_info.unit_selected.constructed[key] == level_info.Placeables.EMPTY:
+				level_info.unit_selected.constructed[key] = selection
+				level_info.inventory.erase(selection)
+				return
