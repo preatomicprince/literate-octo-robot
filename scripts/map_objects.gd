@@ -29,6 +29,11 @@ func resource_collection(key):
 	level_info.map_info[key][4] = "no"
 	level_info.player_stats["player one"][0] += 10
 	
+	var pop_up = self.get_parent().narrative_box.instantiate()
+	pop_up.purpose = "story"
+	pop_up.started_event = level_info.unit_selected
+	#pop_up.target = level_info.map_info[str($".".local_to_map(level_info.unit_selected.position))]
+	self.get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
 	
 	if len(level_info.inventory) < level_info.inv_max:
 		###this allows you to find an item on a square that then gets added to the inventory

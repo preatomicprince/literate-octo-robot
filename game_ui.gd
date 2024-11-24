@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 func change_stats():
 	###this is to change the inventory dynamically
 	if saved_len != len(level_info.inventory):
-		for i in range(len(icon_list)-1):
+		for i in range(len(icon_list)):
 			icon_list[i].selection = null
 		for i in range(len(level_info.inventory)):
 			print(i)

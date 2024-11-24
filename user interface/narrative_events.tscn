@@ -34,6 +34,7 @@ bbcode_enabled = true
 text = "[center]This is where the text for the story stuff will go[center]"
 
 [node name="unit transfers" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_left = 6.0
 offset_top = 214.0
@@ -63,5 +64,33 @@ offset_right = 217.0
 offset_bottom = -89.0
 text = "close"
 
+[node name="option buttons" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = -271.0
+offset_right = 284.0
+offset_bottom = 216.0
+
+[node name="option 1" type="Button" parent="option buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "dgdgsd"
+icon_alignment = 1
+
+[node name="option 2" type="Button" parent="option buttons"]
+layout_mode = 2
+text = "fdfd"
+
+[node name="option 3" type="Button" parent="option buttons"]
+layout_mode = 2
+text = "gshg"
+
+[node name="option 4" type="Button" parent="option buttons"]
+layout_mode = 2
+text = "dfsaffasd"
+
 [connection signal="button_up" from="unit transfers/accept" to="." method="_on_accept_button_up"]
 [connection signal="button_up" from="unit transfers/close" to="." method="_on_close_button_up"]
+[connection signal="gui_input" from="option buttons/option 1" to="." method="_on_option_1_gui_input"]
+[connection signal="gui_input" from="option buttons/option 2" to="." method="_on_option_2_gui_input"]
+[connection signal="gui_input" from="option buttons/option 3" to="." method="_on_option_3_gui_input"]
+[connection signal="gui_input" from="option buttons/option 4" to="." method="_on_option_4_gui_input"]

@@ -1,0 +1,7 @@
+{
+	"Tarrot Reader": {
+		"quest info" : "A Tarrot reader crosses your path. Which card will you choose?...",
+		"done" : false,
+		"choices" : [["death card", 2],["Did she not predict the end of the world? Enough of this, execute her!", 0], ["I dont know any tarrot cards! A of clubs.", 2]]
+	}
+}
