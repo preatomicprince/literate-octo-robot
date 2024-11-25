@@ -23,7 +23,7 @@ var combat_stat_barks = ["big defeat", "defeat", "draw", "small victory", "great
 func _ready() -> void:
 	#print($".".get_global_position())
 	$".".size = get_viewport_rect().size
-	$"res counter".size.x = get_viewport_rect().size[0]
+	$"res counter".size.x = get_viewport_rect().size[0]/get_parent().get_parent().zoom[1]
 	$"tempbar".size.x = get_viewport_rect().size[0]*2
 	for i in range(len(info_list)):
 		info_list[i].position.x =  get_viewport_rect().size[0] / len(info_list)*i+1 
@@ -78,9 +78,10 @@ func change_stats():
 
 	###this line is just for reference in how to change text dynamically
 	#$BattleCard/slavers.text = "[center] A Confederate {action} was {result} [/center]".format({"action": event_list[save_e], "result": success_chance[save_s]})
-	$"res counter/food".text = "[center] Food: {number}        ".format({"number":level_info.player_stats["player one"][0]})
-	$"res counter/turn".text = "[center]     Turn: {number}     ".format({"number":level_info.turn})
-	$"res counter/pop".text = "[center]     Population: {number} ".format({"number":level_info.overall_population})
+	###right now this just does it as a minus because we dont have any way to add food other than exploration
+	$"res counter/food".text = "{number} - {change}".format({"number":level_info.player_stats["player one"][0], "change":level_info.overall_population})
+	$"res counter/turn".text = "{number}".format({"number":level_info.turn})
+	$"res counter/pop".text = "{number}".format({"number":level_info.overall_population})
 	###for showing whats items a current unit has selected
 	if level_info.unit_selected != null:
 		$"bottom bar/item holder".visible = true

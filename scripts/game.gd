@@ -17,6 +17,11 @@ func _process(delta: float) -> void:
 			if level_info.map_info[key][8] is Object:
 				level_info.map_info[key][8].new_turn()
 				
+		###to add the food reduction
+		###this is a very rough calculation
+		###im thinking that population in cities should consume half the food of those that are working
+		level_info.player_stats["player one"][0] -= level_info.overall_population
+		
 		saved_turn += 1
 	
 func _input(event: InputEvent) -> void:

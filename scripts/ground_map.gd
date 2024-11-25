@@ -19,6 +19,13 @@ func _ready() -> void:
 	generate_map()
 	$"map objects".generate_points_of_interest()
 	$"fog of war".generate_fog()
+	
+	##to generate your first unit upon loading the game
+	#if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
+	generate_unit(Vector2(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][0], level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][1]), 10)
+	for key in level_info.map_info.keys():
+		if level_info.map_info[key][3] is Object:
+			level_info.map_info[key][3].set_unselected()
 
 func _process(delta: float) -> void:
 	
@@ -107,7 +114,7 @@ func _input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("key_e"):
 		if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
-			generate_unit(Vector2(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][0], level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][1]), 100)
+			generate_unit(Vector2(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][0], level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][1]), 10)
 			for key in level_info.map_info.keys():
 				if level_info.map_info[key][3] is Object:
 					level_info.map_info[key][3].set_unselected()

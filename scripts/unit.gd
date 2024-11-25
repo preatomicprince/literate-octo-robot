@@ -7,10 +7,10 @@ extends CharacterBody2D
 
 ###stats for the unit in combat.
 ###these numbers will need tweeking, especially the defence
-var attack : int = 100
-var defence : int = 100
+var attack : int = 10
+var defence : int = 10
 var rang : int = 1
-var percent_ready : int = 100
+var percent_ready : int = 10
 var percent_injured : int = 0
 
 ###could remove one move when entering a new tile, when its entered a new tile, but then has no moves
@@ -87,7 +87,7 @@ func _ready() -> void:
 	###to set the health bar
 	###not doing it just yet
 	
-	one_percent_of_bar = $"health bar".get_node("healthy").size.x /100
+	one_percent_of_bar = $"health bar".get_node("healthy").size.x /10
 	change_health()
 	
 	###to set the attack, range values of the unit,
