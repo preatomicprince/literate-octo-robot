@@ -158,10 +158,10 @@ func _input(event: InputEvent) -> void:
 				if level_info.map_info[key][3].selected == true:
 					if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
 						level_info.map_info[key][3].target_tile = Vector2(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][0], level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][1])
-						level_info.map_info[key][3].set_unselected()
+						#level_info.map_info[key][3].set_unselected()
 						
 						#### and this
-						level_info.unit_selected = null
+						#level_info.unit_selected = null
 					
 					###to work out the combat
 					if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is Object:

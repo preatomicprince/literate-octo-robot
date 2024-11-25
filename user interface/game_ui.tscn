@@ -1,16 +1,16 @@
 [gd_scene load_steps=12 format=3 uid="uid://cefff1il4giw1"]
 
 [ext_resource type="Script" path="res://game_ui.gd" id="1_4kxhr"]
-[ext_resource type="Texture2D" uid="uid://1743ju2dalor" path="res://assets/food_icon.png" id="2_c6jme"]
-[ext_resource type="Texture2D" uid="uid://cksaxctsbf1am" path="res://assets/Item_Holder_hud.png" id="2_flmde"]
-[ext_resource type="Texture2D" uid="uid://b1cexp4t425ds" path="res://assets/shells_icon.png" id="3_e8506"]
-[ext_resource type="Texture2D" uid="uid://b76jdbvgmtci7" path="res://assets/weapon icons.png" id="3_fx1wc"]
-[ext_resource type="Texture2D" uid="uid://njmdshnt83gu" path="res://assets/pop_icon.png" id="4_8gigm"]
-[ext_resource type="Texture2D" uid="uid://jltxn6lxknxy" path="res://assets/building icons.png" id="4_lycvu"]
-[ext_resource type="Texture2D" uid="uid://cte5qnvtmujd8" path="res://assets/clothing.png" id="4_sc0ai"]
-[ext_resource type="Texture2D" uid="uid://cqyfhflu4b2ra" path="res://assets/vehicle icons.png" id="5_p2nko"]
-[ext_resource type="Texture2D" uid="uid://bx8ij8fbx21ni" path="res://assets/turn_icon.png" id="5_q3f5k"]
-[ext_resource type="PackedScene" uid="uid://b4anw8ita0wh2" path="res://user interface/icon_buttons.tscn" id="7_wynde"]
+[ext_resource type="Texture2D" path="res://assets/food_icon.png" id="2_c6jme"]
+[ext_resource type="Texture2D" path="res://assets/Item_Holder_hud.png" id="2_flmde"]
+[ext_resource type="Texture2D" path="res://assets/shells_icon.png" id="3_e8506"]
+[ext_resource type="Texture2D" path="res://assets/weapon icons.png" id="3_fx1wc"]
+[ext_resource type="Texture2D" path="res://assets/pop_icon.png" id="4_8gigm"]
+[ext_resource type="Texture2D" path="res://assets/building icons.png" id="4_lycvu"]
+[ext_resource type="Texture2D" path="res://assets/clothing.png" id="4_sc0ai"]
+[ext_resource type="Texture2D" path="res://assets/vehicle icons.png" id="5_p2nko"]
+[ext_resource type="Texture2D" path="res://assets/turn_icon.png" id="5_q3f5k"]
+[ext_resource type="PackedScene" uid="uid://b2o783rukr1oe" path="res://user interface/icon_buttons.tscn" id="7_wynde"]
 
 [node name="game ui" type="Control"]
 layout_mode = 3
@@ -117,9 +117,10 @@ text = "inventory"
 
 [node name="tool tip" type="RichTextLabel" parent="bottom bar"]
 layout_mode = 2
-offset_left = 172.0
-offset_right = 173.0
-offset_bottom = 40.0
+offset_left = 664.0
+offset_top = -88.0
+offset_right = 1026.0
+offset_bottom = 8.0
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "[center]tool tip[center]"
@@ -174,6 +175,7 @@ texture = ExtResource("4_lycvu")
 hframes = 10
 
 [node name="GridContainer" type="GridContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 6.0
 offset_top = 264.0

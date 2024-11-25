@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://4ji0rwlo5cfk"]
+[gd_scene format=3 uid="uid://cdo1c5n0xtpeb"]
 
 [node name="health bar" type="Control"]
 layout_mode = 3

@@ -157,6 +157,12 @@ func remove_from_inv(set_or_unit, inv_type):
 	###overall inventory. and to add the appropriate stuff to the units space
 	if set_or_unit == "unit":
 		level_info.unit_selected.inventory[inv_type] = selection
+		###this is to change the damage of the units after their equipment has been changed.
+		if inv_type == "weapon":
+			level_info.unit_selected.attack = level_info.unit_selected.percent_ready + level_info.unit_selected.weapon_affects(level_info.unit_selected.inventory["weapon"])[0]
+		if inv_type == "clothing":
+			level_info.unit_selected.defence = level_info.unit_selected.percent_ready + level_info.unit_selected.clothing_affects(level_info.unit_selected.inventory["clothing"])
+		
 		level_info.inventory.erase(selection)
 		
 	else:

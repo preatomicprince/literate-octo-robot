@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bas7bfbh73ulp"]
+[gd_scene load_steps=4 format=3 uid="uid://b0wkrw2v7trjw"]
 
 [ext_resource type="Script" path="res://settlement.gd" id="1_1eosb"]
-[ext_resource type="Texture2D" uid="uid://c54r8vchnryhy" path="res://assets/settlement.png" id="2_10k6r"]
+[ext_resource type="Texture2D" path="res://assets/settlement.png" id="2_10k6r"]
 [ext_resource type="Texture2D" uid="uid://cep6m3fi5gi5m" path="res://assets/tile_ighlight.png" id="2_dkgff"]
 
 [node name="settlement" type="Node2D"]

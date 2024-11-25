@@ -31,7 +31,7 @@ var rand_i = RandomNumberGenerator.new()
 ###relevant dict numbers
 @onready var inventory : Dictionary = {
 	"weapon" : level_info.Placeables.HAND,
-	"clothing" : level_info.Placeables.PLAID,
+	"clothing" : level_info.Placeables.RAGS,
 	"transport" : level_info.Placeables.FOOT
 }
 
@@ -92,9 +92,10 @@ func _ready() -> void:
 	
 	###to set the attack, range values of the unit,
 	###based on what weapon the units have
-	attack = 100 + weapon_affects(inventory["weapon"])[0]
+	attack = percent_ready + weapon_affects(inventory["weapon"])[0]
 	rang = weapon_affects(inventory["weapon"])[1]
-	defence = 100 + clothing_affects(inventory["clothing"])
+	defence = percent_ready + clothing_affects(inventory["clothing"])
+
 
 
 
@@ -185,16 +186,37 @@ func conflict(target):
 			###first i work out the damage to the enemy then the unit selected
 			###this is probably a bad system for many reasons, but ill do it like this for 
 			###now, for the sake of speed
-			target.percent_ready -= damage_value
-			target.percent_injured += rand_i.randi_range(0, damage_value/1.5)
-			target.change_health()
+			if target.percent_ready - damage_value < 0:
+				
+				target.percent_injured += rand_i.randi_range(0, percent_ready/1.5)
+				target.percent_ready = 0
+				target.change_health()
 			
-			percent_ready -= selected_val
-			percent_injured += rand_i.randi_range(0, selected_val/1.5)
-			change_health()
+			else:
+				target.percent_ready -= damage_value
+				target.percent_injured += rand_i.randi_range(0, damage_value/1.5)
+				target.change_health()
+			
+			if percent_ready - selected_val < 0:
+				percent_injured += rand_i.randi_range(0, percent_ready/1.5)
+				percent_ready = 0
+				change_health()
+			
+			else:
+				percent_ready -= selected_val
+				percent_injured += rand_i.randi_range(0, selected_val/1.5)
+				change_health()
 			
 		else:
+			###this just brings up the pop up for capturing units.
 			print("you capture the remains")
+			var pop_up = self.get_parent().get_parent().narrative_box.instantiate()
+			pop_up.purpose = "story"
+			pop_up.story_name = "captured"
+			pop_up.started_event = level_info.unit_selected
+			pop_up.target = level_info.map_info[str(self.get_parent().get_parent().local_to_map(self.position))]
+			self.get_parent().get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
+			target.kill_unit()
 
 
 ###what is everything we need to take into account during an attack

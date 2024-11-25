@@ -76,10 +76,21 @@ func change_stats():
 	for i in building_slot_list:
 		i.visible = false
 
-	###this line is just for reference in how to change text dynamically
-	#$BattleCard/slavers.text = "[center] A Confederate {action} was {result} [/center]".format({"action": event_list[save_e], "result": success_chance[save_s]})
-	###right now this just does it as a minus because we dont have any way to add food other than exploration
-	$"res counter/food".text = "{number} - {change}".format({"number":level_info.player_stats["player one"][0], "change":level_info.overall_population})
+	###this is to work out how much food youll have dynamically
+	var acum = 0
+	for key in level_info.map_info.keys():
+		if level_info.map_info[key][8] is Object:
+			for build in level_info.map_info[key][8].constructed.keys():
+				if level_info.map_info[key][8].constructed[build] == level_info.Placeables.FARM:
+					acum += 10
+	level_info.food_change = (acum - level_info.overall_population)
+	if level_info.food_change >= 0:
+		$"res counter/food".text = "{number} + {change}".format({"number":level_info.player_stats["player one"][0], "change":level_info.food_change})
+	else:
+		$"res counter/food".text = "{number} {change}".format({"number":level_info.player_stats["player one"][0], "change":level_info.food_change})
+	
+	###for shells
+	$"res counter/shells".text = "{number}".format({"number":level_info.shells})
 	$"res counter/turn".text = "{number}".format({"number":level_info.turn})
 	$"res counter/pop".text = "{number}".format({"number":level_info.overall_population})
 	###for showing whats items a current unit has selected

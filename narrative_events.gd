@@ -72,6 +72,13 @@ func story_event(story_key):
 				results_list[c] = content[key]["choices"][c][1]
 				button_list[c].visible = true
 				
+	else:
+		$"event box".text = content[story_name]["quest info"]
+		for c in range(len(content[story_name]["choices"])):
+			button_list[c].text = content[story_name]["choices"][c][0]
+			results_list[c] = content[story_name]["choices"][c][1]
+			button_list[c].visible = true
+				
 	
 
 ###these are for transfering between the population and units

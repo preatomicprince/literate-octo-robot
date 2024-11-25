@@ -3,5 +3,11 @@
 		"quest info" : "A Tarrot reader crosses your path. Which card will you choose?...",
 		"done" : false,
 		"choices" : [["death card", 2],["Did she not predict the end of the world? Enough of this, execute her!", 0], ["I dont know any tarrot cards! A of clubs.", 2]]
+	},
+	
+	"captured": {
+		"quest info" : "We've managed to capture some surivors. What should we do with them?...",
+		"done" : false,
+		"choices" : [["Let them join us freely", 2], ["We can't feed them, we can't let them go, alas", 0], ["Nom nom nom, im feeling peckish", 1]]
 	}
 }
