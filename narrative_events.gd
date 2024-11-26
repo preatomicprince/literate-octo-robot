@@ -64,22 +64,14 @@ func story_event(story_key):
 	for b in range(len(button_list)):
 		button_list[b].visible = false
 
-	if story_key == null:
-		for key in content.keys():
-			$"event box".text = content[key]["quest info"]
-			for c in range(len(content[key]["choices"])):
-				button_list[c].text = content[key]["choices"][c][0]
-				results_list[c] = content[key]["choices"][c][1]
-				button_list[c].visible = true
-				
-	else:
-		$"event box".text = content[story_name]["quest info"]
-		for c in range(len(content[story_name]["choices"])):
-			button_list[c].text = content[story_name]["choices"][c][0]
-			results_list[c] = content[story_name]["choices"][c][1]
-			button_list[c].visible = true
+	$"event box".text = content[story_name]["quest info"]
+	for c in range(len(content[story_name]["choices"])):
+		button_list[c].text = content[story_name]["choices"][c][0]
+		results_list[c] = content[story_name]["choices"][c][1]
+		button_list[c].visible = true
 				
 	
+
 
 ###these are for transfering between the population and units
 func _on_accept_button_up() -> void:
@@ -109,24 +101,26 @@ func _on_accept_button_up() -> void:
 func _on_close_button_up() -> void:
 	queue_free()
 
-
-
 func _on_option_1_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("mouse_left"):
-		print(results_list[0])
+		call(results_list[0])
 		queue_free()
 
 func _on_option_2_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("mouse_left"):
-		print(results_list[1])
+		call(results_list[1])
 		queue_free()
 
 func _on_option_3_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("mouse_left"):
-		print(results_list[2])
+		call(results_list[2])
 		queue_free()
 
 func _on_option_4_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("mouse_left"):
-		print(results_list[3])
+		call(results_list[3])
 		queue_free()
+
+func test():
+	###this function was just to see if it can be called by the result of a quest action
+	print("testing")

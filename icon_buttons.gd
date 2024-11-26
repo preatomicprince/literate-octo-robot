@@ -148,7 +148,7 @@ func _on_gui_input(event: InputEvent) -> void:
 					remove_from_inv("unit","transport")
 			
 			if level_info.unit_selected.has_method("build"):
-				if level_info.unit_selected.buildings_effects(selection) != null:
+				if level_info.unit_selected.buildings_effects(selection, 1) != null:
 					remove_from_inv("town", "")
 			
 

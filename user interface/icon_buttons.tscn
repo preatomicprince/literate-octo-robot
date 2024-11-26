@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b2o783rukr1oe"]
 
-[ext_resource type="Texture2D" path="res://assets/Item_Holder_hud.png" id="1_wag03"]
+[ext_resource type="Texture2D" uid="uid://cksaxctsbf1am" path="res://assets/Item_Holder_hud.png" id="1_wag03"]
 [ext_resource type="Script" path="res://icon_buttons.gd" id="2_321h5"]
 
 [node name="icon buttons" type="TextureButton"]

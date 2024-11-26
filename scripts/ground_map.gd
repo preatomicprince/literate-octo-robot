@@ -23,9 +23,7 @@ func _ready() -> void:
 	##to generate your first unit upon loading the game
 	#if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
 	generate_unit(Vector2(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][0], level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][1]), 10)
-	for key in level_info.map_info.keys():
-		if level_info.map_info[key][3] is Object:
-			level_info.map_info[key][3].set_unselected()
+
 
 func _process(delta: float) -> void:
 	
