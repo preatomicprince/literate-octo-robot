@@ -213,6 +213,7 @@ func conflict(target):
 			var pop_up = self.get_parent().get_parent().narrative_box.instantiate()
 			pop_up.purpose = "story"
 			pop_up.story_name = "captured"
+			pop_up.relevant_value = target.percent_injured
 			pop_up.started_event = level_info.unit_selected
 			pop_up.target = level_info.map_info[str(self.get_parent().get_parent().local_to_map(self.position))]
 			self.get_parent().get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
@@ -256,7 +257,6 @@ func change_health():
 func kill_unit():
 	###if there are no injured or active pop in the unit, right now itll just 
 	###quew free, but later well want animation
-	print("to free", level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))])
 	#level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = null
 	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = 0
 	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][2] = "no unit"

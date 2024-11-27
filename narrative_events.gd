@@ -13,9 +13,11 @@ var json = JSON.new()
 ###if its a "pop transfer" it will bring up a slider, if its a "story" itll bring up choice buttons
 var purpose : String = "story"
 var fired : bool = false
-###unit or settlment thats triggering the transfer
+###unit or settlment thats triggering the transfer, rel value can be used to put a number like
+###units that have been captured and put it in function for a relevant story
 var started_event
 var story_name = null
+var relevant_value 
 ###this is used to turn off buttons for the amount of options a quest has
 @onready var button_list = [$"option buttons/option 1", $"option buttons/option 2", $"option buttons/option 3", $"option buttons/option 4"]
 var results_list = [0, 0, 0, 0]
@@ -124,3 +126,12 @@ func _on_option_4_gui_input(event: InputEvent) -> void:
 func test():
 	###this function was just to see if it can be called by the result of a quest action
 	print("testing")
+
+func cannibalism():
+	level_info.player_stats["player one"][0] += relevant_value
+
+func recruitment():
+	for key in level_info.map_info.keys():
+		if level_info.map_info[key][8] is Object:
+			level_info.map_info[key][8].population += relevant_value
+			return

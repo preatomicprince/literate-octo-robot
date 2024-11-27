@@ -8,7 +8,7 @@
 	"captured": {
 		"quest info" : "We've managed to capture some surivors. What should we do with them?...",
 		"done" : false,
-		"choices" : [["Let them join us freely", "test"], ["We can't feed them, we can't let them go, alas", "test"], ["Nom nom nom, im feeling peckish", "test"]]
+		"choices" : [["Let them join us freely", "recruitment"], ["We can't feed them, we can't let them go, alas", "test"], ["Nom nom nom, im feeling peckish", "cannibalism"]]
 	},
 	"tet": {
 		"quest info" : "A Tarrot reader crosses your path. Which card will you choose?...",

@@ -22,7 +22,7 @@ func _ready() -> void:
 	
 	##to generate your first unit upon loading the game
 	#if level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][3] is not Object:
-	generate_unit(Vector2(level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][0], level_info.map_info[str($".".local_to_map($".".get_local_mouse_position()))][1]), 10)
+	generate_unit(Vector2(level_info.map_info[str($".".local_to_map(Vector2(400, 400)))][0], level_info.map_info[str($".".local_to_map(Vector2(400, 400)))][1]), 10)
 
 
 func _process(delta: float) -> void:
