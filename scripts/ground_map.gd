@@ -74,6 +74,7 @@ func generate_unit(position, start_pop):
 	unit_instance.tile_index = position
 	$"unit layer".add_child(unit_instance)
 	
+	
 func generate_settlement(position, start_pop):
 	###this function creates a settlement the spot of the unit that spawns it
 	var new_settlement = settlement.instantiate()
@@ -92,9 +93,9 @@ func _input(event: InputEvent) -> void:
 	###which will go into the new town. or you could dismand the entire unit into the town
 	if event.is_action_pressed("key_r"):
 		if level_info.unit_selected != null:
-			
+			if level_info.unit_selected.has_method("conflict"):
 			###so this will pop up the narrative event slider 
-			if level_info.map_info[str($".".local_to_map(level_info.unit_selected.position))][7] == "no settlement":
+
 				var pop_up = narrative_box.instantiate()
 				###this adds the event to the main game scene
 				pop_up.purpose = "pop transfer"
@@ -103,7 +104,9 @@ func _input(event: InputEvent) -> void:
 				pop_up.target = level_info.map_info[str($".".local_to_map(level_info.unit_selected.position))]
 				###it adds it to the parent, the main game node
 				self.get_parent().get_node("narrative layer").add_child(pop_up)
-			else:
+				
+			if level_info.unit_selected.has_method("build"):
+				
 				var pop_up = narrative_box.instantiate()
 				pop_up.purpose = "pop transfer"
 				pop_up.started_event = level_info.unit_selected

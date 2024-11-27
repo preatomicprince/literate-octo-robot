@@ -80,11 +80,17 @@ func _on_accept_button_up() -> void:
 	###works out what is giving pop, or what is losing it
 	if started_event.has_method("conflict"):
 		if $"unit transfers/HSlider".value >= 1:
-			target[7] = "has settlement"
-			self.get_parent().get_parent().get_node("ground map").generate_settlement(started_event.position, $"unit transfers/HSlider".value)
-			started_event.percent_ready -= $"unit transfers/HSlider".value
-			started_event.change_health()
-			queue_free()
+			if target[7] == "has settlement":
+				target[8].population += $"unit transfers/HSlider".value
+				started_event.percent_ready -= $"unit transfers/HSlider".value
+				started_event.change_health()
+				queue_free()
+			else:
+				target[7] = "has settlement"
+				self.get_parent().get_parent().get_node("ground map").generate_settlement(started_event.position, $"unit transfers/HSlider".value)
+				started_event.percent_ready -= $"unit transfers/HSlider".value
+				started_event.change_health()
+				queue_free()
 		else:
 			queue_free()
 			

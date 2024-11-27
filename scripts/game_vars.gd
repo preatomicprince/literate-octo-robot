@@ -28,7 +28,7 @@ var overall_population : int = 100
 var shells : int = 0
 
 ###a dictionary containing each players stats, right now itll just include food gained
-var player_stats : Dictionary = {"player one" : [10]}
+var player_stats : Dictionary = {"player one" : [1000]}
 var food_change : int = 0
 var inventory = []
 var inv_max : int = 10

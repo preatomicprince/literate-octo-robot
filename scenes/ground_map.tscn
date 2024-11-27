@@ -68,10 +68,6 @@ script = ExtResource("5_myhgn")
 tile_set = SubResource("TileSet_rn1cg")
 script = ExtResource("7_tfq2o")
 
-[node name="test_highlight" type="Sprite2D" parent="."]
-position = Vector2(1, 75)
-texture = ExtResource("3_u0qol")
-
 [node name="unit layer" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -83,3 +79,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="test_highlight" type="Sprite2D" parent="."]
+position = Vector2(1, 75)
+texture = ExtResource("3_u0qol")
