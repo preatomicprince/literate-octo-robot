@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cefff1il4giw1"]
+[gd_scene load_steps=12 format=3 uid="uid://cefff1il4giw1"]
 
 [ext_resource type="Script" path="res://user interface/game_ui.gd" id="1_4kxhr"]
 [ext_resource type="Texture2D" uid="uid://1743ju2dalor" path="res://assets/food_icon.png" id="2_c6jme"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cte5qnvtmujd8" path="res://assets/clothing.png" id="4_sc0ai"]
 [ext_resource type="Texture2D" uid="uid://cqyfhflu4b2ra" path="res://assets/vehicle icons.png" id="5_p2nko"]
 [ext_resource type="Texture2D" uid="uid://bx8ij8fbx21ni" path="res://assets/turn_icon.png" id="5_q3f5k"]
+[ext_resource type="PackedScene" uid="uid://b2o783rukr1oe" path="res://user interface/icon_buttons.tscn" id="7_wynde"]
 
 [node name="game ui" type="Control"]
 layout_mode = 3
@@ -174,3 +175,71 @@ hframes = 7
 position = Vector2(3, 1)
 texture = ExtResource("4_lycvu")
 hframes = 10
+
+[node name="GridContainer" type="GridContainer" parent="."]
+visible = false
+offset_left = 6.0
+offset_top = 264.0
+offset_right = 530.0
+offset_bottom = 934.0
+columns = 4
+
+[node name="icon buttons" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons2" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons3" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons4" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons5" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons6" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons7" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons8" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons9" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons10" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons11" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons12" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons13" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons14" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons15" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons16" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons17" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons18" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons19" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
+
+[node name="icon buttons20" parent="GridContainer" instance=ExtResource("7_wynde")]
+layout_mode = 2
