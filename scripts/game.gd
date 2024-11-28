@@ -4,7 +4,7 @@ var peer = ENetMultiplayerPeer.new()
 var peer_id: int = 1
 
 const PORT: int = 7777
-const IP_ADRESS: String = "192.168.1.196"
+const IP_ADRESS: String = "localhost"
 
 var connected_peers: Array = []
 var unit_count: int = 0

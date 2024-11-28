@@ -163,7 +163,10 @@ func _process(delta: float) -> void:
 	if $".."/"..".nav_grid.get_point_weight_scale(self.nav_path.front()) > moves_remaining:
 		return
 		 
-	
+	if $".."/"..".units[str(self.nav_path.front())] != null:
+		position = $".."/"..".map_to_local(tile_index)
+		nav_path = []
+		return
 	
 	is_moving = true
 	prev_pos = position

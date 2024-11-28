@@ -16,7 +16,6 @@ var nav_grid: AStarGrid2D
 
 var tiles = []
 var units = {}
-var unit_list = {}
 var objects = {}
 
 var unit_count = 789
