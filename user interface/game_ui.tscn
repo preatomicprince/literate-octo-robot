@@ -178,6 +178,7 @@ hframes = 10
 
 [node name="GridContainer" type="GridContainer" parent="."]
 visible = false
+layout_mode = 0
 offset_left = 6.0
 offset_top = 264.0
 offset_right = 530.0

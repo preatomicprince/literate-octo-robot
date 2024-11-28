@@ -46,6 +46,23 @@ func _on_host_pressed() -> void:
 	$Map/Map_Objects.generate_points_of_interest()
 	$Map.generate_nav_grid()
 	#load_gamestate(1)
+	multiplayer.peer_connected.connect(
+		func(new_peer_id):
+			connected_peers.append(new_peer_id)
+			# Create instance on server
+			load_local(new_peer_id)
+			
+			# Create instances on new peer
+			rpc_id(new_peer_id, "load_local", new_peer_id)
+			#rpc_id(new_peer_id, "load_gamestate", new_peer_id)
+			
+			# Sets player map and 
+			$Map.call_tile_data_sync(new_peer_id)
+			$Map.set_all_tiles_invisible(new_peer_id)
+			
+			# todo: Deprecate, access only when fog of war lifted
+			#$Map/Map_Objects.call_tile_data_sync(new_peer_id)
+	)
 @onready var level_info = get_node("/root/GameVars")
 
 var unit = preload("res://scenes/tile.tscn")
@@ -98,23 +115,7 @@ func _procbess(delta: float) -> void:
 		
 		saved_turn += 1
 	
-	multiplayer.peer_connected.connect(
-		func(new_peer_id):
-			connected_peers.append(new_peer_id)
-			# Create instance on server
-			load_local(new_peer_id)
-			
-			# Create instances on new peer
-			rpc_id(new_peer_id, "load_local", new_peer_id)
-			#rpc_id(new_peer_id, "load_gamestate", new_peer_id)
-			
-			# Sets player map and 
-			$Map.call_tile_data_sync(new_peer_id)
-			$Map.set_all_tiles_invisible(new_peer_id)
-			
-			# todo: Deprecate, access only when fog of war lifted
-			#$Map/Map_Objects.call_tile_data_sync(new_peer_id)
-	)
+	
 
 func _on_join_pressed() -> void:
 	$menu.visible = false

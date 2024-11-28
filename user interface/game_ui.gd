@@ -23,7 +23,7 @@ var combat_stat_barks = ["big defeat", "defeat", "draw", "small victory", "great
 func _ready() -> void:
 	#print($".".get_global_position())
 	$".".size = get_viewport_rect().size
-	$"res counter".size.x = get_viewport_rect().size[0]/get_parent().get_parent().zoom[1]
+	$"res counter".size.x = get_viewport_rect().size[0]#/get_parent().get_parent().zoom[1]
 	$"tempbar".size.x = get_viewport_rect().size[0]*2
 	for i in range(len(info_list)):
 		info_list[i].position.x =  get_viewport_rect().size[0] / len(info_list)*i+1 

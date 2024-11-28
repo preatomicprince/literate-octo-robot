@@ -9,7 +9,7 @@ extends TileMapLayer
 const TILE_SIZE = Vector2(222, 128)
 @onready var settlement = preload("res://scenes/settlement.tscn")
 @onready var narrative_box = preload("res://user interface/narrative_events.tscn")
-@onready var highlight = $test_highlight
+@onready var highlight = $Highlight
 
 var nav_grid: AStarGrid2D
 ###

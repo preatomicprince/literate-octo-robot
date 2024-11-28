@@ -4,7 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://cefff1il4giw1" path="res://user interface/game_ui.tscn" id="2_p0cew"]
 
 [node name="camera" type="Camera2D"]
+zoom = Vector2(0.5, 0.5)
 script = ExtResource("1_kvwma")
 
-[node name="game ui" parent="." instance=ExtResource("2_p0cew")]
+[node name="Canvas Layer" type="CanvasLayer" parent="."]
 visible = false
+
+[node name="game ui" parent="Canvas Layer" instance=ExtResource("2_p0cew")]
