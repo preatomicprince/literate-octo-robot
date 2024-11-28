@@ -51,12 +51,12 @@ func _process(delta: float) -> void:
 		get_tree().quit() 
 
 # Channel 2 is reserved for transfering input to server
-@rpc("authority", "unreliable", "call_remote", 2)
+@rpc("authority", "unreliable_ordered", "call_remote", 2)
 func push_event_to_server(auth_events):
 	for event in auth_events:
 		event_queue.push_back(event)
 	
-@rpc("authority", "unreliable", "call_remote", 2)
+@rpc("authority", "unreliable_ordered", "call_remote", 2)
 func sync_mouse_pos(auth_mouse_pos):
 	mouse_pos = auth_mouse_pos
 

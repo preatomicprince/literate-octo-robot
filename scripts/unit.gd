@@ -48,7 +48,7 @@ var unit_id: int
 
 var accel = 7
 
-@export var speed = 400
+@export var speed = 100
 var _speed_y :float = speed
 var _speed_x :float = _speed_y*(sqrt(3))
 

@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dikwq6wq18gkp"]
+[gd_scene load_steps=4 format=3 uid="uid://dikwq6wq18gkp"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_uv04y"]
-[ext_resource type="PackedScene" path="res://scenes/game_state.tscn" id="2_8e4oa"]
+[ext_resource type="PackedScene" uid="uid://c2jcqcp64ewas" path="res://scenes/game_state.tscn" id="2_8e4oa"]
 [ext_resource type="PackedScene" uid="uid://cn7hy2nvj6n8u" path="res://scenes/ground_map.tscn" id="3_0vjrp"]
-[ext_resource type="PackedScene" uid="uid://b48dutyv3l17c" path="res://scenes/camera.tscn" id="4_14v01"]
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_uv04y")
@@ -24,8 +23,6 @@ text = "host"
 [node name="join" type="Button" parent="menu"]
 layout_mode = 2
 text = "join"
-
-[node name="camera" parent="." instance=ExtResource("4_14v01")]
 
 [connection signal="pressed" from="menu/host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="menu/join" to="." method="_on_join_pressed"]

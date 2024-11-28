@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://dscc8ao0npapj"]
+[gd_scene load_steps=127 format=3 uid="uid://dscc8ao0npapj"]
 
 [ext_resource type="Script" path="res://scripts/unit.gd" id="1_be3gd"]
 [ext_resource type="Texture2D" uid="uid://sspvh0p3h5ri" path="res://assets/idle_d.png" id="2_dmqs2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cdne4qodm4sq0" path="res://assets/pc_ss_dr.bmp" id="3_u27qh"]
 [ext_resource type="Texture2D" uid="uid://d0tamxap86h43" path="res://assets/pc_ss_ur.bmp" id="5_aur4q"]
 [ext_resource type="Texture2D" uid="uid://cep6m3fi5gi5m" path="res://assets/tile_ighlight.png" id="6_g50hj"]
+[ext_resource type="PackedScene" uid="uid://cdo1c5n0xtpeb" path="res://user interface/health_bar.tscn" id="7_4si7i"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4tx0x"]
 atlas = ExtResource("2_dmqs2")
@@ -873,3 +874,9 @@ modulate = Color(1, 0, 0, 1)
 z_index = 2
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("6_g50hj")
+
+[node name="health bar" parent="." instance=ExtResource("7_4si7i")]
+offset_left = -15.0
+offset_top = -94.0
+offset_right = -15.0
+offset_bottom = -94.0

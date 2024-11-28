@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 	var prev_offset = offset
 	
 	velocity.x += velocity.x*_speed_x*delta
-	velocity.y += velocity.y*_speed_y*delta
+	velocity.y += velocity.y*_speed_y*delta	
 	
 	offset += velocity
 	
