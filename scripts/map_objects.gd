@@ -6,7 +6,7 @@ var rand_i = RandomNumberGenerator.new()
 
 func _process(delta: float) -> void:
 	for key in level_info.map_info.keys():
-		if level_info.map_info[key][3] is Object and level_info.map_info[key][4] == "yes":
+		if level_info.map_info[key][4] == "yes" and level_info.map_info[key][3] is Object:
 			resource_collection(key)
 
 func generate_points_of_interest():
@@ -50,3 +50,31 @@ func resource_collection(key):
 	set_cell($".".local_to_map(Vector2(level_info.map_info[key][3].position.x, level_info.map_info[key][3].position.y)), 0, Vector2i(-1, -1))
 	level_info.map_info[key][4] = "no"
 	level_info.player_stats["player one"][0] += 10
+	
+	#var pop_up = self.get_parent().narrative_box.instantiate()
+	#pop_up.purpose = "story"
+	#pop_up.started_event = level_info.unit_selected
+	#pop_up.target = level_info.map_info[str($".".local_to_map(level_info.unit_selected.position))]
+	#pop_up.story_name = "Tarrot Reader"
+	###this creates a story event that pops up, the tarrot one. Dont necessarily want it here. just testing
+	#self.get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
+	
+	if len(level_info.inventory) < level_info.inv_max:
+		###this allows you to find an item on a square that then gets added to the inventory
+		var found_item = find_item()
+		print("you found a ", found_item)
+		level_info.inventory.append(found_item)
+		print(level_info.inventory)
+
+func find_item():
+	###this returns an item that gets added to the players inventory
+	var rand_res = rand_i.randi_range(0, len(level_info.Placeables)-1)
+	
+	for key in level_info.Placeables.keys():
+		if level_info.Placeables[key] == rand_res:
+			if level_info.Placeables.EMPTY == level_info.Placeables[key]:
+				###recursion so that we dont get empty slots
+				find_item()
+			else:
+				return level_info.Placeables[key]
+

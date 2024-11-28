@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=3 uid="uid://oavw4wiir018"]
+
+[ext_resource type="Script" path="res://narrative_events.gd" id="1_84sk7"]
+
+[node name="Narrative events" type="Control"]
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_84sk7")
+
+[node name="background rect" type="ColorRect" parent="."]
+modulate = Color(0.47451, 0.509804, 0.458824, 0.819608)
+layout_mode = 0
+offset_left = -283.0
+offset_top = -195.0
+offset_right = 294.0
+offset_bottom = 224.0
+color = Color(0.54099, 0.54099, 0.54099, 1)
+
+[node name="event box" type="RichTextLabel" parent="."]
+z_index = 10
+layout_mode = 0
+offset_left = -287.0
+offset_top = -176.0
+offset_right = 248.0
+offset_bottom = 20.0
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center]This is where the text for the story stuff will go[center]"
+
+[node name="unit transfers" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 214.0
+offset_right = 569.0
+offset_bottom = 254.0
+
+[node name="HSlider" type="HSlider" parent="unit transfers"]
+layout_mode = 0
+offset_left = -281.0
+offset_top = -228.0
+offset_right = 266.0
+offset_bottom = -193.0
+
+[node name="accept" type="Button" parent="unit transfers"]
+layout_mode = 0
+offset_left = -205.0
+offset_top = -146.0
+offset_right = -58.0
+offset_bottom = -87.0
+text = "accept"
+
+[node name="close" type="Button" parent="unit transfers"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = -148.0
+offset_right = 217.0
+offset_bottom = -89.0
+text = "close"
+
+[node name="option buttons" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = -271.0
+offset_right = 284.0
+offset_bottom = 216.0
+
+[node name="option 1" type="Button" parent="option buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "dgdgsd"
+icon_alignment = 1
+
+[node name="option 2" type="Button" parent="option buttons"]
+layout_mode = 2
+text = "fdfd"
+
+[node name="option 3" type="Button" parent="option buttons"]
+layout_mode = 2
+text = "gshg"
+
+[node name="option 4" type="Button" parent="option buttons"]
+layout_mode = 2
+text = "dfsaffasd"
+
+[connection signal="button_up" from="unit transfers/accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="unit transfers/close" to="." method="_on_close_button_up"]
+[connection signal="gui_input" from="option buttons/option 1" to="." method="_on_option_1_gui_input"]
+[connection signal="gui_input" from="option buttons/option 2" to="." method="_on_option_2_gui_input"]
+[connection signal="gui_input" from="option buttons/option 3" to="." method="_on_option_3_gui_input"]
+[connection signal="gui_input" from="option buttons/option 4" to="." method="_on_option_4_gui_input"]
