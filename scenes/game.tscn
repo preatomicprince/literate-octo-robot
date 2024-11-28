@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dikwq6wq18gkp"]
+[gd_scene load_steps=5 format=3 uid="uid://dikwq6wq18gkp"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_uv04y"]
 [ext_resource type="PackedScene" uid="uid://c2jcqcp64ewas" path="res://scenes/game_state.tscn" id="2_8e4oa"]
 [ext_resource type="PackedScene" uid="uid://cn7hy2nvj6n8u" path="res://scenes/ground_map.tscn" id="3_0vjrp"]
+[ext_resource type="PackedScene" uid="uid://b48dutyv3l17c" path="res://scenes/camera.tscn" id="4_14v01"]
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_uv04y")
@@ -10,6 +11,8 @@ script = ExtResource("1_uv04y")
 [node name="Game_State" parent="." instance=ExtResource("2_8e4oa")]
 
 [node name="Map" parent="." instance=ExtResource("3_0vjrp")]
+
+[node name="camera" parent="." instance=ExtResource("4_14v01")]
 
 [node name="menu" type="VBoxContainer" parent="."]
 offset_right = 43.0
@@ -26,18 +29,3 @@ text = "join"
 
 [connection signal="pressed" from="menu/host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="menu/join" to="." method="_on_join_pressed"]
-[node name="camera" parent="." instance=ExtResource("3_fjmog")]
-anchor_mode = 0
-zoom = Vector2(0.5, 0.5)
-limit_left = 0
-limit_top = 0
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-
-[node name="CanvasLayer" type="CanvasLayer" parent="camera"]
-
-[node name="game ui" parent="camera/CanvasLayer" instance=ExtResource("5_s24rm")]
-offset_right = 100.0
-offset_bottom = 100.0
-
-[node name="narrative layer" type="CanvasLayer" parent="."]
