@@ -40,6 +40,7 @@ func calculate_date() -> Vector2:
 
 func _on_host_pressed() -> void:
 	$menu.visible = false
+
 	peer.create_server(PORT)
 	multiplayer.multiplayer_peer = peer
 	set_multiplayer_authority(1)
@@ -119,6 +120,7 @@ func _procbess(delta: float) -> void:
 
 func _on_join_pressed() -> void:
 	$menu.visible = false
+	#$camera.get_child(0).visible = true
 	peer.create_client(IP_ADRESS, PORT)
 	multiplayer.multiplayer_peer = peer
 	peer_id = multiplayer.get_unique_id()
@@ -221,9 +223,12 @@ func _handle_input(peer_id: int):
 				if player[peer_id].selected_unit == null:
 					_select_tile(peer_id)
 				else:
-					_set_unit_navigation(peer_id)
+					_deselect_all(peer_id)
 			EVENT_TYPE.mouse_right:
-				_deselect_all(peer_id)
+				if player[peer_id].selected_unit is Object:
+					_set_unit_navigation(peer_id)
+				else:
+					_deselect_all(peer_id)
 				
 			EVENT_TYPE.key_e:
 				if player[peer_id].selected_unit == null:
