@@ -114,6 +114,9 @@ func generate_unit(peer_id: int, map_pos: Vector2i, unit_count: int):
 	units[str(map_pos)] = unit_instance
 	
 	if is_multiplayer_authority():
+		$"..".player[peer_id].units.append(unit_instance)
+	
+	if is_multiplayer_authority():
 		$Fog_Of_War.map_reveal(peer_id, map_pos)
 
 
@@ -179,7 +182,8 @@ func call_sync_tiles():
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-	call_sync_tiles()
+	
+	#call_sync_tiles()
 	"""
 	###this is just a test, right now it just places one of two tiles on the tile map based on if
 	###the random number generator is one or two

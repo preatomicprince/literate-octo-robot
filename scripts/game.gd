@@ -30,12 +30,13 @@ enum MONTH {
 
 var current_turn: int = 0
 
+# Start year. Variable will increase every 12 turns or so
 var year: int = 1983
 
 # Returns a vec2 in the format (month, year)
 func calculate_date() -> Vector2:
 	var current_month: int = current_turn%12
-	var current_year: int = year + round(current_turn/12)
+	var current_year: int = year + current_turn/12
 	return Vector2(current_month, current_year)
 
 func _on_host_pressed() -> void:
@@ -60,6 +61,10 @@ func _on_host_pressed() -> void:
 			# Sets player map and 
 			$Map.call_tile_data_sync(new_peer_id)
 			$Map.set_all_tiles_invisible(new_peer_id)
+			
+			for x in range($Map.width):
+				for y in range($Map.height):
+						$Map.spawn_existing_unit(new_peer_id, Vector2i(x, y))
 			
 			# todo: Deprecate, access only when fog of war lifted
 			#$Map/Map_Objects.call_tile_data_sync(new_peer_id)
