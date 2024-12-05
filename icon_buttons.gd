@@ -140,41 +140,42 @@ func _on_gui_input(event: InputEvent) -> void:
 		print($".."/".."/".."/"..".selected_unit)
 		if $".."/".."/".."/"..".selected_unit != null:
 			print("its probably deselcting")
-			if event.is_action_pressed("mouse_left"):
-				###this is working out whether the thing selected is a unit or a town
-				if level_info.unit_selected.has_method("conflict"):
-					###this works because if the method cant find the icon within its 
-					###function it returns a null. else it replaces the inventory slot
-					if level_info.unit_selected.weapon_affects(selection) != null:
-						remove_from_inv("unit","weapon")
-						
-					if level_info.unit_selected.clothing_affects(selection) != null:
-						remove_from_inv("unit","clothing")
-						
-					if level_info.unit_selected.transport_affects(selection) != null:
-						remove_from_inv("unit","transport")
+
+			###this is working out whether the thing selected is a unit or a town
+			if $".."/".."/".."/"..".selected_unit.has_method("conflict"):
+				print("after method")
+				###this works because if the method cant find the icon within its 
+				###function it returns a null. else it replaces the inventory slot
+				if $".."/".."/".."/"..".selected_unit.weapon_affects(selection) != null:
+					remove_from_inv("unit","weapon")
+					
+				if $".."/".."/".."/"..".selected_unit.clothing_affects(selection) != null:
+					remove_from_inv("unit","clothing")
+					
+				if $".."/".."/".."/"..".selected_unit.transport_affects(selection) != null:
+					remove_from_inv("unit","transport")
 			
-				if level_info.unit_selected.has_method("build"):
-					if level_info.unit_selected.buildings_effects(selection, 1) != null:
-						remove_from_inv("town", "")
+			if $".."/".."/".."/"..".selected_unit.has_method("build"):
+				if $".."/".."/".."/"..".selected_unit.buildings_effects(selection, 1) != null:
+					remove_from_inv("town", "")
 		print("in the button at least")
 
 func remove_from_inv(set_or_unit, inv_type):
 	###the point of this function is to get rid of the item thats been used from the 
 	###overall inventory. and to add the appropriate stuff to the units space
 	if set_or_unit == "unit":
-		level_info.unit_selected.inventory[inv_type] = selection
+		$".."/".."/".."/"..".selected_unit.inventory[inv_type] = selection
 		###this is to change the damage of the units after their equipment has been changed.
 		if inv_type == "weapon":
-			level_info.unit_selected.attack = level_info.unit_selected.percent_ready + level_info.unit_selected.weapon_affects(level_info.unit_selected.inventory["weapon"])[0]
+			$".."/".."/".."/"..".selected_unit.attack = $".."/".."/".."/"..".selected_unit.percent_ready + $".."/".."/".."/"..".selected_unit.weapon_affects($".."/".."/".."/"..".selected_unit.inventory["weapon"])[0]
 		if inv_type == "clothing":
-			level_info.unit_selected.defence = level_info.unit_selected.percent_ready + level_info.unit_selected.clothing_affects(level_info.unit_selected.inventory["clothing"])
+			$".."/".."/".."/"..".selected_unit.defence = $".."/".."/".."/"..".selected_unit.percent_ready + $".."/".."/".."/"..".selected_unit.clothing_affects($".."/".."/".."/"..".selected_unit.inventory["clothing"])
 		
 		level_info.inventory.erase(selection)
 		
 	else:
-		for key in level_info.unit_selected.constructed.keys():
-			if level_info.unit_selected.constructed[key] == level_info.Placeables.EMPTY:
-				level_info.unit_selected.constructed[key] = selection
-				level_info.inventory.erase(selection)
+		for key in $".."/".."/".."/"..".selected_unit.constructed.keys():
+			if $".."/".."/".."/"..".selected_unit.constructed[key] == level_info.Placeables.EMPTY:
+				$".."/".."/".."/"..".selected_unit.constructed[key] = selection
+				$".."/".."/".."/"..".selected_unit.erase(selection)
 				return
