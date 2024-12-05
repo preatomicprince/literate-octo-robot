@@ -95,12 +95,9 @@ func set_unselected() -> void:
 func _ready() -> void:
 	$".".position = get_parent().get_parent().map_to_local(tile_index)
 	$".."/"..".objects[str($".."/"..".tiles[0])] = true
-	#print(tile_index)
-	tile_index = target_tile
-	
+
 	###to set the health bar
 	###not doing it just yet
-	
 	one_percent_of_bar = $"health bar".get_node("healthy").size.x /10
 	change_health()
 	

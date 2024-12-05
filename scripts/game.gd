@@ -244,8 +244,8 @@ func _handle_input(peer_id: int):
 					$Map.spawn_new_unit(peer_id, input.mouse_pos)
 			
 			EVENT_TYPE.key_q:
-				if player[peer_id].selected_unit == null:
-					$Map/Building_Layer.spawn_new_building(peer_id, input.mouse_pos, 10)
+				if player[peer_id].selected_unit != null:
+					$Map/Building_Layer.spawn_new_building(peer_id, player[peer_id].selected_unit)
 			
 	###this allows the ui to move with the camera
 	#camera[peer_id].position.x += (input[peer_id].key_right - input[peer_id].key_left)*_speed_x*delta
