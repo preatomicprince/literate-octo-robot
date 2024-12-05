@@ -24,39 +24,47 @@ var combat_stat_barks = ["big defeat", "defeat", "draw", "small victory", "great
 func _ready() -> void:
 	#print($".".get_global_position())
 	$".".size = get_viewport_rect().size
-	$"res counter".size.x = get_viewport_rect().size[0]#/get_parent().get_parent().zoom[1]
+	$"res counter".size.x = get_viewport_rect().size[0]*2#/get_parent().get_parent().zoom[1]
 	$"tempbar".size.x = get_viewport_rect().size[0]*2
 	for i in range(len(info_list)):
 		info_list[i].position.x =  get_viewport_rect().size[0] / len(info_list)*i+1 
 	
 	###to make the bottom control node strech relative to the screen
-	#$"bottom bar".size.x = get_viewport_rect().size[0]/get_parent().get_parent().zoom[1]
+	$"bottom bar".size.x = get_viewport_rect().size[0]*2
 	
 	###its not doing exaclt what i want but its not the most pressing issue so ill leave it for now
-	#$"bottom bar".position.y = (get_viewport_rect().size[1] / get_parent().get_parent().zoom[1]) - 100
+	$"bottom bar".position.y = (get_viewport_rect().size[1] / 0.5) - 100
 	
 	$"bottom bar/end turn".position.x = $"bottom bar".size.x - $"bottom bar/end turn".size.x -200# - $"bottom bar/Button".size.x
 	$"bottom bar/inventory but".position.x = 100
 	
 	###related to the inventory
-	saved_len = len(level_info.inventory)
+	saved_len = 0
 	###so that your inventory can be filled
 	level_info.inv_max = len(icon_list)
 	#print(len(level_info.inventory)-1)
 	
 func _process(delta: float) -> void:
 	####need to make the ui change deynamically at some point
-	#change_stats(player_id)
-	pass
+	change_stats($".."/"..".peer_id)
+
+	
 func change_stats(player_id):
-	###this is to change the inventory dynamically
-	if saved_len != len(level_info.inventory):
+	
+	$"res counter/food".text = "{number} + {change}".format({"number": $".."/".."/"..".player[player_id].food, "change": $".."/".."/"..".player[player_id].food})
+	if saved_len != len($".."/".."/"..".player[player_id].items):
+		print("what ya doin")
 		for i in range(len(icon_list)):
+			print("you here")
 			icon_list[i].selection = null
-		for i in range(len(level_info.inventory)):
+		for i in range(len($".."/".."/"..".player[player_id].items)):
 			print(i)
-			icon_list[i].selection = level_info.inventory[i]
-		saved_len = len(level_info.inventory)
+			icon_list[i].selection = $".."/".."/"..".player[player_id].items[i]
+		saved_len = len($".."/".."/"..".player[player_id].items)
+	
+func chadnge_stats(player_id):
+	###this is to change the inventory dynamically
+	
 	
 	###this will change the pop stat dynamically
 	level_info.overall_population = 0
@@ -250,4 +258,6 @@ func _on_inventory_but_gui_input(event: InputEvent) -> void:
 func _on_end_turn_gui_input(event: InputEvent) -> void:
 	###ends the turn
 	if event.is_action_pressed("mouse_left"):
-		level_info.turn += 1
+		print("this works")
+	#if event.is_action_pressed("mouse_left"):
+		#level_info.turn += 1

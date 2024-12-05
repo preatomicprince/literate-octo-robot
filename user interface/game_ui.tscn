@@ -17,8 +17,11 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 1156.0
+offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_4kxhr")
 
 [node name="tempbar" type="ColorRect" parent="."]
@@ -177,7 +180,6 @@ texture = ExtResource("4_lycvu")
 hframes = 10
 
 [node name="GridContainer" type="GridContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 6.0
 offset_top = 264.0
@@ -244,3 +246,5 @@ layout_mode = 2
 
 [node name="icon buttons20" parent="GridContainer" instance=ExtResource("7_wynde")]
 layout_mode = 2
+
+[connection signal="gui_input" from="bottom bar/end turn" to="." method="_on_end_turn_gui_input"]

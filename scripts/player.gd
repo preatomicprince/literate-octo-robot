@@ -34,13 +34,17 @@ func sync_tile_visible(auth_tile_visible: Dictionary):
 	$".."/Map/Fog_Of_War.set_all_tiles_fow()
 #		tile_is_visible = auth_tile_visible
 
-	
+@rpc
+func sync_stats(auth_items, auth_food):
+	items = auth_items
+	food = auth_food
 	
 	
 func _process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 	rpc_id(peer_id, "sync_units", units)
+	rpc_id(peer_id, "sync_stats", items, food)
 	
 
 func _physics_process(delta: float) -> void:
