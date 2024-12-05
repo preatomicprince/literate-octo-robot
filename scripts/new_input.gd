@@ -11,7 +11,8 @@ enum EVENT_TYPE {
 	key_down,
 	key_e,
 	mouse_left,
-	mouse_right
+	mouse_right,
+	
 }
 	
 func _process(delta: float) -> void:
@@ -43,7 +44,11 @@ func _process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("mouse_right"):
 		new_events.append(EVENT_TYPE.mouse_right)
-		 
+	
+	if Input.is_action_pressed("key_zoom_in"):
+		pass
+	if Input.is_action_pressed("key_zoom_out"): 
+		pass
 	if not new_events.is_empty():
 		rpc_id(1, "push_event_to_server", new_events)
 		
