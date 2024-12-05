@@ -50,11 +50,7 @@ func resource_collection(peer_id, pos):
 		var found_item = find_item()
 		print("you found a ", found_item)
 		$".."/"..".player[peer_id].items.append(found_item)
-		
-	#if is_multiplayer_authority():
-		#set_cell($".".local_to_map(Vector2(pos[0], pos[1])), 0, Vector2i(-1, -1))
-		
-	#$"..".objects[str($"..".local_to_map(Vector2(pos[0], pos[1])))] = null
+	
 	set_cell($".".local_to_map(Vector2(pos[0], pos[1])), 0, Vector2i(-1, -1))
 	call_tile_data_sync(peer_id)
 	#level_info.map_info[key][4] = "no"
@@ -67,13 +63,6 @@ func resource_collection(peer_id, pos):
 	#pop_up.story_name = "Tarrot Reader"
 	###this creates a story event that pops up, the tarrot one. Dont necessarily want it here. just testing
 	#self.get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
-	
-	#
-		###this allows you to find an item on a square that then gets added to the inventory
-		
-		#
-		#
-		#print(level_info.inventory)
 
 func find_item():
 	###this returns an item that gets added to the players inventory

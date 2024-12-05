@@ -205,7 +205,10 @@ func _set_unit_navigation(peer_id):
 	var nav_path: Array = $Map.nav_grid.get_id_path($Map.local_to_map(player.selected_unit.position), input.mouse_pos).slice(1)
 	for tile in nav_path:
 		if $Map.units[str(tile)] != null:
-			return
+			###this works out if the tile the unit wants to go into has a unit already there or not
+			###if its a unit of a different player itll do the conflict function else we can do the merging
+			player.selected_unit.conflict($Map.units[str(tile)])
+			
 	player.selected_unit.nav_path = nav_path
 	
 func _handle_input(peer_id: int):

@@ -188,53 +188,56 @@ func _handle_movement(delta) -> void:
 ###these three functions relate to combat and changing the health of units, working out the odds of
 ### an encounter
 func conflict(target):
-	var damage_value = odds_combat(target)[1]
-	var selected_val = odds_combat(target)[0]
+	if player_id != target.player_id:
+		print("no dice")
+		var damage_value = odds_combat(target)[1]
+		var selected_val = odds_combat(target)[0]
 	
-	###works out if the unit has the numbers to attack
-	if percent_ready > 0:
-		###this works out if the target has more than 0 healthy people in a unit
-		if target.percent_ready > 0:
-			###first i work out the damage to the enemy then the unit selected
-			###this is probably a bad system for many reasons, but ill do it like this for 
-			###now, for the sake of speed
-			if target.percent_ready - damage_value < 0:
+		###works out if the unit has the numbers to attack
+		if percent_ready > 0:
+			###this works out if the target has more than 0 healthy people in a unit
+			if target.percent_ready > 0:
+				###first i work out the damage to the enemy then the unit selected
+				###this is probably a bad system for many reasons, but ill do it like this for 
+				###now, for the sake of speed
+				if target.percent_ready - damage_value < 0:
 				
-				target.percent_injured += rand_i.randi_range(0, percent_ready/1.5)
-				target.percent_ready = 0
-				target.change_health()
+					target.percent_injured += rand_i.randi_range(0, percent_ready/1.5)
+					target.percent_ready = 0
+					target.change_health()
 			
+				else:
+					target.percent_ready -= damage_value
+					target.percent_injured += rand_i.randi_range(0, damage_value/1.5)
+					target.change_health()
+			
+				if percent_ready - selected_val < 0:
+					percent_injured += rand_i.randi_range(0, percent_ready/1.5)
+					percent_ready = 0
+					change_health()
+			
+				else:
+					percent_ready -= selected_val
+					percent_injured += rand_i.randi_range(0, selected_val/1.5)
+					change_health()
+				
 			else:
-				target.percent_ready -= damage_value
-				target.percent_injured += rand_i.randi_range(0, damage_value/1.5)
-				target.change_health()
-			
-			if percent_ready - selected_val < 0:
-				percent_injured += rand_i.randi_range(0, percent_ready/1.5)
-				percent_ready = 0
-				change_health()
-			
-			else:
-				percent_ready -= selected_val
-				percent_injured += rand_i.randi_range(0, selected_val/1.5)
-				change_health()
-			
-		else:
-			###this just brings up the pop up for capturing units.
-			print("you capture the remains")
-			var pop_up = self.get_parent().get_parent().narrative_box.instantiate()
-			pop_up.purpose = "story"
-			pop_up.story_name = "captured"
-			pop_up.started_event = level_info.unit_selected
-			pop_up.target = level_info.map_info[str(self.get_parent().get_parent().local_to_map(self.position))]
-			self.get_parent().get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
-			target.kill_unit()
+				###this just brings up the pop up for capturing units.
+				print("you capture the remains")
+				var pop_up = self.get_parent().get_parent().narrative_box.instantiate()
+				pop_up.purpose = "story"
+				pop_up.story_name = "captured"
+				pop_up.started_event = level_info.unit_selected
+				pop_up.target = level_info.map_info[str(self.get_parent().get_parent().local_to_map(self.position))]
+				self.get_parent().get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
+				target.kill_unit()
 
 
 ###what is everything we need to take into account during an attack
 ###how much attack each side has, how much health each side has
 ###whether theyre surrounded on multiple sides. these can all work as attack multipliers
 func odds_combat(target):
+	
 	###this returns a list of damage_value, which is the attacking units damage to the opposing units health
 	###and vice versa for the selected val. this list is then used in the game_ui for the pop up
 	var damage_value
@@ -257,23 +260,27 @@ func odds_combat(target):
 		
 	return [selected_val, damage_value]
 
+@rpc
+func sync_health(auth_ready, auth_injured):
+	self.percent_ready = auth_ready
+	self.percent_injured = auth_injured
+	change_health()
+	
 func change_health():
+	
 	###this function changes the size for the health bars depending on the result of combat
 	$"health bar".get_node("healthy").size.x = one_percent_of_bar * percent_ready
 	
 	###the percent injured follows on from your healthy bar
 	$"health bar".get_node("injured").size.x = one_percent_of_bar * percent_injured
 	$"health bar".get_node("injured").position.x = $"health bar".get_node("healthy").position.x + $"health bar".get_node("healthy").size.x
+	
+	if is_multiplayer_authority():
+		if percent_ready <= 0:
+			rpc("kill_unit")
 
+@rpc("reliable", "call_local")
 func kill_unit():
-	###if there are no injured or active pop in the unit, right now itll just 
-	###quew free, but later well want animation
-	print("to free", level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))])
-	#level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = null
-	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][3] = 0
-	level_info.map_info[str(get_parent().get_parent().local_to_map($".".position))][2] = "no unit"
-	if level_info.unit_selected == self:
-		level_info.unit_selected = null
 	queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -454,4 +461,5 @@ func _physics_process(delta: float) -> void:
 		if $".."/".."/"..".player[peer_id].tile_is_visible[str(tile_index)]:"""
 	rpc("sync_pos", position)
 	rpc("sync_dir", direction, is_moving)
+	rpc("sync_health", percent_ready, percent_injured)
 	
