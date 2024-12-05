@@ -248,3 +248,4 @@ layout_mode = 2
 layout_mode = 2
 
 [connection signal="gui_input" from="bottom bar/end turn" to="." method="_on_end_turn_gui_input"]
+[connection signal="gui_input" from="bottom bar/inventory but" to="." method="_on_inventory_but_gui_input"]

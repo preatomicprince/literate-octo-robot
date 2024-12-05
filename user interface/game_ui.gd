@@ -258,6 +258,4 @@ func _on_inventory_but_gui_input(event: InputEvent) -> void:
 func _on_end_turn_gui_input(event: InputEvent) -> void:
 	###ends the turn
 	if event.is_action_pressed("mouse_left"):
-		print("this works")
-	#if event.is_action_pressed("mouse_left"):
-		#level_info.turn += 1
+		print("end turn")
