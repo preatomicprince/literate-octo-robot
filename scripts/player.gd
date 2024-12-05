@@ -1,10 +1,13 @@
 extends Node2D
 
+
+
 var peer_id: int
 var units: Array = []
 var buildings: Array = []
 var items: Array = []
 var food : int = 0
+var population : int = 0
 # Dict containing all tilesw as a key. Stores true if tile has had fog of war lifted
 var tile_is_visible: Dictionary = {}
 

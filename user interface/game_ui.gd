@@ -19,6 +19,7 @@ var saved_len
 
 var combat_stat_barks = ["big defeat", "defeat", "draw", "small victory", "great success"]
 
+@onready var player_id 
 
 func _ready() -> void:
 	#print($".".get_global_position())
@@ -29,10 +30,10 @@ func _ready() -> void:
 		info_list[i].position.x =  get_viewport_rect().size[0] / len(info_list)*i+1 
 	
 	###to make the bottom control node strech relative to the screen
-	$"bottom bar".size.x = get_viewport_rect().size[0]/get_parent().get_parent().zoom[1]
+	#$"bottom bar".size.x = get_viewport_rect().size[0]/get_parent().get_parent().zoom[1]
 	
 	###its not doing exaclt what i want but its not the most pressing issue so ill leave it for now
-	$"bottom bar".position.y = (get_viewport_rect().size[1] / get_parent().get_parent().zoom[1]) - 100
+	#$"bottom bar".position.y = (get_viewport_rect().size[1] / get_parent().get_parent().zoom[1]) - 100
 	
 	$"bottom bar/end turn".position.x = $"bottom bar".size.x - $"bottom bar/end turn".size.x -200# - $"bottom bar/Button".size.x
 	$"bottom bar/inventory but".position.x = 100
@@ -45,9 +46,9 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	####need to make the ui change deynamically at some point
-	change_stats()
-	
-func change_stats():
+	#change_stats(player_id)
+	pass
+func change_stats(player_id):
 	###this is to change the inventory dynamically
 	if saved_len != len(level_info.inventory):
 		for i in range(len(icon_list)):
