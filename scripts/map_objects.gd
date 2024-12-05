@@ -41,12 +41,22 @@ func sync_tile_data(auth_packed_array):
 func call_tile_data_sync(peer_id):
 	rpc_id(peer_id, "sync_tile_data", get_tile_map_data_as_array())
 
-func resource_collection(peer_id):
+func resource_collection(peer_id, pos):
 	
 	###right now this just adds to the persons food total
 	$".."/"..".player[peer_id].food += 10
-
-	#set_cell($".".local_to_map(Vector2(level_info.map_info[key][3].position.x, level_info.map_info[key][3].position.y)), 0, Vector2i(-1, -1))
+	
+	if len($".."/"..".player[peer_id].items) < 20:
+		var found_item = find_item()
+		print("you found a ", found_item)
+		$".."/"..".player[peer_id].items.append(found_item)
+		
+	#if is_multiplayer_authority():
+		#set_cell($".".local_to_map(Vector2(pos[0], pos[1])), 0, Vector2i(-1, -1))
+		
+	#$"..".objects[str($"..".local_to_map(Vector2(pos[0], pos[1])))] = null
+	set_cell($".".local_to_map(Vector2(pos[0], pos[1])), 0, Vector2i(-1, -1))
+	call_tile_data_sync(peer_id)
 	#level_info.map_info[key][4] = "no"
 	#level_info.player_stats["player one"][0] += 10
 	
@@ -58,11 +68,11 @@ func resource_collection(peer_id):
 	###this creates a story event that pops up, the tarrot one. Dont necessarily want it here. just testing
 	#self.get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
 	
-	#if len(level_info.inventory) < level_info.inv_max:
+	#
 		###this allows you to find an item on a square that then gets added to the inventory
-		#var found_item = find_item()
-		#print("you found a ", found_item)
-		#level_info.inventory.append(found_item)
+		
+		#
+		#
 		#print(level_info.inventory)
 
 func find_item():

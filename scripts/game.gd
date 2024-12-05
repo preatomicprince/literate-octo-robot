@@ -64,7 +64,7 @@ func _on_host_pressed() -> void:
 			
 			for x in range($Map.width):
 				for y in range($Map.height):
-						$Map.spawn_existing_unit(new_peer_id, Vector2i(x, y))
+					$Map.spawn_existing_unit(new_peer_id, Vector2i(x, y))
 			
 			# todo: Deprecate, access only when fog of war lifted
 			#$Map/Map_Objects.call_tile_data_sync(new_peer_id)

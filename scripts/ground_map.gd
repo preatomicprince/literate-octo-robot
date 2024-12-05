@@ -3,8 +3,8 @@ extends TileMapLayer
 ###this refers to the data structure
 @onready var level_info = $".."/Game_State
 @onready var unit = preload("res://scenes/unit.tscn")
-@export var width : int = 10
-@export var height : int = 10
+@export var width : int = 5
+@export var height : int = 5
 
 const TILE_SIZE = Vector2(222, 128)
 @onready var settlement = preload("res://scenes/settlement.tscn")
@@ -92,7 +92,6 @@ func set_all_tiles_invisible(peer_id):
 func sync_initial_tile_data(peer_id, auth_packed_array):
 	set_tile_map_data_from_array(auth_packed_array)
 	set_all_tiles_invisible(peer_id)
-		
 
 
 # Called once when player joins to get initial map state

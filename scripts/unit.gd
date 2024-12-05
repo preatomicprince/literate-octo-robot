@@ -442,7 +442,7 @@ func _process(delta: float) -> void:
 		$".."/".."/Fog_Of_War.map_reveal(player_id, tile_index)
 		
 		if $".."/"..".objects[str(tile_index)] == true:
-			$".."/".."/Map_Objects.resource_collection(player_id)
+			$".."/".."/Map_Objects.resource_collection(player_id, position)
 			print("here")
 		
 
