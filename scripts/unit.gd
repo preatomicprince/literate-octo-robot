@@ -55,7 +55,7 @@ var _speed_x :float = _speed_y*(sqrt(3))
 var velo = Vector2(0, 0)
 
 var prev_pos: Vector2 = Vector2(-1, -1) 
-var direction : Direction = 0
+var direction : Direction = Direction.ur
 
 # Index in map tile list for current location (parent)
 var tile_index : Vector2

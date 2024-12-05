@@ -885,6 +885,7 @@ offset_right = -15.0
 offset_bottom = -94.0
 
 [node name="Indicator" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(0, -100)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("8_gh6hq")
