@@ -83,4 +83,3 @@ func buildings_effects(buildings, lv):
 			return 1
 		level_info.Placeables.COURTHOUSE:
 			return 1
-

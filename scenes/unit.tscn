@@ -878,6 +878,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("6_g50hj")
 
 [node name="health bar" parent="." instance=ExtResource("7_4si7i")]
+visible = false
 offset_left = -15.0
 offset_top = -94.0
 offset_right = -15.0
