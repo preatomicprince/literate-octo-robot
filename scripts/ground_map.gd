@@ -19,6 +19,7 @@ var nav_grid: AStarGrid2D
 
 var tiles = []
 var units = {}
+var buildings = {}
 var objects = {}
 
 var unit_count = 789
@@ -76,6 +77,7 @@ func generate_map():
 			if is_multiplayer_authority():
 				units[tile_pos_str] = null
 				objects[tile_pos_str] = null
+				buildings[tile_pos_str] = null
 			else:
 				$"..".player[$"..".peer_id].tile_is_visible[tile_pos_str] = false
 			
@@ -112,6 +114,9 @@ func generate_unit(peer_id: int, map_pos: Vector2i, unit_count: int):
 	
 	$Unit_Layer.add_child(unit_instance)
 	units[str(map_pos)] = unit_instance
+	
+	if is_multiplayer_authority():
+		$"..".player[peer_id].units.append(unit_instance)
 	
 	if is_multiplayer_authority():
 		$Fog_Of_War.map_reveal(peer_id, map_pos)
@@ -179,7 +184,8 @@ func call_sync_tiles():
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-	call_sync_tiles()
+	
+	#call_sync_tiles()
 	"""
 	###this is just a test, right now it just places one of two tiles on the tile map based on if
 	###the random number generator is one or two

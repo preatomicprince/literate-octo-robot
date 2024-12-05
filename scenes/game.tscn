@@ -10,6 +10,8 @@ script = ExtResource("1_uv04y")
 [node name="Game_State" parent="." instance=ExtResource("2_8e4oa")]
 
 [node name="Map" parent="." instance=ExtResource("3_0vjrp")]
+width = 50
+height = 50
 
 [node name="menu" type="VBoxContainer" parent="."]
 offset_right = 43.0
