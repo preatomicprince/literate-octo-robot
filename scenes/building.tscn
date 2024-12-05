@@ -5,11 +5,12 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tsn4y"]
 atlas = ExtResource("2_1fbu8")
-region = Rect2(0, 0, 222, 256)
+region = Rect2(0, 0, 222, 512)
 
 [node name="Building" type="Node2D"]
 script = ExtResource("1_i3syc")
 
 [node name="Map_Sprite" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_tsn4y")
+offset = Vector2(0, -64)
 vframes = 2

@@ -10,9 +10,9 @@ enum EVENT_TYPE {
 	key_up,
 	key_down,
 	key_e,
+	key_q,
 	mouse_left,
 	mouse_right,
-	
 }
 	
 func _process(delta: float) -> void:
@@ -38,6 +38,9 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("key_e"):
 		new_events.append(EVENT_TYPE.key_e)
+		
+	if Input.is_action_just_pressed("key_q"):
+		new_events.append(EVENT_TYPE.key_q)
 		
 	if Input.is_action_just_pressed("mouse_left"):
 		new_events.append(EVENT_TYPE.mouse_left)

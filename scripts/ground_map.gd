@@ -77,6 +77,7 @@ func generate_map():
 			if is_multiplayer_authority():
 				units[tile_pos_str] = null
 				objects[tile_pos_str] = null
+				buildings[tile_pos_str] = null
 			else:
 				$"..".player[$"..".peer_id].tile_is_visible[tile_pos_str] = false
 			

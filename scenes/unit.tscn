@@ -1,4 +1,4 @@
-[gd_scene load_steps=127 format=3 uid="uid://dscc8ao0npapj"]
+[gd_scene load_steps=128 format=3 uid="uid://dscc8ao0npapj"]
 
 [ext_resource type="Script" path="res://scripts/unit.gd" id="1_be3gd"]
 [ext_resource type="Texture2D" uid="uid://sspvh0p3h5ri" path="res://assets/idle_d.png" id="2_dmqs2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d0tamxap86h43" path="res://assets/pc_ss_ur.bmp" id="5_aur4q"]
 [ext_resource type="Texture2D" uid="uid://cep6m3fi5gi5m" path="res://assets/tile_ighlight.png" id="6_g50hj"]
 [ext_resource type="PackedScene" uid="uid://cdo1c5n0xtpeb" path="res://user interface/health_bar.tscn" id="7_4si7i"]
+[ext_resource type="Texture2D" uid="uid://njmdshnt83gu" path="res://assets/pop_icon.png" id="8_gh6hq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4tx0x"]
 atlas = ExtResource("2_dmqs2")
@@ -858,6 +859,7 @@ animations = [{
 }]
 
 [node name="unit" type="CharacterBody2D"]
+y_sort_enabled = true
 position = Vector2(0, 64)
 script = ExtResource("1_be3gd")
 
@@ -880,3 +882,8 @@ offset_left = -15.0
 offset_top = -94.0
 offset_right = -15.0
 offset_bottom = -94.0
+
+[node name="Indicator" type="Sprite2D" parent="."]
+position = Vector2(0, -100)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("8_gh6hq")

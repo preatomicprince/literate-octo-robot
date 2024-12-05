@@ -78,10 +78,12 @@ var nav_path = []
 func sync_select(select: bool) -> void:
 	self.selected = select
 	$Highlight.visible = select
+	$"health bar".visible = select
 	
 func set_selected(select: bool) -> void:
 	self.selected = select
 	$Highlight.visible = select
+	$"health bar".visible = select
 	
 	if is_multiplayer_authority():
 		rpc_id(player_id, "sync_select", select)

@@ -12,8 +12,8 @@ var population: int
 # Population cap for building
 var max_pop: int
 
-func _ready() -> void:
+func _enter_tree() -> void:
+	$Map_Sprite.frame_coords = Vector2(build_type, build_level)
 	match build_type:
 		type.BUILD_TYPE.House:
-			self.resource = type.RESOURCE.Population
 			self.max_pop = 1000	
