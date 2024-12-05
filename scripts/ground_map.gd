@@ -114,8 +114,8 @@ func generate_unit(peer_id: int, map_pos: Vector2i, unit_count: int):
 	$Unit_Layer.add_child(unit_instance)
 	units[str(map_pos)] = unit_instance
 	
-	if is_multiplayer_authority():
-		$"..".player[peer_id].units.append(unit_instance)
+	if is_multiplayer_authority() or peer_id == $"..".peer_id:
+		$"..".player[peer_id].units[unit_count] = unit_instance
 	
 	if is_multiplayer_authority():
 		$Fog_Of_War.map_reveal(peer_id, map_pos)
