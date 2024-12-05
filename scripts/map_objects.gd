@@ -4,10 +4,6 @@ extends TileMapLayer
 
 var rand_i = RandomNumberGenerator.new()
 
-func _process(delta: float) -> void:
-	for key in level_info.map_info.keys():
-		if level_info.map_info[key][4] == "yes" and level_info.map_info[key][3] is Object:
-			resource_collection(key)
 
 func generate_points_of_interest():
 	###after the initial map has been generated, we can look at the tiles and figure out 
@@ -28,14 +24,14 @@ func generate_points_of_interest():
 		set_cell($"..".tiles[rand_tile_ind], 0, Vector2i(rand_obj_type, 0))
 		counter += 1
 	
-	for key in level_info.map_info.keys():
-		if level_info.map_info[key][4] == "yes":
+	#for key in level_info.map_info.keys():
+		#if level_info.map_info[key][4] == "yes":
 			
-			var rand_res = rand_i.randi_range(0, 1)
-			if rand_res == 0:
-				set_cell(Vector2i(level_info.map_info[key][0], level_info.map_info[key][1]), 0, Vector2i(0, 0))
-			else:
-				set_cell(Vector2i(level_info.map_info[key][0], level_info.map_info[key][1]), 0, Vector2i(1, 0))
+			#var rand_res = rand_i.randi_range(0, 1)
+			#if rand_res == 0:
+			#	set_cell(Vector2i(level_info.map_info[key][0], level_info.map_info[key][1]), 0, Vector2i(0, 0))
+			#else:
+			#	set_cell(Vector2i(level_info.map_info[key][0], level_info.map_info[key][1]), 0, Vector2i(1, 0))
 				
 @rpc("reliable")
 func sync_tile_data(auth_packed_array):
@@ -45,11 +41,14 @@ func sync_tile_data(auth_packed_array):
 func call_tile_data_sync(peer_id):
 	rpc_id(peer_id, "sync_tile_data", get_tile_map_data_as_array())
 
-func resource_collection(key):
-	print("You find some scraps of food")
-	set_cell($".".local_to_map(Vector2(level_info.map_info[key][3].position.x, level_info.map_info[key][3].position.y)), 0, Vector2i(-1, -1))
-	level_info.map_info[key][4] = "no"
-	level_info.player_stats["player one"][0] += 10
+func resource_collection(peer_id):
+	
+	###right now this just adds to the persons food total
+	$".."/"..".player[peer_id].food += 10
+
+	#set_cell($".".local_to_map(Vector2(level_info.map_info[key][3].position.x, level_info.map_info[key][3].position.y)), 0, Vector2i(-1, -1))
+	#level_info.map_info[key][4] = "no"
+	#level_info.player_stats["player one"][0] += 10
 	
 	#var pop_up = self.get_parent().narrative_box.instantiate()
 	#pop_up.purpose = "story"
@@ -59,12 +58,12 @@ func resource_collection(key):
 	###this creates a story event that pops up, the tarrot one. Dont necessarily want it here. just testing
 	#self.get_parent().get_parent().get_node("narrative layer").add_child(pop_up)
 	
-	if len(level_info.inventory) < level_info.inv_max:
+	#if len(level_info.inventory) < level_info.inv_max:
 		###this allows you to find an item on a square that then gets added to the inventory
-		var found_item = find_item()
-		print("you found a ", found_item)
-		level_info.inventory.append(found_item)
-		print(level_info.inventory)
+		#var found_item = find_item()
+		#print("you found a ", found_item)
+		#level_info.inventory.append(found_item)
+		#print(level_info.inventory)
 
 func find_item():
 	###this returns an item that gets added to the players inventory

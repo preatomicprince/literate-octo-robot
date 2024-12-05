@@ -84,10 +84,10 @@ func change_stats():
 				if level_info.map_info[key][8].constructed[build] == level_info.Placeables.FARM:
 					acum += 10
 	level_info.food_change = (acum - level_info.overall_population)
-	if level_info.food_change >= 0:
-		$"res counter/food".text = "{number} + {change}".format({"number":level_info.player_stats["player one"][0], "change":level_info.food_change})
-	else:
-		$"res counter/food".text = "{number} {change}".format({"number":level_info.player_stats["player one"][0], "change":level_info.food_change})
+	#if level_info.food_change >= 0:
+		#$"res counter/food".text = "{number} + {change}".format({"number":level_info.player_stats["player one"][0], "change":level_info.food_change})
+	#else:
+		#$"res counter/food".text = "{number} {change}".format({"number":level_info.player_stats["player one"][0], "change":level_info.food_change})
 	
 	###for shells
 	$"res counter/shells".text = "{number}".format({"number":level_info.shells})

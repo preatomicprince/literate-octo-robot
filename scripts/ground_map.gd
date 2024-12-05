@@ -39,7 +39,7 @@ func generate_nav_grid() -> void:
 func _ready() -> void:
 	
 	generate_map()
-	
+
 	if not is_multiplayer_authority():
 		$Fog_Of_War.generate_fog()
 

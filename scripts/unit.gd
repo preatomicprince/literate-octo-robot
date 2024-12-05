@@ -92,6 +92,8 @@ func set_unselected() -> void:
 
 func _ready() -> void:
 	$".".position = get_parent().get_parent().map_to_local(tile_index)
+	$".."/"..".objects[str($".."/"..".tiles[0])] = true
+	#print(tile_index)
 	tile_index = target_tile
 	
 	###to set the health bar
@@ -105,9 +107,6 @@ func _ready() -> void:
 	attack = percent_ready + weapon_affects(inventory["weapon"])[0]
 	rang = weapon_affects(inventory["weapon"])[1]
 	defence = percent_ready + clothing_affects(inventory["clothing"])
-
-
-
 
 ########################
 ## _process functions ##
@@ -439,6 +438,11 @@ func _process(delta: float) -> void:
 		tile_index = nav_path.pop_front()
 		$".."/"..".units[str(tile_index)] = self
 		$".."/".."/Fog_Of_War.map_reveal(player_id, tile_index)
+		
+		if $".."/"..".objects[str(tile_index)] == true:
+			$".."/".."/Map_Objects.resource_collection(player_id)
+			print("here")
+		
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():

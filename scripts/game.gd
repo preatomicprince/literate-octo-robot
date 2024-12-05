@@ -226,6 +226,7 @@ func _handle_input(peer_id: int):
 					_deselect_all(peer_id)
 			EVENT_TYPE.mouse_right:
 				if player[peer_id].selected_unit is Object:
+					
 					_set_unit_navigation(peer_id)
 				else:
 					_deselect_all(peer_id)
