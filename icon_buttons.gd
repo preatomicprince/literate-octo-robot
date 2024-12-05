@@ -137,6 +137,7 @@ func _on_gui_input(event: InputEvent) -> void:
 	###this function works out if the button is pressed, if the button is pressed and has an item
 	###assocciated with it, and you are currently selecting a unit; itll change out the item.
 	if event.is_action_pressed("mouse_left"):
+		print($".."/".."/".."/"..".selected_unit)
 		if $".."/".."/".."/"..".selected_unit != null:
 			print("its probably deselcting")
 			if event.is_action_pressed("mouse_left"):

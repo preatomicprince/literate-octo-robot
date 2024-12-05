@@ -230,8 +230,8 @@ func _handle_input(peer_id: int):
 			EVENT_TYPE.mouse_left:
 				if player[peer_id].selected_unit == null:
 					_select_tile(peer_id)
-				else:
-					_deselect_all(peer_id)
+				#else:
+					#_deselect_all(peer_id)
 			EVENT_TYPE.mouse_right:
 				if player[peer_id].selected_unit is Object:
 					
