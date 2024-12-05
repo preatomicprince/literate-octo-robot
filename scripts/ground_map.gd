@@ -101,7 +101,7 @@ func call_tile_data_sync(peer_id):
 @rpc("reliable")
 func generate_unit(peer_id: int, map_pos: Vector2i, unit_count: int):
 	# Don't spawn if tile already has unit
-	if units[str(map_pos)] != null:
+	if units[str(map_pos)] != null && is_multiplayer_authority():
 		return
 		
 	var unit_instance = unit.instantiate()

@@ -865,6 +865,7 @@ script = ExtResource("1_be3gd")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 z_index = 5
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_khgq2")
 animation = &"run_u"
 autoplay = "idle_d"
