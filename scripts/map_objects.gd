@@ -48,7 +48,6 @@ func resource_collection(peer_id, pos):
 	
 	if len($".."/"..".player[peer_id].items) < 20:
 		var found_item = find_item()
-		print("you found a ", found_item)
 		$".."/"..".player[peer_id].items.append(found_item)
 	
 	set_cell($".".local_to_map(Vector2(pos[0], pos[1])), 0, Vector2i(-1, -1))

@@ -1,13 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b48dutyv3l17c"]
+[gd_scene load_steps=2 format=3 uid="uid://b48dutyv3l17c"]
 
 [ext_resource type="Script" path="res://scripts/camera.gd" id="1_kvwma"]
-[ext_resource type="PackedScene" uid="uid://cefff1il4giw1" path="res://user interface/game_ui.tscn" id="2_p0cew"]
 
 [node name="camera" type="Camera2D"]
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("1_kvwma")
-
-[node name="Canvas Layer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="game ui" parent="Canvas Layer" instance=ExtResource("2_p0cew")]
