@@ -1,12 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqmwk41cgjsap"]
+[gd_scene load_steps=4 format=3 uid="uid://dqmwk41cgjsap"]
 
 [ext_resource type="Script" path="res://scenes/building.gd" id="1_i3syc"]
 [ext_resource type="Texture2D" uid="uid://dphmfo2d15t48" path="res://assets/buildsheettest.png" id="2_1fbu8"]
 [ext_resource type="Texture2D" uid="uid://0bpdi5esaffh" path="res://assets/area_highlight.png" id="3_r3odh"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tsn4y"]
-atlas = ExtResource("2_1fbu8")
-region = Rect2(0, 0, 222, 512)
 
 [node name="Building" type="Node2D"]
 script = ExtResource("1_i3syc")
@@ -14,8 +10,9 @@ script = ExtResource("1_i3syc")
 [node name="Map_Sprite" type="Sprite2D" parent="."]
 z_index = 1
 scale = Vector2(0.35, 0.35)
-texture = SubResource("AtlasTexture_tsn4y")
+texture = ExtResource("2_1fbu8")
 offset = Vector2(0, -64)
+hframes = 3
 vframes = 2
 
 [node name="Area" type="Sprite2D" parent="."]

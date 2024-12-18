@@ -1,4 +1,4 @@
-class_name BUILD_TYPE extends Node2D
+class_name BUILD_TYPE
 
 enum {
 	House = 0,
