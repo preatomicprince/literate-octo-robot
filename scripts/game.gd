@@ -47,6 +47,8 @@ func _on_host_pressed() -> void:
 	set_multiplayer_authority(1)
 	$Map/Map_Objects.generate_points_of_interest()
 	$Map.generate_nav_grid()
+	$Map/Building_Layer.generate_rand_setlement(69678967, 8, Vector2i(0, 0))
+
 	#load_gamestate(1)
 	multiplayer.peer_connected.connect(
 		func(new_peer_id):

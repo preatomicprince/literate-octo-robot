@@ -40,9 +40,9 @@ func generate_nav_grid() -> void:
 func _ready() -> void:
 	
 	generate_map()
-
 	if not is_multiplayer_authority():
 		$Fog_Of_War.generate_fog()
+	
 
 func _process(delta: float) -> void:
 	var tile_pos = $".".local_to_map($".".get_local_mouse_position())
@@ -80,6 +80,8 @@ func generate_map():
 				buildings[tile_pos_str] = null
 			else:
 				$"..".player[$"..".peer_id].tile_is_visible[tile_pos_str] = false
+			
+			
 			
 func set_all_tiles_invisible(peer_id):
 	for tile in tiles:

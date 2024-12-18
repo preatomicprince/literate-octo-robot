@@ -3,7 +3,7 @@ extends Node2D
 @onready var map = $".."
 
 # Maximum width and height of a given generated settlement
-const MAX_CITY_SIZE = 6
+const MAX_CITY_SIZE = 9
 
 # Should only be called on server. Serialised map data can then be sent to client on load
 func generate_rand_setlement(seed: int, size: int, pos: Vector2i) -> int:
@@ -60,30 +60,25 @@ func generate_rand_setlement(seed: int, size: int, pos: Vector2i) -> int:
 	
 		if buildings[rand_build_order] == type.BUILD_TYPE.House:
 			unique_building_count -= 1
-			buildings[rand_build_order] = building_types[rand_build_order]
+			buildings[rand_build_order] = building_types[rand_building]
 	# Tile currently being generated. Starts roughly in middle
 	var current_tile: Vector2i = pos + Vector2i(size/2, size/2)
 	# List of Vector2i for each tile that's placed
 	var placed_buildings: Array = []
 	
 	while current_building_count < building_count:
-		
-		placed_buildings.append(current_tile)
-		current_building_count += 1
-		
-
-		var next_tile: Array = []
+		var next_tile: int
 		
 		# Checks if each direction is valid in random order
-		var dir_count = 3
+		var dir_count = 4
 		var dirs = [0, 1, 2, 3]
 		# TODO: Add backtracking to revisit previous tiles if no valid directions
 		while dir_count > 0:
 			dir_count -= 1
 			
 			var rand_dir = rng.randi_range(0, dir_count)
-			next_tile.append(dirs[rand_dir])
-			next_tile.remove_at(rand_dir)
+			next_tile = dirs[rand_dir]
+			dirs.remove_at(rand_dir)
 			
 			var new_tile = current_tile
 			match next_tile:
@@ -95,17 +90,28 @@ func generate_rand_setlement(seed: int, size: int, pos: Vector2i) -> int:
 					new_tile.x += 1
 				3:
 					new_tile.y -= 1
+		
 			# Check tile in range
-			if new_tile.x < pos.x or new_tile.x > pos.x + size or new_tile.y < pos.y or new_tile.y > pos.y + size:
+			if new_tile.x < pos.x or new_tile.x >= pos.x + size or new_tile.y < pos.y or new_tile.y >= pos.y + size:
 				continue
 			# Check tile not placed already
 			if placed_buildings.has(new_tile):
 				continue
+			
 			current_tile = new_tile
 			# Breaks check direction is valid attempts
 			break
-		generate_building(1, current_tile, 0, buildings.pop_front(), type.BUILD_LEVEL.Ruins)
-		rpc("generate_building", 1, current_tile, 0, buildings.pop_front(), type.BUILD_LEVEL.Ruins)
+			
+		# Temp fix to avoid error until backtracking implemented
+		if len(buildings) == 0:
+			return 1
+		var next_building = buildings.pop_front()
+
+		if generate_building(1, current_tile, 0, next_building, type.BUILD_LEVEL.Ruins):
+			rpc("generate_building", 1, current_tile, 0, next_building, type.BUILD_LEVEL.Ruins)
+			placed_buildings.append(current_tile)
+			current_building_count += 1
+			
 	return 1
 	
 	
@@ -115,7 +121,6 @@ func generate_building(player_id: int,
 						population: int, 
 						build_type: type.BUILD_TYPE, 
 						build_level: type.BUILD_LEVEL) -> int:
-						
 	if map.buildings[str(map_pos)] != null:
 		return 0
 		
@@ -130,8 +135,9 @@ func generate_building(player_id: int,
 	map.buildings[str(map_pos)] = new_building
 	
 	if is_multiplayer_authority():
-		$".."/"..".player[player_id].buildings.append(new_building)
-		$".."/Fog_Of_War.map_reveal(player_id, map_pos)
+		if player_id != 1:
+			$".."/"..".player[player_id].buildings.append(new_building)
+			$".."/Fog_Of_War.map_reveal(player_id, map_pos)
 	
 	return 1
 	
