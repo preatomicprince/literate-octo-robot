@@ -10,12 +10,13 @@ script = ExtResource("1_uv04y")
 [node name="Game_State" parent="." instance=ExtResource("2_8e4oa")]
 
 [node name="Map" parent="." instance=ExtResource("3_0vjrp")]
-width = 20
-height = 20
+width = 30
+height = 30
 
 [node name="menu" type="VBoxContainer" parent="."]
-offset_right = 43.0
-offset_bottom = 66.0
+z_index = 200
+offset_right = 67.0
+offset_bottom = 101.0
 scale = Vector2(3, 3)
 
 [node name="host" type="Button" parent="menu"]
@@ -25,6 +26,11 @@ text = "host"
 [node name="join" type="Button" parent="menu"]
 layout_mode = 2
 text = "join"
+
+[node name="Seed" type="LineEdit" parent="menu"]
+layout_mode = 2
+text = "0"
+placeholder_text = "Seed"
 
 [connection signal="pressed" from="menu/host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="menu/join" to="." method="_on_join_pressed"]

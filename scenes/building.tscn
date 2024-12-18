@@ -9,7 +9,7 @@ script = ExtResource("1_i3syc")
 
 [node name="Map_Sprite" type="Sprite2D" parent="."]
 z_index = 1
-scale = Vector2(0.35, 0.35)
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_1fbu8")
 offset = Vector2(0, -64)
 hframes = 3

@@ -6,6 +6,10 @@ extends TileMapLayer
 @export var width : int = 5
 @export var height : int = 5
 
+var city_count = 1
+var town_count = 3
+var village_count = 6
+
 const TILE_SIZE = Vector2(222, 128)
 @onready var settlement = preload("res://scenes/settlement.tscn")
 @onready var narrative_box = preload("res://user interface/narrative_events.tscn")
@@ -39,7 +43,7 @@ func generate_nav_grid() -> void:
 	
 func _ready() -> void:
 	
-	generate_map()
+	init_map()
 	if not is_multiplayer_authority():
 		$Fog_Of_War.generate_fog()
 	
@@ -57,31 +61,53 @@ func _process(delta: float) -> void:
 	else:
 		highlight.visible = false
 
-
-
-func generate_map():
-	###this function generates the tile map upon load
-	var tile_pos = local_to_map(Vector2(width, height))
-
+func init_map() -> void:
 	for x in range(width):
 		for y in range(height):
-			# Randomly pick index for tile in tilemap
-			var tile_type = rand_i.randi_range(0, 1)
-			set_cell(Vector2i(x, y), 0, Vector2i(tile_type, 0))
+			set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 			
 			var tile_pos_str = str(Vector2i(x, y))
 
 			tiles.append(Vector2i(x, y))
 			# If server, automatically discover all tiles and store data in dictionaries
 			# A list of visible tiles is availiable in the player node
-			if is_multiplayer_authority():
-				units[tile_pos_str] = null
-				objects[tile_pos_str] = null
-				buildings[tile_pos_str] = null
-			else:
+			units[tile_pos_str] = null
+			objects[tile_pos_str] = null
+			buildings[tile_pos_str] = null
+			if not is_multiplayer_authority():
 				$"..".player[$"..".peer_id].tile_is_visible[tile_pos_str] = false
-			
-			
+
+
+func call_generate_map(peer_id: int, auth_seed: int):
+	rpc_id(peer_id, "generate_map", auth_seed)
+
+@rpc("reliable")
+func generate_map(seed: int) -> void:
+	###this function generates the tile map upon load
+	var rng = RandomNumberGenerator.new()
+	rng.seed = seed
+	var tile_pos = local_to_map(Vector2(width, height))
+	for x in range(width):
+		for y in range(height):
+			seed += 1
+			# Randomly pick index for tile in tilemap
+			var tile_type = rng.randi_range(0, 1)
+			set_cell(Vector2i(x, y), 0, Vector2i(tile_type, 0))
+	
+	# Generate settlements
+	while city_count > 0:
+		seed += 1
+		if $Building_Layer.generate_rand_setlement(seed, 6):
+			city_count -= 1
+	while town_count > 0:
+		seed += 1
+		if $Building_Layer.generate_rand_setlement(seed, 4):
+			town_count -= 1
+	while village_count > 0:
+		seed += 1
+		if $Building_Layer.generate_rand_setlement(seed, 2):
+			village_count -= 1
+
 			
 func set_all_tiles_invisible(peer_id):
 	for tile in tiles:
@@ -95,10 +121,10 @@ func sync_initial_tile_data(peer_id, auth_packed_array):
 	set_tile_map_data_from_array(auth_packed_array)
 	set_all_tiles_invisible(peer_id)
 
-
 # Called once when player joins to get initial map state
 func call_tile_data_sync(peer_id):
 	rpc_id(peer_id, "sync_initial_tile_data", peer_id, get_tile_map_data_as_array())
+	$Building_Layer.sync_initial_city_generation(peer_id)
 	
 @rpc("reliable")
 func generate_unit(peer_id: int, map_pos: Vector2i, unit_count: int):

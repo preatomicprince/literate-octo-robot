@@ -5,22 +5,32 @@ extends Node2D
 # Maximum width and height of a given generated settlement
 const MAX_CITY_SIZE = 9
 
-# Should only be called on server. Serialised map data can then be sent to client on load
-func generate_rand_setlement(seed: int, size: int, pos: Vector2i) -> int:
+# Contains dicts that stores seed, size
+var cities: Array = []
+
+@rpc("reliable")
+func generate_rand_setlement(seed: int, size: int) -> int:
 	# Seed is sent to ensure consistent generation
 	# size is width and height of settlement
 	# pos is the upper left tile of settlement
 	# Returns 1 if success, 0 if settlement can't be built
 	
-	if not is_multiplayer_authority():
-		return 0
-		
+	var rng = RandomNumberGenerator.new()
+	rng.seed = seed
+	
+	var x_pos = rng.randi_range(0, map.width - size)
+	var y_pos = rng.randi_range(0, map.height - size)
+	var pos: Vector2i = Vector2i(x_pos, y_pos)
+	
 	# If settlement goes off map, return as invalid
 	if pos.x + size >= map.width or pos.y + size >= map.width:
 		return 0
 	if size > MAX_CITY_SIZE:
 		return 0
 		
+	var new_city = {"seed": seed, 
+				"size": size, 
+				"pos": pos}
 	if size == 1:
 		# Used to generate single structures such as farms or unique buildings
 		return 1
@@ -29,9 +39,6 @@ func generate_rand_setlement(seed: int, size: int, pos: Vector2i) -> int:
 		for y in range(size):
 			# TODO: Add check that all tiles in current selection are empty 
 			pass
-	
-	var rng = RandomNumberGenerator.new()
-	rng.seed = seed
 	
 	# Number of  buildings to be placed in the size x size grid
 	var min_buildings: int = (size*size)/2
@@ -104,6 +111,7 @@ func generate_rand_setlement(seed: int, size: int, pos: Vector2i) -> int:
 			
 		# Temp fix to avoid error until backtracking implemented
 		if len(buildings) == 0:
+			self.cities.append(new_city)
 			return 1
 		var next_building = buildings.pop_front()
 
@@ -111,7 +119,10 @@ func generate_rand_setlement(seed: int, size: int, pos: Vector2i) -> int:
 			rpc("generate_building", 1, current_tile, 0, next_building, type.BUILD_LEVEL.Ruins)
 			placed_buildings.append(current_tile)
 			current_building_count += 1
-			
+	
+	
+	self.cities.append(new_city)
+	print("aaa", len(cities))
 	return 1
 	
 	
@@ -122,6 +133,7 @@ func generate_building(player_id: int,
 						build_type: type.BUILD_TYPE, 
 						build_level: type.BUILD_LEVEL) -> int:
 	if map.buildings[str(map_pos)] != null:
+		print(map.buildings[str(map_pos)])
 		return 0
 		
 	var new_building = preload("res://scenes/building.tscn").instantiate()
@@ -168,4 +180,7 @@ func spawn_new_building(peer_id: int,
 		unit.percent_ready -= population
 		# And call on clients
 		rpc("generate_building", peer_id, map_pos, population, build_type, build_level)
-	
+
+func sync_initial_city_generation(peer_id: int):
+	for city in self.cities:
+		rpc_id(peer_id, "generate_rand_setlement", city.seed, city.size, city.pos)

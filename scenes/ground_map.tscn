@@ -70,12 +70,14 @@ script = ExtResource("2_c162f")
 tile_set = SubResource("TileSet_66x67")
 script = ExtResource("5_myhgn")
 
-[node name="Building_Layer" parent="." instance=ExtResource("5_gf1d3")]
-y_sort_enabled = true
-
 [node name="Fog_Of_War" type="TileMapLayer" parent="."]
+visible = false
+z_index = 100
 tile_set = SubResource("TileSet_rn1cg")
 script = ExtResource("7_tfq2o")
+
+[node name="Building_Layer" parent="." instance=ExtResource("5_gf1d3")]
+y_sort_enabled = true
 
 [node name="Highlight" type="Sprite2D" parent="."]
 position = Vector2(0, 75)

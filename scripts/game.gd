@@ -9,6 +9,7 @@ const IP_ADRESS: String = "localhost"
 var connected_peers: Array = []
 var unit_count: int = 0
 
+var seed: int
 var input: Dictionary = {}
 var camera: Dictionary = {}
 var player: Dictionary = {}
@@ -45,9 +46,10 @@ func _on_host_pressed() -> void:
 	peer.create_server(PORT)
 	multiplayer.multiplayer_peer = peer
 	set_multiplayer_authority(1)
+	self.seed = $menu/Seed.text.hash()
+	$Map.generate_map(seed)
 	$Map/Map_Objects.generate_points_of_interest()
 	$Map.generate_nav_grid()
-	$Map/Building_Layer.generate_rand_setlement(69678967, 8, Vector2i(0, 0))
 
 	#load_gamestate(1)
 	multiplayer.peer_connected.connect(
@@ -61,7 +63,7 @@ func _on_host_pressed() -> void:
 			#rpc_id(new_peer_id, "load_gamestate", new_peer_id)
 			
 			# Sets player map and 
-			$Map.call_tile_data_sync(new_peer_id)
+			$Map.call_generate_map(new_peer_id, seed)
 			$Map.set_all_tiles_invisible(new_peer_id)
 			
 			for x in range($Map.width):
