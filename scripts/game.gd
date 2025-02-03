@@ -3,6 +3,10 @@ extends Node2D
 var peer = ENetMultiplayerPeer.new()
 var peer_id: int = 1
 
+var number_players = 0
+var player_colours = [Vector4(0.00, 0.00, 1.00, 255.00), Vector4(1.00, 0.00, 0.00, 255.00), Vector4(0.00, 1.00, 0.00, 255.00)]
+var colour_assign : Dictionary = {}
+
 const PORT: int = 7777
 const IP_ADRESS: String = "localhost"
 
@@ -134,6 +138,10 @@ func _on_join_pressed() -> void:
 	multiplayer.multiplayer_peer = peer
 	peer_id = multiplayer.get_unique_id()
 	
+	#colour_assign[peer_id] = player_colours[number_players]
+	#print(typeof(peer_id))
+	#number_players += 1
+	
 # Creates instance of local data that in only synced with server, not other clients
 # Only need instance on each specific player and one for each player on server
 @rpc("reliable")
@@ -157,6 +165,8 @@ func load_local(peer_id):
 	player[peer_id] = new_player
 	add_child(new_player)
 	new_player.name = "Player" + str(peer_id)
+	###testing out different colours for different players
+	
 	
 
 # Synced continually between all peers

@@ -51,7 +51,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var tile_pos = $".".local_to_map($".".get_local_mouse_position())
 	###dont need this tile data function right now, but could be usful later on
-	#var tile_data = $".".get_cell_tile_data(tile_pos)
+	#mile_data = $".".get_cell_tile_data(tile_pos)
 	var tile_world_pos = $".".map_to_local(tile_pos) 
 	$Highlight.position = tile_world_pos
 	#print("Tile world position: ", tile_world_pos)

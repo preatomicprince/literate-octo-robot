@@ -106,6 +106,15 @@ func _ready() -> void:
 	attack = percent_ready + weapon_affects(inventory["weapon"])[0]
 	rang = weapon_affects(inventory["weapon"])[1]
 	defence = percent_ready + clothing_affects(inventory["clothing"])
+	print(str(player_id)[0])
+	#var player_col = get_tree().root.get_node("game").colour_assign[player_id]
+	var string_id = str(player_id)
+	var red = int(string_id[0]) /255 
+	var blue = int(string_id[3])/255
+	var green = int(string_id[6])/255
+	$Highlight.modulate = Color(red, blue, green)
+	
+	
 
 ########################
 ## _process functions ##

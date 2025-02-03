@@ -8,6 +8,7 @@ var buildings: Array = []
 var items: Array = []
 var food : int = 0
 var population : int = 0
+var player_colour : Vector4 = Vector4(1.00, 0.00, 0.00, 255.00)
 # Dict containing all tilesw as a key. Stores true if tile has had fog of war lifted
 var tile_is_visible: Dictionary = {}
 
